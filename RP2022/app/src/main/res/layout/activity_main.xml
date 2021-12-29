@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <RelativeLayout
-        android:layout_width="412dp"
-        android:layout_height="674dp"
+        android:id="@+id/layoutMainMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -17,34 +20,55 @@
         app:layout_constraintVertical_bias="1.0">
 
         <TextView
+            android:id="@+id/logoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="165dp"
-            android:text="My Quiz App"
+            android:text="MatCap"
             android:textColor="@color/black"
             android:textSize="40sp"
-            android:textStyle="italic|bold"/>
+            android:textStyle="italic|bold" />
+
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="350dp"
+            android:fontFamily="@font/bebas_neue"
+            android:text="Vítejte!"
+            android:textColor="@color/light_gray"
+            android:textFontWeight="200"
+            android:textSize="60sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/welcomeText"
             android:layout_centerInParent="true"
-            android:backgroundTint="@color/purple_700"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/oxygen_bold"
+            android:padding="10dp"
             android:text="Start"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/goToSignInButton"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+
             android:layout_below="@+id/btnStart"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
-            android:text="Přihlásit" />
-
+            android:fontFamily="@font/oxygen_bold"
+            android:padding="10dp"
+            android:text="Přihlásit"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
