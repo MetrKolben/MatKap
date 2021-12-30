@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuizActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Otázka: 1/n"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:id="@+id/textQuestionNo"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skóre: 0"
+            android:layout_below="@+id/textQuestionNo"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/testSkore"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:20"
+            android:layout_alignParentEnd="true"
+            android:textSize="37sp"
+            android:textColor="@color/black"
+            android:id="@+id/textTimer"
+            />
+
+        <TextView
+            android:id="@+id/textQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/radioGroup"
+            android:layout_marginBottom="10dp"
+            android:text="Otázka bude zde ..."
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true">
+
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Možnost 1"
+                android:textSize="20sp"/>
+
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Možnost 1"
+                android:textSize="20sp"/>
+
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Možnost 1"
+                android:textSize="20sp"/>
+
+
+        </RadioGroup>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/radioGroup"
+            android:layout_marginTop="20dp"
+            android:text="Další"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
