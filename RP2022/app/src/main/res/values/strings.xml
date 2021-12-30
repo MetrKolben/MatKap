@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">RP2022</string>
+    <string name="app_name">MatKap</string>
     <string name="answerA">Fryjauf je línej kokot</string>
     <string name="answerB">Fryjaufe začni s náma už pracovat sakra</string>
     <string name="numberOfQuestion">3</string>
     <string name="howManyQuestions">7</string>
+
 </resources>

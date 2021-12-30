@@ -1,29 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".LoginActivity">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/app_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"
-        android:background="@drawable/background_gradient" >
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/signInButton"
-            android:layout_width="285dp"
-            android:layout_height="71dp"
-
-            />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/oxygen_bold"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="50sp" />
 
 
+    <EditText
+        android:id="@+id/enterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingVertical="10dp"
+        android:paddingLeft="10dp" />
+
+    <EditText
+        android:id="@+id/enterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enterEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:paddingVertical="10dp"
+        android:paddingLeft="10dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enterPassword"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="80dp"
+        android:paddingVertical="10dp"
+
+        android:layout_marginTop="30dp"
+        android:text="Login"
+        android:textSize="20sp" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/containerForForgotPassAndRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        app:flexDirection="row"
+        app:justifyContent="space_evenly"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Forgot Password"
+            android:background="no"
+            android:textColor="@color/dark_green"/>
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="no"
+            android:textColor="@color/dark_green"
+            android:text="Register"/>
 
 
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</RelativeLayout>
