@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         setContentView(R.layout.activity_register);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("790146654288-q0uqieil15g6676dp4uh14uq7p6lkpf5.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -141,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(RegisterActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
+            System.out.println(result.getSignInAccount().getEmail());
         } else {
         }
     }
