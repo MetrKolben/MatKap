@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "790146654288",
+    "project_id": "matkap-19ed9",
+    "storage_bucket": "matkap-19ed9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790146654288:android:d169450aafd4f94c8df155",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790146654288-q0uqieil15g6676dp4uh14uq7p6lkpf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrIi42280-7vOjaHbHLEJjky9kWRM70R8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790146654288-q0uqieil15g6676dp4uh14uq7p6lkpf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
