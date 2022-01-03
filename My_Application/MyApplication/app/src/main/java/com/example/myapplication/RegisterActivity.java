@@ -35,8 +35,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
 //    private FirebaseAuth mAuth;
 //    private static final String TAG = "EmailPassword";
-//    private Button register;
-//    private EditText email, pass;
+    private Button register;
+    private EditText email, pass;
     SignInButton signInButton;
     Button signOutButton;
     GoogleApiClient mGoogleApiClient;
@@ -70,10 +70,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         signOutButton = (Button) findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(this);
 //        mAuth = FirebaseAuth.getInstance();
-//        register = (Button) findViewById(R.id.Register);
-//        email = (EditText) findViewById(R.id.getEmailAddress);
-//        pass = (EditText) findViewById(R.id.getPassword);
-//        register.setOnClickListener(this);
+        register = (Button) findViewById(R.id.Register);
+        email = (EditText) findViewById(R.id.getEmailAddress);
+        pass = (EditText) findViewById(R.id.getPassword);
+        register.setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +84,9 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         updateUI(currentUser);
     }
 
+//    private void hokusPokus(){
+//        mAuth.createUserWithEmailAndPassword().addOnCompleteListener()
+//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -178,6 +181,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             case R.id.signOutButton:
                 signOut();
                 break;
+            case R.id.Register:
+                System.out.println("////////////////////////////////////////////////////////////// ");
+                createAccount(email.getText().toString(), pass.getText().toString());
+                break;
         }
     }
 
@@ -192,28 +199,30 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //    }
 //    // [END on_start_check_user]
 //
-//    private void createAccount(String email, String password) {
-//        // [START create_user_with_email]
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d(TAG, "createUserWithEmail:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-//                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
-//                        }
-//                    }
-//                });
-//        // [END create_user_with_email]
-//    }
+    private void createAccount(String email, String password) {
+        // [START create_user_with_email]
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        System.out.println("////////////////////////////////////////////////////////////// "+task.isSuccessful());
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+        // [END create_user_with_email]
+    }
 //
 //    private void signIn(String email, String password) {
 //        // [START sign_in_with_email]
@@ -262,4 +271,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //    public void onClick(View view) {
 //        createAccount(email.getText().toString(), pass.getText().toString());
 //    }
+
+
 }
