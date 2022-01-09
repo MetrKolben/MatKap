@@ -82,7 +82,7 @@
         android:textSize="20sp" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/sing_in_button"
+        android:id="@+id/googleSignInButton"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/Register" />
@@ -90,7 +90,7 @@
         android:id="@+id/signOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sing_in_button"
+        android:layout_below="@+id/googleSignInButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:paddingHorizontal="80dp"

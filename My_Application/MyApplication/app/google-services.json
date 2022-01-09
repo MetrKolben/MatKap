@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "790146654288",
+    "firebase_url": "https://matkap-19ed9-default-rtdb.firebaseio.com",
     "project_id": "matkap-19ed9",
     "storage_bucket": "matkap-19ed9.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "790146654288-rtkil7l28bsla4unfmv7mal492kv674b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "15f4248180a1df040b70c22bec1d785bab1ff9ce"
+          }
+        },
         {
           "client_id": "790146654288-q0uqieil15g6676dp4uh14uq7p6lkpf5.apps.googleusercontent.com",
           "client_type": 3
