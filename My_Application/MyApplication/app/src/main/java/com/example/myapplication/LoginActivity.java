@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity {
 
     private Button registerButton;
 
@@ -16,16 +16,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        registerButton = (Button) findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(this);
+
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.registerButton:
-                startActivity(new Intent(this, RegisterActivity.class));
-                break;
-        }
-    }
 }
