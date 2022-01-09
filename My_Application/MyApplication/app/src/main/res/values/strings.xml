@@ -4,5 +4,7 @@
     <string name="answerB">Fryjaufe začni s náma už pracovat sakra</string>
     <string name="numberOfQuestion">3</string>
     <string name="howManyQuestions">7</string>
+    <string name="nameProfileActivity">Jméno: xXx</string>
+    <string name="emailProfileActivity">Email: xXx</string>
 
 </resources>

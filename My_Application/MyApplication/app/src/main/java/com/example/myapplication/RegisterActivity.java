@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //    private static final String TAG = "EmailPassword";
     private Button register;
     private EditText email, pass;
-    SignInButton signInButton;
+    Button signInButton;
     Button signOutButton;
     GoogleApiClient GoogleApiClient;
     private GoogleSignInClient googleSignInClient;
@@ -59,6 +59,17 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_register);
+
+
+        signInButton = findViewById(R.id.googleSignInButton);
+        signInButton.setOnClickListener(this);
+        signOutButton = (Button) findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(this);
+//        mAuth = FirebaseAuth.getInstance();
+        register = (Button) findViewById(R.id.Register);
+        email = (EditText) findViewById(R.id.getEmailAddress);
+        pass = (EditText) findViewById(R.id.getPassword);
+        register.setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
@@ -91,15 +102,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             }
         });
 
-        signInButton = (SignInButton) findViewById(R.id.googleSignInButton);
-        signInButton.setOnClickListener(this);
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(this);
-//        mAuth = FirebaseAuth.getInstance();
-        register = (Button) findViewById(R.id.Register);
-        email = (EditText) findViewById(R.id.getEmailAddress);
-        pass = (EditText) findViewById(R.id.getPassword);
-        register.setOnClickListener(this);
     }
 
     private void checkUser() {
@@ -258,7 +260,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 signIn();
                 break;
             case R.id.signOutButton:
-                signOut();
+                signIn();
                 break;
             case R.id.Register:
                 System.out.println("////////////////////////////////////////////////////////////// ");

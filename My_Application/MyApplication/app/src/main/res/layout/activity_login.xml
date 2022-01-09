@@ -52,47 +52,24 @@
         android:paddingLeft="10dp" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/googleLogInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/enterPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:paddingHorizontal="80dp"
+        android:drawableRight="@drawable/google_brands"
 
+        android:paddingHorizontal="80dp"
         android:paddingVertical="10dp"
-        android:text="Login"
+        android:text="Přihlásit se s "
+
         android:textSize="20sp" />
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/containerForForgotPassAndRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginButton"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        app:flexDirection="row"
-        app:justifyContent="space_evenly">
-
-        <Button
-            android:id="@+id/forgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:text="Forgot Password"
-            android:textColor="@color/dark_green" />
-
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:text="Register"
-            android:textColor="@color/dark_green" />
 
 
-    </com.google.android.flexbox.FlexboxLayout>
+
+
+
 
 </RelativeLayout>
