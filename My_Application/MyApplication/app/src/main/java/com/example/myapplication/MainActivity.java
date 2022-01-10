@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myapplication.database.Connect;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnStart;
@@ -15,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ///
+
+        Connect.main(this);
+
+        ///
 
         goToSignInBtn = findViewById(R.id.goToSignInButton);
         goToSignInBtn.setOnClickListener(new View.OnClickListener() {
