@@ -60,6 +60,16 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_register);
 
+
+        signInButton = findViewById(R.id.googleSignInButton);
+        signInButton.setOnClickListener(this);
+
+//        mAuth = FirebaseAuth.getInstance();
+        register = (Button) findViewById(R.id.Register);
+        email = (EditText) findViewById(R.id.getEmailAddress);
+        pass = (EditText) findViewById(R.id.getPassword);
+        register.setOnClickListener(this);
+
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -260,6 +270,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             case R.id.signOutButton:
                 signOut();
                 break;
+
             case R.id.Register:
                 System.out.println("////////////////////////////////////////////////////////////// ");
                 createAccount(email.getText().toString(), pass.getText().toString());
