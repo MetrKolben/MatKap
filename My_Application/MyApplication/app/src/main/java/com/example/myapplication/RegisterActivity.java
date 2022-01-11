@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -41,8 +39,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //    private static final String TAG = "EmailPassword";
     private Button register;
     private EditText email, pass;
-    SignInButton signInButton;
-    Button signOutButton;
+    private Button signInButton;
+    private Button signOutButton;
     GoogleApiClient GoogleApiClient;
     private GoogleSignInClient googleSignInClient;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
@@ -101,10 +99,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             }
         });
 
-        signInButton = (SignInButton) findViewById(R.id.googleSignInButton);
+        signInButton = (Button) findViewById(R.id.googleSignInButton);
         signInButton.setOnClickListener(this);
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(this);
+//        signOutButton = (Button) findViewById(R.id.signOutButton);
+//        signOutButton.setOnClickListener(this);
 //        mAuth = FirebaseAuth.getInstance();
         register = (Button) findViewById(R.id.Register);
         email = (EditText) findViewById(R.id.getEmailAddress);
@@ -229,7 +227,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private void handleSingInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSingInResult?" + result.isSuccess());
-        System.out.println("/////////////////////////////////////////   " + result);
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(RegisterActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
@@ -267,9 +264,9 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             case R.id.googleSignInButton:
                 signIn();
                 break;
-            case R.id.signOutButton:
-                signOut();
-                break;
+//            case R.id.signOutButton:
+//                signOut();
+//                break;
 
             case R.id.Register:
                 System.out.println("////////////////////////////////////////////////////////////// ");

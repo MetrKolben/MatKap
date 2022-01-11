@@ -52,10 +52,10 @@
         android:paddingLeft="10dp" />
 
     <Button
-        android:id="@+id/googleLogInButton"
+        android:id="@+id/googleSignInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/enterPassword"
+        android:layout_below="@+id/Login"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="50dp"
         android:layout_marginTop="30dp"
@@ -67,24 +67,29 @@
 
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enterPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="30dp"
+        android:paddingHorizontal="80dp"
+        android:paddingVertical="10dp"
+        android:text="Přihlásit se"
+        android:textSize="20sp" />
 
-
-
-
-
-
-
-
-        <Button
-            android:id="@+id/forgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:text="Zapomenuté heslo"
-            android:layout_below="@+id/googleLogInButton"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/dark_green"
-            android:textSize="13dp"/>
+    <Button
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/googleSignInButton"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:text="Zapomenuté heslo"
+        android:textColor="@color/dark_green"
+        android:textSize="13dp" />
 
         <!--        <Button-->
         <!--            android:id="@+id/goToRegistration"-->
