@@ -1,14 +1,20 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.example.myapplication.databinding.ActivityProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.net.URI;
+import java.net.URL;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -16,11 +22,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
 
     private FirebaseAuth firebaseAuth;
+    private ImageView imgProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        imgProfilePic = (ImageView) findViewById(R.id.profilePhoto);
         setContentView(binding.getRoot());
 
         //init firebase auth
@@ -48,9 +56,14 @@ public class ProfileActivity extends AppCompatActivity {
         else {
             //user logged in
             //get user info
+
             String email = firebaseUser.getEmail();
+            String name = firebaseUser.getDisplayName();
+
+
             //set email
             binding.emailTv.setText(email);
+            binding.name.setText(name);
         }
     }
 }

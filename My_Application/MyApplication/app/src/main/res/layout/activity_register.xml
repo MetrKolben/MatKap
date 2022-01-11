@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/oxygen"
         android:text="@string/app_name"
         android:textAlignment="center"
@@ -26,7 +26,7 @@
         android:layout_below="@+id/app_name"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:background="@color/white"
         android:ems="10"
         android:hint="Uživatelské jméno"
@@ -70,34 +70,34 @@
 
     <Button
         android:id="@+id/Register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/getPassword"
         android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
         android:layout_marginTop="30dp"
         android:paddingHorizontal="80dp"
-
         android:paddingVertical="10dp"
-        android:text="Register"
+        android:text="Registrovat"
         android:textSize="20sp" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/googleSignInButton"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/Register" />
     <Button
-        android:id="@+id/signOutButton"
+        android:id="@+id/googleSignInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/googleSignInButton"
+        android:layout_below="@+id/Register"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:paddingHorizontal="80dp"
+        android:drawableRight="@drawable/google_brands"
+
+        android:paddingHorizontal="15dp"
 
         android:paddingVertical="10dp"
-        android:text="Sign out"
+        android:text="Registrovat se s "
+
         android:textSize="20sp" />
+
+
 
 
 </RelativeLayout>
