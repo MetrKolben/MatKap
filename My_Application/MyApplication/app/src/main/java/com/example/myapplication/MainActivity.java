@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.myapplication.database.Connect;
+import com.example.myapplication.database.Sql;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         ///
 
-        Connect.main(this);
+//        try {
+//            Connect.openOrCreateGeneralDatabase(this);
+            Sql.test(this);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         ///
 
