@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity{
 
+
     Button goToSignInBtn;
     Button registerButton;
     @Override
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         goToSignInBtn = findViewById(R.id.goToSignInButton);
-        goToSignInBtn = findViewById(R.id.goToSignInButton);
         goToSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,10 +25,11 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-        registerButton = findViewById(R.id.registerButton);
+        registerButton = findViewById(R.id.registerOnMainScreen);
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }

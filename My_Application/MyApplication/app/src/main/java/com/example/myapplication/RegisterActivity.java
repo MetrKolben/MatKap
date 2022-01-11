@@ -42,7 +42,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private Button register;
     private EditText email, pass;
     Button signInButton;
-    Button signOutButton;
     GoogleApiClient GoogleApiClient;
     private GoogleSignInClient googleSignInClient;
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
@@ -63,8 +62,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
         signInButton = findViewById(R.id.googleSignInButton);
         signInButton.setOnClickListener(this);
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(this);
 //        mAuth = FirebaseAuth.getInstance();
         register = (Button) findViewById(R.id.Register);
         email = (EditText) findViewById(R.id.getEmailAddress);
@@ -102,6 +99,14 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             }
         });
 
+
+        signInButton =  findViewById(R.id.googleSignInButton);
+        signInButton.setOnClickListener(this);
+//        mAuth = FirebaseAuth.getInstance();
+        register = (Button) findViewById(R.id.Register);
+        email = (EditText) findViewById(R.id.getEmailAddress);
+        pass = (EditText) findViewById(R.id.getPassword);
+        register.setOnClickListener(this);
     }
 
     private void checkUser() {
@@ -259,9 +264,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             case R.id.googleSignInButton:
                 signIn();
                 break;
-            case R.id.signOutButton:
-                signIn();
-                break;
+
             case R.id.Register:
                 System.out.println("////////////////////////////////////////////////////////////// ");
                 createAccount(email.getText().toString(), pass.getText().toString());

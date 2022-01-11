@@ -52,6 +52,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/containerForNameAndMail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -82,15 +83,21 @@
 
 
     </LinearLayout>
-
-
     <Button
-        android:id="@+id/logoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Odhlásit"
+        android:id="@+id/logoutBtn"
         android:layout_below="@+id/personalInformation"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Odhlásit" />
+        android:layout_marginTop="100dp"/>
+
+
+
 
 </RelativeLayout>
+
+
+
+
+
