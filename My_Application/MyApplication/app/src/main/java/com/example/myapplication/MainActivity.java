@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        try {
 //            Connect.openOrCreateGeneralDatabase(this);
-            Sql.test(this);
+            Sql.getQuestionList(this);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
