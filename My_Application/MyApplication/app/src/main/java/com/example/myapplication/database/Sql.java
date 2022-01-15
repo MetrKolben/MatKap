@@ -269,12 +269,36 @@ public class Sql {
     public enum Filters {
         MOVEMENT("movement"),
         CENTURY(""),
-        COUNTRY("country");
+        COUNTRY("country_name");
         public final String table;
-//        public final
+        public final List<String> items;
 
         Filters(String table) {
             this.table = table;
+            this.items = fillItems(table);
+        }
+
+        @SuppressLint("Range")
+        private List<String> fillItems(String column) {
+            List<String> items = new ArrayList<>();
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor cursor = generalDatabase.rawQuery(column.equals("movement") ? "SELECT name FROM movement" : "SELECT name FROM country", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String item = cursor.getString(cursor.getColumnIndex("name"));
+                    if (!items.contains(item)) {
+                        items.add(item);
+                    }
+                } while(cursor.moveToNext());
+            }
+            cursor.close();
+            return items;
         }
 
         /**
@@ -283,43 +307,6 @@ public class Sql {
         @Override
         public String toString() {
             return table;
-        }
-
-    }
-
-    /**
-     * Contains all the movements used in the database <br>
-     * <b>TODO</b> turn to an array tht is filled automatically with the data from the database
-     */
-    public enum Country{
-        CZECH("Česko");
-        public final String dbValue;
-
-        Country(String dbValue) {
-            this.dbValue = dbValue;
-        }
-
-        @Override
-        public String toString() {
-            return dbValue;
-        }
-
-    }
-    /**
-     * Contains all the movements used in the database <br>
-     * <b>TODO</b> turn to an array tht is filled automatically with the data from the database
-     */
-    public enum Movement{
-        ROMANTISMUS("Romantismus");
-        public final String dbValue;
-
-        Movement(String dbValue) {
-            this.dbValue = dbValue;
-        }
-
-        @Override
-        public String toString() {
-            return dbValue;
         }
 
     }
