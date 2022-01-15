@@ -16,16 +16,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * <p>
+ *     Connects the application with an SQLite type database that was created together with installing the application
+ * </p>
+ * <p>
+ *     Contains methods that generate questions based on filters that the user chooses before starting the quiz
+ * </p>
+ * <p>
+ *     Creates following own subclasses:
+ *     <ul>
+ *         <li>{@link com.example.myapplication.database.Sql.Answer}</li>
+ *         <li>{@link com.example.myapplication.database.Sql.Filters}</li>
+ *         <li>{@link com.example.myapplication.database.Sql.Question}</li>
+ *         <li>{@link com.example.myapplication.database.Sql.QuestionList}</li>
+ *         <li>{@link com.example.myapplication.database.Sql.QuestionType}</li>
+ *     </ul>
+ * </p>
+ */
 public class Sql {
     private static SQLiteDatabase generalDatabase = null;
     private static AppCompatActivity context = null;
 
-//    @RequiresApi(api = Build.VERSION_CODES.R)
+    /**
+     * Makes sure there is a valid copy of database to work with
+     * @param con is there because {@link #openOrCreateGeneralDatabase(AppCompatActivity)} requires context
+     * @throws IOException if there is a problem with reading database or copying it to users storage
+     */
     private static void openOrCreateGeneralDatabase(AppCompatActivity con) throws IOException {
         context = con;
 
@@ -37,7 +58,12 @@ public class Sql {
         }
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.O)
+    /**
+     * Copies the SQLite database to the device in order to make it possible to use SQL statements
+     * @param input InputStream object that reads data from database located in <b>\res\raw\database.db</b>
+     * @param destination File created in users storage
+     * @throws IOException if there is a problem with reading database or copying it to users storage
+     */
     private static void copyDatabaseToStorage(InputStream input, File destination) throws IOException {
 
         try (OutputStream out = new BufferedOutputStream(new FileOutputStream(destination))) {
@@ -51,6 +77,11 @@ public class Sql {
         }
     }
 
+    /**
+     * Used to either update the database or repaired a damaged copy in the device storage
+     * @return returns true if both copies of the database contain the same data
+     * @throws IOException if any of the two copies is not allowed to be read
+     */
     private static boolean isDatabaseCorrect() throws IOException {
         if (generalDatabase == null) return false;
         File fileToCheck = new File(generalDatabase.getPath());
@@ -77,41 +108,66 @@ public class Sql {
         }
     }
 
+    /**
+     * <p>
+     *     First creates the author table which contains all the necessary information to create
+     * <ul>
+     *     <li>Author-Movement question</li>
+     * </ul>
+     *     Then creates the book table in order to create
+     * <ul>
+     *     <li>Author-Book question</li>
+     *     <li>Book-Author question</li>
+     *     <li>Book-Movement question</li>
+     *     <li>Book-Druh question</li>
+     *     <li>Book-Genre question</li>
+     * </ul>
+     * </p>
+     * <p>
+     *     Then it iterates through both tables and creates either 5 questions for each row when iterating through <b>book</b> or a single question when iterating through <b>author</b>
+     * </p>
+     * <p>
+     *     Also recursively calls itself when <b>generalDatabase</b> is <b>null</b> to initialize the database first
+     * </p>
+     * @param con used to be passed over to <b>{@link #openOrCreateGeneralDatabase(AppCompatActivity)} </b>
+     * @return a <b>{@link com.example.myapplication.database.Sql.QuestionList}</b> object
+     */
+    @SuppressLint("Range")
     public static QuestionList getQuestionList(AppCompatActivity con /*, +filters*/) {
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
 
-            if(true /*if not containing movement filter*/){
-                Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, author.birth AS birth, author.death AS author_death, country.name AS country_name, sex " +
+
+            Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, author.birth AS birth, author.death AS author_death, country.name AS country_name, sex " +
                         "FROM author, movement, country " +
                         "WHERE author.movement_id = movement.id " +
                         "AND author.country_id = country.id"/* + filters*/, null);
-                System.out.println(author.getCount());
-                if (author.moveToFirst()) {
-                    do {
-//                        questionList.add(Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT));
-                        Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
-
-                        if (aMQuestion != null) {
-                            questionList.add(aMQuestion);
-                        }
-//                    questionList.add(Question.createQuestion(author, questionType));
-//                    questionList.add(Question.createQuestion(author, questionType));
-//                    for (QuestionType questionType : QuestionType.values()) {
-//                        questionList.add(Question.createQuestion(author, questionType));
-//                    }
-                    } while (author.moveToNext());
-                }
-                author.close();
-            }
-
-
             Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book, author, genre, druh, movement " +
                     "WHERE book.author_id = author.id " +
                     "AND book.genre_id = genre.id " +
                     "AND book.druh_id = druh.id " +
                     "AND book.movement_id = movement.id"/* + filters*/, null);
+
+            author.moveToFirst();
+            book.moveToFirst();
+
+            Question.setAuthorAndBook(author, book);
+
+
+            if(true /*if not containing movement filter*/){
+                if (author.moveToFirst()) {
+                    //FIXME
+                    do {
+                        Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
+
+                        if (aMQuestion != null) {
+                            questionList.add(aMQuestion);
+                        }
+                        } while (author.moveToNext());
+                    }
+                }
+
             if (book.moveToFirst()) {
                 do {
                     Question bDQuestion = Question.createQuestion(book, QuestionType.BOOK_DRUH);
@@ -135,25 +191,19 @@ public class Sql {
                     if (bMQuestion != null){
                         questionList.add(bMQuestion);
                     }
-
-//                    questionList.add();
-//                    questionList.add(Question.createQuestion(book, QuestionType.BOOK_AUTHOR));
-//                    questionList.add(Question.createQuestion(book, QuestionType.AUTHOR_BOOK));
-//                    questionList.add(Question.createQuestion(book, QuestionType.BOOK_GENRE));
-//                    questionList.add(Question.createQuestion(book, QuestionType.BOOK_MOVEMENT));
                 } while(book.moveToNext());
             }
+            author.close();
             book.close();
 
         } else {
             try {
                 openOrCreateGeneralDatabase(con);
-                getQuestionList(con);
+                return getQuestionList(con);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         return questionList;
     }
 
@@ -171,9 +221,7 @@ public class Sql {
 //                } while(c.moveToNext());
 //            }
 //            for (String[] row : resultSet) {
-//                System.out.println(Arrays.toString(row));
 //            }
-////            System.out.println(resultSet);
 //        } else {
 //            try {
 //                openOrCreateGeneralDatabase(con);
@@ -198,9 +246,7 @@ public class Sql {
 //                } while(c.moveToNext());
 //            }
 //            for (String[] row : resultSet) {
-//                System.out.println(Arrays.toString(row));
 //            }
-////            System.out.println(resultSet);
 //        } else {
 //            try {
 //                openOrCreateGeneralDatabase(con);
@@ -211,22 +257,40 @@ public class Sql {
 //        }
 //    }
 
-    public enum Filter {
+    /**
+     * <p>
+     *     Used to simplify distinguishing between filters
+     *
+     * </p>
+     * <p>
+     *     Century refers to a column in the <b>author</b> table and has to be calculated later to work
+     * </p>
+     */
+    public enum Filters {
         MOVEMENT("movement"),
         CENTURY(""),
         COUNTRY("country");
         public final String table;
+//        public final
 
-        Filter(String table) {
+        Filters(String table) {
             this.table = table;
         }
 
+        /**
+         * @return the name of the table it refers to
+         */
         @Override
         public String toString() {
             return table;
         }
+
     }
 
+    /**
+     * Contains all the movements used in the database <br>
+     * <b>TODO</b> turn to an array tht is filled automatically with the data from the database
+     */
     public enum Country{
         CZECH("Česko");
         public final String dbValue;
@@ -239,8 +303,12 @@ public class Sql {
         public String toString() {
             return dbValue;
         }
-    }
 
+    }
+    /**
+     * Contains all the movements used in the database <br>
+     * <b>TODO</b> turn to an array tht is filled automatically with the data from the database
+     */
     public enum Movement{
         ROMANTISMUS("Romantismus");
         public final String dbValue;
@@ -253,6 +321,7 @@ public class Sql {
         public String toString() {
             return dbValue;
         }
+
     }
 
     public static class Question{
@@ -260,6 +329,7 @@ public class Sql {
         public final String text;
         private final Answer[] answers;
         public final QuestionType questionType;
+        private static Cursor book, author;
 
         private Question(QuestionType questionType, String text, Answer... answers) {
             this.questionType = questionType;
@@ -267,25 +337,27 @@ public class Sql {
             this.text = text;
         }
 
+        /**
+         * Sets the following variables (used only for Book-Author question)
+         */
+        public static void setAuthorAndBook(Cursor author, Cursor book) {
+            Question.author = author;
+            Question.book = book;
+        }
+
+        /**
+         * @param cursor Either the <b>author</b> or the <b>book</b> table
+         * @param questionType Determines the type of the question which then alters the question text and in the case of Book-Druh question changes the amount of answers
+         * @return <b>{@link com.example.myapplication.database.Sql.Question}</b> object of a determined <b>{@link com.example.myapplication.database.Sql.QuestionType}</b>
+         */
         @SuppressLint("Range")
         public static Question createQuestion(Cursor cursor, QuestionType questionType) {
             int position = cursor.getPosition();
             switch(questionType) {
-                //TODO Celý předělat, lol
-//                case BOOK_MOVEMENT:
-//                    return createBMQuestion()
-//                case AUTHOR_MOVEMENT:
-//                    return createAMQuestion();
-//                case AUTHOR_BOOK:
-//                    return createABQuestion(cursor, cursor.getString(cursor.getColumnIndex("book")), cursor.getString(cursor.getColumnIndex("author")));
-//                case BOOK_AUTHOR:
-//                    return createBAQuestion(cursor, cursor.getString(cursor.getColumnIndex("author")), cursor.getString(cursor.getColumnIndex("book")));
-//                case BOOK_GENRE:
-//                    return createBGQuestion(cursor, cursor.getString(cursor.getColumnIndex("genre")), cursor.getString(cursor.getColumnIndex("book")));
                 case BOOK_DRUH:
-                    return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex("book"))), new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex("druh")).equals("Lyricko-epický")),
-                                                                new Answer("Lyrika", cursor.getString(cursor.getColumnIndex("druh")).equals("Lyrika")),
-                                                                new Answer("Epika", cursor.getString(cursor.getColumnIndex("druh")).equals("Epika")));
+                    return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyricko-epický")),
+                                                                new Answer("Lyrika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyrika")),
+                                                                new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")));
                 default:
                     String qCol = questionType.questionColumn;
                     String aCol = questionType.answerColumn;
@@ -293,18 +365,27 @@ public class Sql {
                     switch(questionType) {
                         case BOOK_MOVEMENT:
                             questionText = QuestionType.completeBMText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
                         case AUTHOR_MOVEMENT:
                             questionText = QuestionType.completeAMText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
                         case AUTHOR_BOOK:
-                            questionText = QuestionType.completeABText(cursor.getString(cursor.getColumnIndex(qCol)), (cursor.getString(cursor.getColumnIndex("sex")).equals("male") ? "" : "a"));
+                            int save = author.getPosition();
+                            author.move(book.getPosition()-1);
+                            questionText = QuestionType.completeABText((author.getString(author.getColumnIndex("sex")).equals("male") ? "" : "a"),
+                                    cursor.getString(cursor.getColumnIndex(qCol)));
+                            author.move(save);
+                            break;
                         case BOOK_AUTHOR:
                             questionText = QuestionType.completeBAText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
                         case BOOK_GENRE:
                             questionText = QuestionType.completeBGText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
                     }
                     List<Answer> answers = new ArrayList<>();
-                    System.out.println(questionType);
                     answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), true));
+                    //TODO improve the answer generating algorithm
                     for (int i = 0; i < 3; i++) {
                         boolean lock = true;
                         int checkIfPossible = 0;
@@ -321,35 +402,20 @@ public class Sql {
                     Collections.shuffle(answers);
                     cursor.move(position);
                     return new Question(questionType, questionText, (Answer[])answers.toArray());
-                    //TODO answer list, shuffle
             }
         }
 
+        /**
+         * <p>Used in {@link #createQuestion(Cursor, QuestionType)} in order to generate random wrong answers and checking if each answer is unique</p>
+         * @param answers list of current answers to the <b>Question</b> object that is being generated
+         * @param answer a potential answer that is yet to be checked if it is unique
+         * @return false if the answer is unique
+         */
         private static boolean containsAnswer(List<Answer> answers, String answer) {
             for (Answer answer1: answers) {
                 if (answer1.text.equals(answer)) return true;
             }
             return false;
-        }
-
-        private static Question createABQuestion(Cursor cursor, int position) {
-            return null;
-        }
-
-        private static Question createBAQuestion(Cursor cursor, int position) {
-            return null;
-        }
-
-        private static Question createBGQuestion(Cursor cursor, int position) {
-            return null;
-        }
-
-        private static Question createAMQuestion(Cursor cursor, int position) {
-            return null;
-        }
-
-        private static Question createBMQuestion(Cursor cursor, int position) {
-            return null;
         }
 
         public Answer getA() {
@@ -369,8 +435,12 @@ public class Sql {
         }
     }
 
+    /**
+     * Represents a list of questions that is not directly accessible
+     */
     public static class QuestionList{
-        private List<Question> questionList;
+        //FIXME should be private
+        public List<Question> questionList;
         public int getPossibleQuestionsCount() {
             return questionList.size();
         }
@@ -383,17 +453,24 @@ public class Sql {
             this.questionList = new ArrayList<>();
         }
 
+        /**
+         * Used to prevent any changes done to the original list
+         * @param n the quantity of the questions that should be returned
+         * @return n long list of <b>Question</b> objects
+         */
         public List<Question> getNQuestions(int n) {
-            List<Question> copy = new ArrayList<>();
-            Collections.copy(copy, questionList);
+            List<Question> copy = new ArrayList<>(questionList);
             Collections.shuffle(copy);
-            if (n <= questionList.size() && n > 0) {
+            if ((n <= questionList.size() && n > 0) || n >= questionList.size()) {
                 return copy;
             }
             return copy.subList(0, n);
         }
     }
 
+    /**
+     * A simple object containing the <b>text</b> and <b>truthfulness</b> of the answer
+     */
     public static class Answer{
         final String text;
         final boolean isRight;
@@ -404,11 +481,17 @@ public class Sql {
         }
     }
 
+    /**
+     * <p>
+     *     Represents question types each containing the names of the columns where the question detail and answer should be searched.
+     *     Also contains the question <b>template<b/>.
+     * </p>
+     */
     public enum QuestionType {
         AUTHOR_BOOK("Kterou knihu napsal<sex> <author>?", "author_name", "book_name"),
-        BOOK_AUTHOR("Který autor napsal \"<book>?\"?", "book_name", "author_name"),
-        AUTHOR_MOVEMENT("Ke kterému směru se hlásí \"<author>?\"?", "author_name", "movement_name"),
-        BOOK_MOVEMENT("Z jakého směru je \"<book>?\"?", "book_name", "movement_name"),
+        BOOK_AUTHOR("Který autor napsal \"<book>\"?", "book_name", "author_name"),
+        AUTHOR_MOVEMENT("Ke kterému směru se hlásí <author>?", "author_name", "movement_name"),
+        BOOK_MOVEMENT("Z jakého směru je \"<book>\"?", "book_name", "movement_name"),
         BOOK_DRUH("Ke kterému druhu se řadí \"<book>\"?", "book_name", "druh_name"),
         BOOK_GENRE("Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name");
         private final String questionText, questionColumn, answerColumn;
@@ -420,14 +503,14 @@ public class Sql {
         }
 
         public static String completeAMText(String author) {
-            return AUTHOR_BOOK.questionText.replaceAll("<author>", author);
+            return AUTHOR_MOVEMENT.questionText.replaceAll("<author>", author);
         }
         public static String completeBMText(String book) {
-            return AUTHOR_BOOK.questionText.replaceAll("<book>", book);
+            return BOOK_MOVEMENT.questionText.replaceAll("<book>", book);
         }
 
         public static String completeABText(String sex, String author) {
-            return AUTHOR_BOOK.questionText.replaceAll("<sex>", sex).replaceAll("<author>", author);
+            return AUTHOR_BOOK.questionText.replace("<author>", author).replace("<sex>", sex);
         }
 
         public static String completeBAText(String book) {
