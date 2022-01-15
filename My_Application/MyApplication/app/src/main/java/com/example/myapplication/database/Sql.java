@@ -278,6 +278,8 @@ public class Sql {
             this.items = fillItems(table);
         }
 
+
+        //TODO javadoc
         @SuppressLint("Range")
         private List<String> fillItems(String column) {
             List<String> items = new ArrayList<>();
@@ -300,6 +302,8 @@ public class Sql {
             cursor.close();
             return items;
         }
+
+        //TODO filter formatting
 
         /**
          * @return the name of the table it refers to
