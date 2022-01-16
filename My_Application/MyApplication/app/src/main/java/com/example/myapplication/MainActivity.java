@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
 //        try {
 //            Connect.openOrCreateGeneralDatabase(this);
-        Sql.QuestionList questionList = Sql.getQuestionList(this);
+        Sql.QuestionList questionList = Sql.getQuestionList(this, new String[]{"", ""});
 //        System.out.println(questionList.questionList.size());
         System.out.println(questionList.getNQuestions(12).get(0).text);
-        System.out.println(Sql.Filters.COUNTRY.items);
+        System.out.println(Sql.FilterType.COUNTRY.items);
 //        System.out.println(Sql.getQuestionList(this));
 //        } catch (IOException e) {
 //            e.printStackTrace();

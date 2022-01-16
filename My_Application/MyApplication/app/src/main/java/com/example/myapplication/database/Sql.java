@@ -31,7 +31,7 @@ import java.util.Random;
  *     Creates following own subclasses:
  *     <ul>
  *         <li>{@link com.example.myapplication.database.Sql.Answer}</li>
- *         <li>{@link com.example.myapplication.database.Sql.Filters}</li>
+ *         <li>{@link FilterType}</li>
  *         <li>{@link com.example.myapplication.database.Sql.Question}</li>
  *         <li>{@link com.example.myapplication.database.Sql.QuestionList}</li>
  *         <li>{@link com.example.myapplication.database.Sql.QuestionType}</li>
@@ -133,7 +133,7 @@ public class Sql {
      * @return a <b>{@link com.example.myapplication.database.Sql.QuestionList}</b> object
      */
     @SuppressLint("Range")
-    public static QuestionList getQuestionList(AppCompatActivity con /*, +filters*/) {
+    public static QuestionList getQuestionList(AppCompatActivity con, String[] filters) {
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
 
@@ -141,13 +141,13 @@ public class Sql {
             Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, author.birth AS birth, author.death AS author_death, country.name AS country_name, sex " +
                         "FROM author, movement, country " +
                         "WHERE author.movement_id = movement.id " +
-                        "AND author.country_id = country.id"/* + filters*/, null);
+                        "AND author.country_id = country.id"+ filters[0], null);
             Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book, author, genre, druh, movement " +
                     "WHERE book.author_id = author.id " +
                     "AND book.genre_id = genre.id " +
                     "AND book.druh_id = druh.id " +
-                    "AND book.movement_id = movement.id"/* + filters*/, null);
+                    "AND book.movement_id = movement.id" + filters[1], null);
 
             author.moveToFirst();
             book.moveToFirst();
@@ -199,7 +199,7 @@ public class Sql {
         } else {
             try {
                 openOrCreateGeneralDatabase(con);
-                return getQuestionList(con);
+                return getQuestionList(con, filters);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -259,21 +259,21 @@ public class Sql {
 
     /**
      * <p>
-     *     Used to simplify distinguishing between filters
+     *     Used to simplify distinguishing between filters.
      *
      * </p>
      * <p>
      *     Century refers to a column in the <b>author</b> table and has to be calculated later to work
      * </p>
      */
-    public enum Filters {
+    public enum FilterType {
         MOVEMENT("movement"),
         CENTURY(""),
         COUNTRY("country_name");
         public final String table;
         public final List<String> items;
 
-        Filters(String table) {
+        FilterType(String table) {
             this.table = table;
             this.items = fillItems(table);
         }
@@ -313,6 +313,15 @@ public class Sql {
             return table;
         }
 
+    }
+
+    public static class Filter{
+        private static final String beginning = " AND(", separator = " OR ", end = ")";
+        public String[] formatFilters(Object countries, Object movements, Object centuries) {
+            String[] filters = new String[2];
+
+            return filters;
+        }
     }
 
     public static class Question{
