@@ -6,12 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".QuizSettings">
 
-    <Spinner
-        android:id="@+id/spinner"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="10dp"/>
+        android:id="@+id/selectMovement"
+        android:hint="Select movement"
+        android:padding="12dp"
+        android:drawablePadding="16dp"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:background="@android:drawable/editbox_background"
+        />
+
 
 </LinearLayout>
