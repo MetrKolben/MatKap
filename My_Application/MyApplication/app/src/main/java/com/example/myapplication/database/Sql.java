@@ -281,7 +281,7 @@ public class Sql {
 
         //TODO javadoc
         @SuppressLint("Range")
-        private List<String> fillItems(String column) {
+        public static List<String> fillItems(String column) {
             List<String> items = new ArrayList<>();
             if (generalDatabase == null) {
                 try {

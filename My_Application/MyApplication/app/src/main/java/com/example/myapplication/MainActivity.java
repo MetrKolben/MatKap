@@ -11,8 +11,8 @@ import com.example.myapplication.database.Sql;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnStart;
     Button goToSignInBtn;
+    Button test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        try {
 //            Connect.openOrCreateGeneralDatabase(this);
-        Sql.QuestionList questionList = Sql.getQuestionList(this, new String[]{"", ""});
-//        System.out.println(questionList.questionList.size());
-        System.out.println(questionList.getNQuestions(12).get(0).text);
-        System.out.println(Sql.FilterType.COUNTRY.items);
+
 //        System.out.println(Sql.getQuestionList(this));
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -41,14 +38,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnStart = findViewById(R.id.btnStart);
-        btnStart.setOnClickListener(new View.OnClickListener() {
+
+        test = findViewById(R.id.testbutton);
+        test.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, QuizActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, QuizSettings.class);
                 startActivity(intent);
+                Sql.QuestionList questionList = Sql.getQuestionList(MainActivity.this, new String[]{"", ""});
+//        System.out.println(questionList.questionList.size());
+                System.out.println(questionList.getNQuestions(12).get(0).text);
+                System.out.println(Sql.FilterType.COUNTRY.items);
             }
         });
+
 
 
     }
