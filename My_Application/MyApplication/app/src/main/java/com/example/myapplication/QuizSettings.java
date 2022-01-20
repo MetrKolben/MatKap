@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.myapplication.database.Firestore;
 import com.example.myapplication.database.Sql;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuizSettings extends AppCompatActivity {
@@ -25,6 +25,7 @@ public class QuizSettings extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, list);
 
-
+//        Firestore.addUser("");
     }
+
 }

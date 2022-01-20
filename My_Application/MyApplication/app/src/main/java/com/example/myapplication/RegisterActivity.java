@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.database.Firestore;
 import com.example.myapplication.databinding.ActivityRegisterBinding;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -113,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private void checkUser() {
         //if user is already signed in then go to profile activity
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        Firestore.setUser(firebaseUser);
         if (firebaseUser != null){
             Log.d(TAG, "checkUser: Already logged in");
             startActivity(new Intent(this, ProfileActivity.class));
@@ -269,7 +271,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //                break;
 
             case R.id.Register:
-                System.out.println("////////////////////////////////////////////////////////////// ");
                 createAccount(email.getText().toString(), pass.getText().toString());
                 break;
         }
@@ -298,6 +299,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+                            Firestore.addUser(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
