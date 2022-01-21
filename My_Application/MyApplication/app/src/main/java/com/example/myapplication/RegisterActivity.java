@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private ActivityRegisterBinding binding;
 
 
-
+//FIXME celý smazat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,9 +130,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         updateUI(currentUser);
     }
 
-//    private void hokusPokus(){
-//        mAuth.createUserWithEmailAndPassword().addOnCompleteListener()
-//    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -156,9 +153,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             }
         }
     }
-    // [END onactivityresult]
 
-    // [START auth_with_google]
     private void firebaseAuthWithGoogleAccount(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogleAccount: begin firebase auth with google account");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -203,28 +198,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                           Log.d(TAG, "onFailure: Login failed "+e.getMessage());
                       }
                 });
-//        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-//        firebaseAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d(TAG, "signInWithCredential:success");
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            updateUI(user);
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            updateUI(null);
-//                        }
-//                    }
-//                });
     }
-    // [END auth_with_google]
-
-    // [START signin]
-
 
 
     private void handleSingInResult(GoogleSignInResult result) {
@@ -232,7 +206,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(RegisterActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
-            System.out.println(result.getSignInAccount().getEmail());
+            System.out.println("//////////////////");
         } else {
         }
     }
@@ -266,13 +240,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             case R.id.googleSignInButton:
                 signIn();
                 break;
-//            case R.id.signOutButton:
-//                signOut();
-//                break;
 
-            case R.id.Register:
-                createAccount(email.getText().toString(), pass.getText().toString());
-                break;
+//            case R.id.Register:
+//                createAccount(email.getText().toString(), pass.getText().toString());
+//                break;
         }
     }
 
@@ -287,31 +258,29 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 //    }
 //    // [END on_start_check_user]
 //
-    private void createAccount(String email, String password) {
-        // [START create_user_with_email]
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        System.out.println("////////////////////////////////////////////////////////////// "+task.isSuccessful());
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            Firestore.addUser(user);
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-        // [END create_user_with_email]
-    }
+//    private void createAccount(String email, String password) {
+//        // [START create_user_with_email]
+//
+//        firebaseAuth.createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "createUserWithEmail:success");
+//                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            updateUI(user);
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+//                        }
+//                    }
+//                });
+//        // [END create_user_with_email]
+//    }
 //
 //    private void signIn(String email, String password) {
 //        // [START sign_in_with_email]
