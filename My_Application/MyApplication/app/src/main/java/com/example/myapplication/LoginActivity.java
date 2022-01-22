@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.myapplication.database.Firestore;
 import com.example.myapplication.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -147,11 +148,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                         //check if user is new or existing
                         if (authResult.getAdditionalUserInfo().isNewUser()){
+                            Firestore.setFirebaseUser(firebaseUser, true);
                             //user is new - Account Created
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
                             Toast.makeText(LoginActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
                         }
                         else {
+                            Firestore.setFirebaseUser(firebaseUser, false);
                             //existing user - Logged In
                             Log.d(TAG, "onSuccess: Existing user...\n"+email);
                             Toast.makeText(LoginActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();

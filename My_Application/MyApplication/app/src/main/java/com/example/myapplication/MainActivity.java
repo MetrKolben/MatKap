@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, QuizSettings.class);
                 startActivity(intent);
                 Sql.QuestionList questionList = Sql.getQuestionList(MainActivity.this, new String[]{"", ""});
-//        System.out.println(questionList.questionList.size());
-//                System.out.println(questionList.getNQuestions(12).get(0).text);
-//                System.out.println(Sql.FilterType.COUNTRY.items);
             }
         });
 
