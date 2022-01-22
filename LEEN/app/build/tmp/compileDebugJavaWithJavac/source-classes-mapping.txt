@@ -1,2 +1,0 @@
-com/example/leen/BuildConfig.java
- com.example.leen.BuildConfig
