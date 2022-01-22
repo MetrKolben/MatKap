@@ -228,7 +228,7 @@ public class Sql {
 
         FilterType(String table) {
             this.table = table;
-            this.items = fillItems();
+            this.items = getItems();
         }
 
         /**
@@ -236,7 +236,7 @@ public class Sql {
          * @return list of all movements
          */
         @SuppressLint("Range")
-        public List<String> fillItems() {
+        public List<String> getItems() {
             List<String> items = new ArrayList<>();
             if (generalDatabase == null) {
                 try {
