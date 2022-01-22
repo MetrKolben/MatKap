@@ -20,10 +20,6 @@ public class QuizSettings extends AppCompatActivity {
 
         spinner = (Spinner) findViewById(R.id.spinner);
 
-        List<String> list = Sql.FilterType.fillItems(Sql.FilterType.MOVEMENT.toString());
-        System.out.println(list);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, list);
 
 //        Firestore.addUser("");
     }

@@ -22,12 +22,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ *<p>
+ *     This class provides connection between the application and Firestore from <a href="https://console.firebase.google.com/">Firebase</a>
+ *</p>
+ */
 public class Firestore {
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static FirebaseUser firebaseUser = null;
     private static User user = null;
     private static String document_name = null;
 
+    /**
+     * Initializes current user for the whole app and downloads his stats
+     * @param firebaseUser object of the user at Firebase
+     * @param isNew should be true when the user is creating an account
+     */
     public static void setFirebaseUser(FirebaseUser firebaseUser, boolean isNew) {
         Firestore.firebaseUser = firebaseUser;
         document_name = ""+(firebaseUser.getEmail().hashCode());
@@ -79,64 +89,15 @@ public class Firestore {
                                     xp = (int)entry.getValue();
                                     break;
                             }
-//                            if (i<=5) {
-//                                if (i%2==0) {
-//                                    quests[i/2] = new Quest((int)entry.getValue(), 0);
-//                                } else {
-//                                    quests[(i-1)/2].setPercentage((double)entry.getValue());
-//                                }
-//                            } else {
-//                                switch (i){
-//                                    case 6:
-//                                        lvl = (int)entry.getValue();
-//                                        break;
-//                                    case 7:
-//                                        xp = (int)entry.getValue();
-//                                        break;
-//                                    case 8:
-//                                        pic_id = (int)entry.getValue();
-//                                        break;
-//                                }
-//                            }
-//
-//                            i++;
                         }
                         Firestore.user = new User(quests, lvl, xp, pic_id);
                     }
                 });
-//        int i = 0;
-//        Quest[] quests = new Quest[3];
-//        int lvl = 0;
-//        int xp = 0;
-//        int pic_id = 0;
-//        for (Map.Entry<String, Object> entry : userMap.entrySet()) {
-//            if (i<=5) {
-//                if (i%2==0) {
-//                    quests[i/2] = new Quest((int)entry.getValue(), 0);
-//                } else {
-//                    quests[(i-1)/2].setPercentage((double)entry.getValue());
-//                }
-//            } else {
-//                switch (i){
-//                    case 6:
-//                        lvl = (int)entry.getValue();
-//                        break;
-//                    case 7:
-//                        xp = (int)entry.getValue();
-//                        break;
-//                    case 8:
-//                        pic_id = (int)entry.getValue();
-//                        break;
-//                }
-//            }
-//
-//            i++;
-//        }
-//        Firestore.user = new User(quests, lvl, xp, pic_id);
-//                .getResult()
-//                .getData();
     }
 
+    /**
+     * Is called when creating new user in order to create and associate a new document in Firestore
+     */
     public static void addFirebaseUser() {
         int[] numbers = getNRandomNumbers(3, 21);
         Map<String, Object> user = new HashMap<>();
@@ -153,49 +114,11 @@ public class Firestore {
         db.collection("users")
                 .document(document_name)
                 .set(user);
-//        db.collection("users")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.w(TAG, "Error getting documents.", task.getException());
-//                        }
-//                    }
-//                });
-// Add a new document with a generated ID
-//        db.collection("users")
-//                .add(user)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-//                    }
-//                });
     }
 
+    /**
+     * Uploads updated user data to Firestore
+     */
     public static void updateUser() {
         Map<String, Object> user = new HashMap<>();
         user.put("u1_id", Firestore.user.quests[0].id);
@@ -213,6 +136,9 @@ public class Firestore {
                 .set(user);
     }
 
+    /**
+     * Represents the data from the documents from Firestore database programmatically
+     */
     private static class User{
         public Quest[] quests;
 
@@ -269,7 +195,7 @@ public class Firestore {
         }
     }
 
-    private static int[] getNRandomNumbers(int n, int bound) {
+    public static int[] getNRandomNumbers(int n, int bound) {
         Random r = new Random();
         int[] numbers = new int[n];
         for (int i = 0; i < n; i++) {

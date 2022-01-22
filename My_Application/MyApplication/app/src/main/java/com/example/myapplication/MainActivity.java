@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, QuizSettings.class);
                 startActivity(intent);
-                Sql.QuestionList questionList = Sql.getQuestionList(MainActivity.this, new String[]{"", ""});
             }
         });
 
