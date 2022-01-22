@@ -1,4 +1,0 @@
-#Wed Dec 15 20:28:09 CET 2021
-base.0=C\:\\Users\\JF\\Documents\\GitHub\\LEEN\\Playground\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

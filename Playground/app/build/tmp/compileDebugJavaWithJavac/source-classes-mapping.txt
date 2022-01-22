@@ -1,2 +1,0 @@
-com/example/playground/BuildConfig.java
- com.example.playground.BuildConfig
