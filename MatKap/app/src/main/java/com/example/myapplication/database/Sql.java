@@ -42,6 +42,11 @@ public class Sql {
     private static SQLiteDatabase generalDatabase = null;
     private static AppCompatActivity context = null;
 
+    public static void setContext(AppCompatActivity context) {
+        Sql.context = context;
+    }
+
+
     /**
      * Makes sure there is a valid copy of database to work with
      * @param con is there because {@link #openOrCreateGeneralDatabase(AppCompatActivity)} requires context
@@ -228,7 +233,7 @@ public class Sql {
 
         FilterType(String table) {
             this.table = table;
-            this.items = fillItems();
+            this.items = getItems();
         }
 
         /**
@@ -236,7 +241,7 @@ public class Sql {
          * @return list of all movements
          */
         @SuppressLint("Range")
-        public List<String> fillItems() {
+        public List<String> getItems() {
             List<String> items = new ArrayList<>();
             if (generalDatabase == null) {
                 try {

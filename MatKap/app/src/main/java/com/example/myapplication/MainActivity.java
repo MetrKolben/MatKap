@@ -17,18 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ///
-
-//        try {
-//            Connect.openOrCreateGeneralDatabase(this);
-
-//        System.out.println(Sql.getQuestionList(this));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        ///
+        Sql.setContext(this);
 
         goToSignInBtn = findViewById(R.id.goToSignInButton);
         goToSignInBtn.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
     }
 }
