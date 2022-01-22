@@ -133,7 +133,7 @@ public class Sql {
      * @return a <b>{@link com.example.myapplication.database.Sql.QuestionList}</b> object
      */
     @SuppressLint("Range")
-    public static QuestionList getQuestionList(AppCompatActivity con, String[] filters) {
+    public static QuestionList getQuestionList(AppCompatActivity con, String filter) {
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
 
@@ -141,13 +141,13 @@ public class Sql {
             Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, author.birth AS birth, author.death AS author_death, country.name AS country_name, sex " +
                         "FROM author, movement, country " +
                         "WHERE author.movement_id = movement.id " +
-                        "AND author.country_id = country.id"+ filters[0], null);
+                        "AND author.country_id = country.id"+ filter, null);
             Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book, author, genre, druh, movement " +
                     "WHERE book.author_id = author.id " +
                     "AND book.genre_id = genre.id " +
                     "AND book.druh_id = druh.id " +
-                    "AND book.movement_id = movement.id" + filters[1], null);
+                    "AND book.movement_id = movement.id" + filter, null);
 
             author.moveToFirst();
             book.moveToFirst();
@@ -155,9 +155,8 @@ public class Sql {
             Question.setAuthorAndBook(author, book);
 
 
-            if(true /*if not containing movement filter*/){
+            if(!filter.equals("")){
                 if (author.moveToFirst()) {
-                    //FIXME
                     do {
                         Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
 
@@ -173,7 +172,13 @@ public class Sql {
                     Question bDQuestion = Question.createQuestion(book, QuestionType.BOOK_DRUH);
                     Question bAQuestion = Question.createQuestion(book, QuestionType.BOOK_AUTHOR);
                     Question bGQuestion = Question.createQuestion(book, QuestionType.BOOK_GENRE);
-                    Question bMQuestion = Question.createQuestion(book, QuestionType.BOOK_MOVEMENT);
+
+                    if (filter.equals("")) {
+                        Question bMQuestion = Question.createQuestion(book, QuestionType.BOOK_MOVEMENT);
+                        if (bMQuestion != null) {
+                            questionList.add(bMQuestion);
+                        }
+                    }
                     Question aBQuestion = Question.createQuestion(book, QuestionType.AUTHOR_BOOK);
 
                     if (aBQuestion != null) {
@@ -188,9 +193,6 @@ public class Sql {
                     if (bGQuestion != null){
                         questionList.add(bGQuestion);
                     }
-                    if (bMQuestion != null){
-                        questionList.add(bMQuestion);
-                    }
                 } while(book.moveToNext());
             }
             author.close();
@@ -199,63 +201,13 @@ public class Sql {
         } else {
             try {
                 openOrCreateGeneralDatabase(con);
-                return getQuestionList(con, filters);
+                return getQuestionList(con, filter);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return questionList;
     }
-
-
-
-//    public static Set<String[]> getResultSet(AppCompatActivity con) {
-//        if (generalDatabase != null) {
-//            List<String[]> resultSet = new ArrayList<>();
-//            Cursor c = generalDatabase.rawQuery("SELECT * FROM author", null);
-//            if (c.moveToFirst()) {
-//                do {
-//                    @SuppressLint("Range") String name = c.getString(c.getColumnIndex("name"));
-//                    @SuppressLint("Range") String birth = c.getString(c.getColumnIndex("birth"));
-//                    resultSet.add(new String[] {name, birth});
-//                } while(c.moveToNext());
-//            }
-//            for (String[] row : resultSet) {
-//            }
-//        } else {
-//            try {
-//                openOrCreateGeneralDatabase(con);
-//                getResultSet(con);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return null;////////////////////////////////
-//    }
-
-//    public static void test(AppCompatActivity con) {
-//        if (generalDatabase != null) {
-//            List<String[]> resultSet = new ArrayList<>();
-//            Cursor c = generalDatabase.rawQuery("SELECT * FROM author", null);
-//            if (c.moveToFirst()) {
-//                do {
-//
-//                    @SuppressLint("Range") String name = c.getString(c.getColumnIndex("name"));
-//                    @SuppressLint("Range") String birth = c.getString(c.getColumnIndex("birth"));
-//                    resultSet.add(new String[] {name, birth});
-//                } while(c.moveToNext());
-//            }
-//            for (String[] row : resultSet) {
-//            }
-//        } else {
-//            try {
-//                openOrCreateGeneralDatabase(con);
-//                test(con);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     /**
      * <p>
@@ -265,23 +217,26 @@ public class Sql {
      * <p>
      *     Century refers to a column in the <b>author</b> table and has to be calculated later to work
      * </p>
+     * <p>
+     *     Originally meant to include multiple filter types
+     * </p>
      */
     public enum FilterType {
-        MOVEMENT("movement"),
-        CENTURY(""),
-        COUNTRY("country_name");
+        MOVEMENT("movement");
         public final String table;
         public final List<String> items;
 
         FilterType(String table) {
             this.table = table;
-            this.items = fillItems(table);
+            this.items = fillItems();
         }
 
-
-        //TODO javadoc
+        /**
+         * Reads from movement table from the database
+         * @return list of all movements
+         */
         @SuppressLint("Range")
-        public static List<String> fillItems(String column) {
+        public List<String> fillItems() {
             List<String> items = new ArrayList<>();
             if (generalDatabase == null) {
                 try {
@@ -290,7 +245,7 @@ public class Sql {
                     e.printStackTrace();
                 }
             }
-            Cursor cursor = generalDatabase.rawQuery(column.equals("movement") ? "SELECT name FROM movement" : "SELECT name FROM country", null);
+            Cursor cursor = generalDatabase.rawQuery("SELECT name FROM movement", null);
             if (cursor.moveToFirst()) {
                 do {
                     String item = cursor.getString(cursor.getColumnIndex("name"));
@@ -303,8 +258,6 @@ public class Sql {
             return items;
         }
 
-        //TODO filter formatting
-
         /**
          * @return the name of the table it refers to
          */
@@ -316,11 +269,18 @@ public class Sql {
     }
 
     public static class Filter{
-        private static final String beginning = " AND(", separator = " OR ", end = ")";
-        public String[] formatFilters(Object countries, Object movements, Object centuries) {
-            String[] filters = new String[2];
+        private static final String beginning = " AND(", equal = "movement_name = ", separator = " OR ", end = ")";
+        public String formatFilters(List<String> movements) {
+            if (movements.isEmpty()) return "";
+            String filter = beginning + " " + equal + movements.get(0);
+            loop:
+            for (String movement : movements) {
+                if (movement.equals(movements.get(0))) continue loop;
+                filter += separator + equal + movement;
+            }
+            filter += end;
 
-            return filters;
+            return filter;
         }
     }
 
@@ -353,6 +313,7 @@ public class Sql {
         @SuppressLint("Range")
         public static Question createQuestion(Cursor cursor, QuestionType questionType) {
             int position = cursor.getPosition();
+            if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
             switch(questionType) {
                 case BOOK_DRUH:
                     return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyricko-epický")),
@@ -385,20 +346,19 @@ public class Sql {
                     }
                     List<Answer> answers = new ArrayList<>();
                     answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), true));
-                    //TODO improve the answer generating algorithm
+                    int[] indexes = Firestore.getNRandomNumbers(cursor.getCount(), cursor.getCount()+1);
+                    loop:
                     for (int i = 0; i < 3; i++) {
-                        boolean lock = true;
-                        int checkIfPossible = 0;
-                        while (lock) {
-                            cursor.move(random.nextInt(cursor.getCount()));
+                        for (int j : indexes) {
+                            cursor.move(j-1);
                             if (!containsAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) {
                                 answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), false));
-                                lock = false;
+                                continue loop;
                             }
-                            if (checkIfPossible > cursor.getCount()) return null;
-                            checkIfPossible++;
                         }
+                        return null;
                     }
+
                     Collections.shuffle(answers);
                     cursor.move(position);
                     return new Question(questionType, questionText, (Answer[])answers.toArray());
@@ -439,8 +399,7 @@ public class Sql {
      * Represents a list of questions that is not directly accessible
      */
     public static class QuestionList{
-        //FIXME should be private
-        public List<Question> questionList;
+        private List<Question> questionList;
         public int getPossibleQuestionsCount() {
             return questionList.size();
         }

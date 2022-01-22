@@ -74,22 +74,12 @@
 
 
         <Button
-            android:id="@+id/registerOnMainScreen"
+            android:id="@+id/testbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/goToSignInButton"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:background="@android:color/transparent"
-            android:text="Registrovat"
-            android:textColor="@color/dark_green" />+
-        <Button
-            android:layout_below="@+id/registerOnMainScreen"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/testbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test"/>
+            android:text="test" />
     </RelativeLayout>
 
 
