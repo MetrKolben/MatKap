@@ -39,7 +39,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20pt"
                 android:layout_marginTop="50dp"
-                app:layout_alignSelf="center">
+                app:layout_alignSelf="center"
+                >
 
                 <RadioButton
                     android:id="@+id/answerA"
@@ -47,7 +48,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oxygen"
                     android:text="Faking"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:buttonTint="@color/dark_green"
+                    />
 
                 <RadioButton
                     android:id="@+id/answerB"
@@ -55,7 +58,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oxygen"
                     android:text="Nice one"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:buttonTint="@color/dark_green"
+                    />
 
                 <RadioButton
                     android:id="@+id/answerC"
@@ -63,7 +68,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oxygen"
                     android:text="Answer C"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:buttonTint="@color/dark_green"
+                    />
 
                 <RadioButton
                     android:id="@+id/answerD"
@@ -71,7 +78,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oxygen"
                     android:text="Answer D"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:buttonTint="@color/dark_green"
+                    />
             </RadioGroup>
         </com.google.android.flexbox.FlexboxLayout>
 
@@ -92,10 +101,14 @@
                 app:justifyContent="space_evenly"
                 >
 
-                <ImageButton
+                <Button
                     android:id="@+id/buttonPrevious"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="<"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -129,10 +142,14 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
 
-                <ImageButton
+                <Button
                     android:id="@+id/buttonNext"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text=">"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"/>
 
 
             </com.google.android.flexbox.FlexboxLayout>

@@ -4,10 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,46 +15,82 @@ import com.example.myapplication.database.Sql;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class QuizSettings extends AppCompatActivity {
+
+
     TextView tv;
-    boolean[] selectedMovement;
+    Button btn;
+    List<String> listFromDatabase = Sql.FilterType.fillItems(Sql.FilterType.MOVEMENT.toString());
+    String[] movementArray = listFromDatabase.toArray(new String[0]);
+    List<String> passDataList = new ArrayList<>();
+    boolean[] selectedMovement = new boolean[listFromDatabase.size()];
 
-
-    ArrayList<Integer> dayList = new ArrayList<>();
-    List<String> list = Sql.FilterType.fillItems(Sql.FilterType.MOVEMENT.toString());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_settings);
         tv = findViewById(R.id.selectMovement);
+        btn = findViewById(R.id.goToQuizButton);
 
-        selectedMovement = new boolean[list.size()];
 
         Arrays.fill(selectedMovement, true);
-
-        String[] movementArray = list.toArray(new String[0]);
-
-        System.out.println(Arrays.toString(movementArray) + Arrays.toString(selectedMovement));
-
-        tv.setOnClickListener(new View.OnClickListener() {
+        createAlertDialogWindow(tv);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(movementList(movementArray, selectedMovement) + "###################");
+                passDataList = movementList(movementArray, selectedMovement);
+                if (!passDataList.isEmpty()) {
+                    Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(QuizSettings.this, "Nevybral si žádný směr", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
+    }
+
+    /**
+     * <p>Function that creates a list containing all the movements selected by the user.</p>
+     * <p>Data are collected from the arrays in parameter.</p>
+     * @param movements Array that holds strings of all movements in database.
+     * @param values Array that holds boolean values. If it equals true, then the movement of that index was selected
+     *
+     *
+     * @return list of selected movements
+     */
+    public static List<String> movementList(String[] movements, boolean[] values) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < movements.length; i++) {
+            if (values[i]) {
+                list.add(movements[i]);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * <p>Method that creates on click a new <b>AlertDialog.builder</b>. Using this, user can easily select the movement for the test.</p>
+     * <p>The <b>AlertDialog.builder</b> contains three buttons. One that adds the movements to the list of selected,
+     * it also containes a cancel button. On top of that it contains button that removes all movements from the selected list.</p>
+     * @param textView <b>TextView</b> that is being pressed in order to select the movement of users choice
+     */
+    public void createAlertDialogWindow(TextView textView) {
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettings.this);
-
                 builder.setTitle("Vyber směr");
                 builder.setCancelable(false);
                 builder.setMultiChoiceItems(movementArray, selectedMovement, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                         selectedMovement[i] = b;
-
-                        String currentItems = list.get(i);
-
+                        String currentItems = listFromDatabase.get(i);
                         Toast.makeText(QuizSettings.this, currentItems + " " + b, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -63,23 +99,12 @@ public class QuizSettings extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        StringBuilder sb = new StringBuilder();
-//                        for (int j = 0; j < dayList.size(); j++) {
-//                            sb.append(list.get(dayList.get(j)));
-//                            if(j != dayList.size()-1) {
-//                                sb.append(", ");
-//                            }
-//                        }
-//                        tv.setText(sb.toString());
-
-                        tv.setText("Your selected movement\n");
+                        textView.setText("Your selected movement\n");
                         for (int i = 0; i < selectedMovement.length; i++) {
                             boolean checked = selectedMovement[i];
-
                             if (checked) {
-                                tv.setText(tv.getText() + "\u25AA " + list.get(i) + "\n");
+                                textView.setText(textView.getText() + "\u25AA " + listFromDatabase.get(i) + "\n");
                             }
-
                         }
                     }
                 });
@@ -96,28 +121,14 @@ public class QuizSettings extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         for (int j = 0; j < selectedMovement.length; j++) {
                             selectedMovement[j] = false;
-                            dayList.clear();
-                            tv.setText("");
+                            // dayList.clear();
+                            textView.setText("");
                         }
                     }
                 });
-
-
-
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-
         });
-//
-//        spinner = (Spinner) findViewById(R.id.spinner);
-//
-//        List<String> list = Sql.FilterType.fillItems(Sql.FilterType.MOVEMENT.toString());
-//        System.out.println(list);
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, list);
-//        spinner.setAdapter(adapter);
-
-
     }
 }
