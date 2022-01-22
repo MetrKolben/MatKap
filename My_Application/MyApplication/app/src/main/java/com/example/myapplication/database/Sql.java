@@ -40,7 +40,12 @@ import java.util.Random;
  */
 public class Sql {
     private static SQLiteDatabase generalDatabase = null;
+
     private static AppCompatActivity context = null;
+
+    public static void setContext(AppCompatActivity context) {
+        Sql.context = context;
+    }
 
     /**
      * Makes sure there is a valid copy of database to work with
@@ -50,7 +55,9 @@ public class Sql {
     private static void openOrCreateGeneralDatabase(AppCompatActivity con) throws IOException {
         context = con;
 
-        generalDatabase = context.openOrCreateDatabase("generalDatabase.db", context.MODE_PRIVATE, null);
+        generalDatabase = context.openOrCreateDatabase("generalDatabase.db"
+                , context.MODE_PRIVATE
+                , null);
         File databaseFile = new File(generalDatabase.getPath());
         if (!isDatabaseCorrect()) {
             InputStream input = context.getResources().openRawResource(R.raw.database);

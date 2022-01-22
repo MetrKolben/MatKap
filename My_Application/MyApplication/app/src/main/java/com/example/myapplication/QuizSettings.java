@@ -22,7 +22,7 @@ public class QuizSettings extends AppCompatActivity {
 
     TextView tv;
     Button btn;
-    List<String> listFromDatabase = Sql.FilterType.MOVEMENT.getItems();
+    List<String> listFromDatabase = Sql.FilterType.MOVEMENT.items;
     String[] movementArray = listFromDatabase.toArray(new String[0]);
     List<String> passDataList = new ArrayList<>();
     boolean[] selectedMovement = new boolean[listFromDatabase.size()];

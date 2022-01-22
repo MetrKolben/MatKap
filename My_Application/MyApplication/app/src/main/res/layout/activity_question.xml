@@ -96,19 +96,18 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:alignItems="center"
                 app:alignContent="center"
-                app:justifyContent="space_evenly"
-                >
+                app:alignItems="center"
+                app:justifyContent="space_evenly">
 
                 <Button
                     android:id="@+id/buttonPrevious"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="<"
-                    android:textSize="30sp"
+                    android:background="@android:color/transparent"
+                    android:text="4"
                     android:textColor="@color/black"
-                    android:background="@android:color/transparent"/>
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -120,36 +119,36 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/numberOfQuestion"
                         android:fontFamily="@font/oxygen"
+                        android:text="@string/numberOfQuestion"
                         android:textColor="@color/black"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/slash"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="  /  "
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/howManyQuestions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/howManyQuestions"
                         android:fontFamily="@font/oxygen"
+                        android:text="@string/howManyQuestions"
                         android:textColor="@color/black"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/buttonNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=">"
-                    android:textSize="30sp"
+                    android:background="@android:color/transparent"
+                    android:text="6"
                     android:textColor="@color/black"
-                    android:background="@android:color/transparent"/>
+                    android:textSize="30sp" />
 
 
             </com.google.android.flexbox.FlexboxLayout>

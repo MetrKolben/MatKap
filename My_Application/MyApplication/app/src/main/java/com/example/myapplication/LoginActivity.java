@@ -32,6 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
+    //TODO lepší javadoc
     private Button signInButton;
 
     GoogleApiClient GoogleApiClient;
@@ -208,14 +209,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case R.id.googleSignInButton:
                 signIn();
                 break;
-//            case R.id.signOutButton:
-//                signOut();
-//                break;
-
-//            case R.id.Register:
-//                System.out.println("////////////////////////////////////////////////////////////// ");
-//                createAccount(email.getText().toString(), pass.getText().toString());
-//                break;
         }
     }
 
