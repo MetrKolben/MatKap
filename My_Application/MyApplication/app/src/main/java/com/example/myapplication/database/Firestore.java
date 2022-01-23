@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -189,6 +190,7 @@ public class Firestore {
     public static int[] getNRandomNumbers(int n, int bound) {
         Random r = new Random();
         int[] numbers = new int[n];
+        Arrays.fill(numbers, Integer.MAX_VALUE);
         for (int i = 0; i < n; i++) {
             boolean lock = true;
             while (lock) {

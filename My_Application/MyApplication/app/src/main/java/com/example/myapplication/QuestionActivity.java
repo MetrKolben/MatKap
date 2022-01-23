@@ -38,7 +38,6 @@ public class QuestionActivity extends AppCompatActivity {
 
 
         List<String> listOfMovements = (List<String>) getIntent().getSerializableExtra("passDataList");
-     System.out.println(listOfMovements.toString() + "jsi v druhém okně ############ \n \n \n");
 
         Sql.QuestionList questionList = Sql.getQuestionList(this, Sql.Filter.formatFilters(listOfMovements));
 
@@ -49,8 +48,15 @@ public class QuestionActivity extends AppCompatActivity {
         /*
         10 náhodnejch otázek ze vsech moznejch
          */
-        List<Sql.Question> questions = questionList.getNQuestions(goligichest > СКОЛЬКО_ВОПРОСОВ ? СКОЛЬКО_ВОПРОСОВ : goligichest);
+        List<Sql.Question> questions = questionList.getNQuestions(goligichest);
 
-        System.out.println(questions.get(1).toString());
+        System.out.println(questions.toString());
+//        for (Sql.Question question : questions) {
+//            System.out.println(question.text + " \n           "
+//                    + "[" + question.getA().text + ", " + question.getA().isRight + "]\n           "
+//                    + "[" + question.getB().text + ", " + question.getB().isRight + "]\n           "
+//                    + "[" + question.getC().text + ", " + question.getC().isRight + "]\n           "
+//                    + "[" + question.getD().text + ", " + question.getD().isRight + "]");
+//        }
     }
 }

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -141,7 +142,6 @@ public class Sql {
      */
     @SuppressLint("Range")
     public static QuestionList getQuestionList(AppCompatActivity con, String filter) {
-        System.out.println(filter + "#################################################################################################");
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
 
@@ -157,22 +157,22 @@ public class Sql {
                     "AND book.druh_id = druh.id " +
                     "AND book.movement_id = movement.id" + filter, null);
 
+            //TODO Cursor movement
+
             author.moveToFirst();
             book.moveToFirst();
 
             Question.setAuthorAndBook(author, book);
 
 
-            if(!filter.equals("")){
-                if (author.moveToFirst()) {
-                    do {
-                        Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
+            if (author.moveToFirst()) {
+                do {
+                    Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
 
-                        if (aMQuestion != null) {
-                            questionList.add(aMQuestion);
-                        }
-                        } while (author.moveToNext());
+                    if (aMQuestion != null) {
+                        questionList.add(aMQuestion);
                     }
+                    } while (author.moveToNext());
                 }
 
             if (book.moveToFirst()) {
@@ -181,12 +181,8 @@ public class Sql {
                     Question bAQuestion = Question.createQuestion(book, QuestionType.BOOK_AUTHOR);
                     Question bGQuestion = Question.createQuestion(book, QuestionType.BOOK_GENRE);
 
-                    if (filter.equals("")) {
-                        Question bMQuestion = Question.createQuestion(book, QuestionType.BOOK_MOVEMENT);
-                        if (bMQuestion != null) {
-                            questionList.add(bMQuestion);
-                        }
-                    }
+                    Question bMQuestion = Question.createQuestion(book, QuestionType.BOOK_MOVEMENT);
+                    questionList.add(bMQuestion);
                     Question aBQuestion = Question.createQuestion(book, QuestionType.AUTHOR_BOOK);
 
                     if (aBQuestion != null) {
@@ -205,6 +201,7 @@ public class Sql {
             }
             author.close();
             book.close();
+//TODO            movement.close();
 
         } else {
             try {
@@ -313,6 +310,15 @@ public class Sql {
             Question.book = book;
         }
 
+        @Override
+        public String toString() {
+            return text + " \n           "
+                    + "[" + getA().text + ", " + getA().isRight + "]\n           "
+                    + "[" + getB().text + ", " + getB().isRight + "]\n           "
+                    + "[" + getC().text + ", " + getC().isRight + "]\n           "
+                    + "[" + getD().text + ", " + getD().isRight + "]\n";
+        }
+
         /**
          * @param cursor Either the <b>author</b> or the <b>book</b> table
          * @param questionType Determines the type of the question which then alters the question text and in the case of Book-Druh question changes the amount of answers
@@ -321,17 +327,20 @@ public class Sql {
         @SuppressLint("Range")
         public static Question createQuestion(Cursor cursor, QuestionType questionType) {
             int position = cursor.getPosition();
+            if (position == cursor.getCount()) return null;
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
             switch(questionType) {
                 case BOOK_DRUH:
                     return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyricko-epický")),
                                                                 new Answer("Lyrika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyrika")),
-                                                                new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")));
+                                                                new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")),
+                                                                new Answer("Drama", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Drama")));
                 default:
                     String qCol = questionType.questionColumn;
                     String aCol = questionType.answerColumn;
                     String questionText = "";
                     switch(questionType) {
+                        //TODO MS, MZ stejnej cursor
                         case BOOK_MOVEMENT:
                             questionText = QuestionType.completeBMText(cursor.getString(cursor.getColumnIndex(qCol)));
                             break;
@@ -340,10 +349,10 @@ public class Sql {
                             break;
                         case AUTHOR_BOOK:
                             int save = author.getPosition();
-                            author.move(book.getPosition()-1);
+                            author.moveToPosition(getAuthorPositionFromBook(book, author));
                             questionText = QuestionType.completeABText((author.getString(author.getColumnIndex("sex")).equals("male") ? "" : "a"),
                                     cursor.getString(cursor.getColumnIndex(qCol)));
-                            author.move(save);
+                            author.moveToPosition(save);
                             break;
                         case BOOK_AUTHOR:
                             questionText = QuestionType.completeBAText(cursor.getString(cursor.getColumnIndex(qCol)));
@@ -354,11 +363,11 @@ public class Sql {
                     }
                     List<Answer> answers = new ArrayList<>();
                     answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), true));
-                    int[] indexes = Firestore.getNRandomNumbers(cursor.getCount(), cursor.getCount()+1);
+                    int[] indexes = Firestore.getNRandomNumbers(cursor.getCount(), cursor.getCount());
                     loop:
                     for (int i = 0; i < 3; i++) {
                         for (int j : indexes) {
-                            cursor.move(j-1);
+                            cursor.moveToPosition(j);
                             if (!containsAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) {
                                 answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), false));
                                 continue loop;
@@ -368,9 +377,11 @@ public class Sql {
                     }
 
                     Collections.shuffle(answers);
-                    cursor.move(position);
-                    return new Question(questionType, questionText, (Answer[])answers.toArray());
+                    cursor.moveToPosition(position);
+                    return new Question(questionType, questionText, answers.toArray(new Answer[0]));
             }
+
+
         }
 
         /**
@@ -384,6 +395,21 @@ public class Sql {
                 if (answer1.text.equals(answer)) return true;
             }
             return false;
+        }
+
+        private static int getAuthorPositionFromBook(Cursor book, Cursor author) {
+            @SuppressLint("Range") String author_name = book.getString(book.getColumnIndex("author_name"));
+            int initialPosition = author.getPosition();
+            author.moveToFirst();
+            do {
+                @SuppressLint("Range") String name = author.getString(author.getColumnIndex("author_name"));
+                if (name.equals(author_name)) {
+                    int authorPosition = author.getPosition();
+                    author.moveToPosition(initialPosition);
+                    return authorPosition;
+                }
+            } while(author.moveToNext());
+            return initialPosition;
         }
 
         public Answer getA() {
@@ -433,14 +459,25 @@ public class Sql {
             }
             return copy.subList(0, n);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+//            String result = "";
+            for (Question q : questionList) {
+                sb.append(q.toString());
+//                result += q.toString();
+            }
+            return sb.toString();
+        }
     }
 
     /**
      * A simple object containing the <b>text</b> and <b>truthfulness</b> of the answer
      */
     public static class Answer{
-        final String text;
-        final boolean isRight;
+        public final String text;
+        public final boolean isRight;
 
         public Answer(String text, boolean isRight) {
             this.text = text;
@@ -455,12 +492,13 @@ public class Sql {
      * </p>
      */
     public enum QuestionType {
-        AUTHOR_BOOK("Kterou knihu napsal<sex> <author>?", "author_name", "book_name"),
-        BOOK_AUTHOR("Který autor napsal \"<book>\"?", "book_name", "author_name"),
-        AUTHOR_MOVEMENT("Ke kterému směru se hlásí <author>?", "author_name", "movement_name"),
-        BOOK_MOVEMENT("Z jakého směru je \"<book>\"?", "book_name", "movement_name"),
-        BOOK_DRUH("Ke kterému druhu se řadí \"<book>\"?", "book_name", "druh_name"),
-        BOOK_GENRE("Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name");
+        AUTHOR_BOOK("<AB>Kterou knihu napsal<sex> <author>?", "author_name", "book_name"),
+        BOOK_AUTHOR("<BA>Který autor napsal \"<book>\"?", "book_name", "author_name"),
+        AUTHOR_MOVEMENT("<AM>Ke kterému směru se hlásí <author>?", "author_name", "movement_name"),
+        BOOK_MOVEMENT("<BM>Z jakého směru je \"<book>\"?", "book_name", "movement_name"),
+        BOOK_DRUH("<BD>Ke kterému druhu se řadí \"<book>\"?", "book_name", "druh_name"),
+        BOOK_GENRE("<BG>Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name");
+        //TODO Movement-Století, Movement-znak
         private final String questionText, questionColumn, answerColumn;
 
         QuestionType(String questionText, String questionColumn, String answerColumn) {

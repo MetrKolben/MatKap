@@ -43,7 +43,6 @@ public class QuizSettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                System.out.println(movementList(movementArray, selectedMovement) + "###################");
                 passDataList = movementList(movementArray, selectedMovement);
                 if (!passDataList.isEmpty()) {
                     Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);

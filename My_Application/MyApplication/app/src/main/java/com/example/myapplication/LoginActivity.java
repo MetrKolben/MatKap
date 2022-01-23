@@ -184,7 +184,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(LoginActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
-            System.out.println(result.getSignInAccount().getEmail());
         } else {
         }
     }
