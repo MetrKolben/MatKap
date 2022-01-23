@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.database.Sql;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,10 +42,12 @@ public class QuizSettings extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 System.out.println(movementList(movementArray, selectedMovement) + "###################");
                 passDataList = movementList(movementArray, selectedMovement);
                 if (!passDataList.isEmpty()) {
                     Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);
+                    intent.putExtra("passDataList", (Serializable) passDataList);
                     startActivity(intent);
                 } else {
                     Toast.makeText(QuizSettings.this, "Nevybral si žádný směr", Toast.LENGTH_SHORT).show();

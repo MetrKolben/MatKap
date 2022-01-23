@@ -141,14 +141,15 @@ public class Sql {
      */
     @SuppressLint("Range")
     public static QuestionList getQuestionList(AppCompatActivity con, String filter) {
+        System.out.println(filter + "#################################################################################################");
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
 
 
-            Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, author.birth AS birth, author.death AS author_death, country.name AS country_name, sex " +
-                        "FROM author, movement, country " +
+            Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, sex " +
+                        "FROM author, movement " +
                         "WHERE author.movement_id = movement.id " +
-                        "AND author.country_id = country.id"+ filter, null);
+                         filter, null);
             Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book, author, genre, druh, movement " +
                     "WHERE book.author_id = author.id " +
@@ -276,14 +277,14 @@ public class Sql {
     }
 
     public static class Filter{
-        private static final String beginning = " AND(", equal = "movement_name = ", separator = " OR ", end = ")";
-        public String formatFilters(List<String> movements) {
+        private static final String beginning = " AND (", equal = "movement_name = ", separator = " OR ", end = ")";
+        public static String formatFilters(List<String> movements) {
             if (movements.isEmpty()) return "";
-            String filter = beginning + " " + equal + movements.get(0);
+            String filter = beginning + " " + equal + "'" + movements.get(0) + "'";
             loop:
             for (String movement : movements) {
                 if (movement.equals(movements.get(0))) continue loop;
-                filter += separator + equal + movement;
+                filter += separator + equal + "'" + movement + "'";
             }
             filter += end;
 
