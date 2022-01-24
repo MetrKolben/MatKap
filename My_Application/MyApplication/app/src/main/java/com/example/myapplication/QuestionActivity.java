@@ -73,19 +73,13 @@ List<Sql.Question> test;
         int goligichest = questionList.getPossibleQuestionsCount();
 
         questions = questionList.getNQuestions(goligichest);
-        //System.out.println(questions);
-      test = questionList.getNQuestions(numberOfQuestions());
-        System.out.println(numberOfQuestions() + " " + goligichest);
-      //  System.out.println("#########################################\n\n\n\n");
-    System.out.println(test);
+        test = questionList.getNQuestions(numberOfQuestions());
        setQuestionAndAnswers(indexOfQuestion);
     }
 
 
     public void setQuestionAndAnswers(int i) {
-
-
-
+        if (questions.isEmpty()) return;//TODO tady si to oprav. Když je to prázdný, tak
         String questionText = questions.get(i).text;
         String answerA_text = questions.get(i).getA().text;
         String answerB_text = questions.get(i).getB().text;
@@ -111,7 +105,6 @@ List<Sql.Question> test;
         answerD.setText(answerD_text);
         answerD.setTag(answerD_isRight);
 
-        //   System.out.println(answerB.getTag().toString());
 
     }
 

@@ -162,8 +162,6 @@ public class Sql {
                     "WHERE TRUE" + filter, null);
 
 
-//            author.moveToFirst();
-//            book.moveToFirst();
 
             Question.setAuthorAndBook(author, book);
 
@@ -416,6 +414,7 @@ public class Sql {
                     return authorPosition;
                 }
             } while(author.moveToNext());
+            author.moveToPosition(initialPosition);
             return initialPosition;
         }
 
@@ -473,6 +472,7 @@ public class Sql {
 //            String result = "";
             for (Question q : questionList) {
                 sb.append(q.toString());
+                sb.append("\n//////////////////\n");
 //                result += q.toString();
             }
             return sb.toString();
