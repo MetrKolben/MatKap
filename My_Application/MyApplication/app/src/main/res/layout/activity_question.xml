@@ -8,6 +8,11 @@
     tools:layout_editor_absoluteY="25dp">
 
 
+    <LinearLayout
+        android:id="@+id/layoutWithQuestionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp">
 
         <TextView
             android:id="@+id/questionId"
@@ -17,15 +22,19 @@
             android:layout_marginTop="106dp"
             android:fontFamily="@font/oxygen"
             android:text="Enter question"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textFontWeight="400"
+            android:textFontWeight="1000"
             android:textSize="20sp" />
+
+    </LinearLayout>
+
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/layoutwithAnswers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/questionId">
+            android:layout_below="@+id/layoutWithQuestionText">
 
             <RadioGroup
                 android:id="@+id/radioGroupAnswers"
@@ -36,135 +45,140 @@
                 app:layout_alignSelf="center">
 
                 <RadioButton
+                    android:paddingStart="10dp"
                     android:id="@+id/answerA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/dark_green"
                     android:fontFamily="@font/oxygen"
                     android:text="Faking"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <RadioButton
+                    android:paddingStart="10dp"
                     android:id="@+id/answerB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/dark_green"
                     android:fontFamily="@font/oxygen"
                     android:text="Nice one"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <RadioButton
+                    android:paddingStart="10dp"
                     android:id="@+id/answerC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/dark_green"
                     android:fontFamily="@font/oxygen"
                     android:text="Answer C"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <RadioButton
+                    android:paddingStart="10dp"
                     android:id="@+id/answerD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/dark_green"
                     android:fontFamily="@font/oxygen"
                     android:text="Answer D"
-                    android:textSize="20dp" />
+                    android:textSize="18dp"
+                    />
             </RadioGroup>
         </com.google.android.flexbox.FlexboxLayout>
 
 
+    <Button
+        android:id="@+id/submitAnswerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutwithAnswers"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="60dp"
+        android:paddingVertical="10dp"
+        android:text="Potvrdit"
+        android:textSize="20sp" />
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="169dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-2dp"
+        android:background="@drawable/rectangle_lightgreen_roundedcorneres"
+        android:gravity="center">
 
 
-        <Button
-            android:id="@+id/submitAnswerButton"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/points"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layoutwithAnswers"
-            android:text="Potvrdit"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="80dp"
-            android:paddingVertical="10dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginHorizontal="20sp"
+            android:text="0b"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.177"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.496" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+
+                android:id="@+id/numberOfQuestion"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oxygen"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/slash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  /  "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/howManyQuestions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oxygen"
+                android:text="10"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/buttonNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20sp"
+            android:text="×"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.836"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="169dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-1dp"
-            android:background="@drawable/rectangle_lightgreen_roundedcorneres">
-
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:alignContent="center"
-                app:alignItems="center"
-                app:justifyContent="space_evenly">
-
-                <Button
-                    android:id="@+id/buttonPrevious"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:text="4"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-
-                        android:id="@+id/numberOfQuestion"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen"
-                        android:text="@string/numberOfQuestion"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/slash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="  /  "
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/howManyQuestions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen"
-                        android:text="@string/howManyQuestions"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/buttonNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:text="6"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-
-
-            </com.google.android.flexbox.FlexboxLayout>
-
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>
+</RelativeLayout>
 

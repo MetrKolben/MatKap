@@ -3,60 +3,165 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.database.Sql;
 
+
 import java.util.List;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView questionText;
+    TextView questionTextView;
+    TextView numOfCurrentQuestion;
+    TextView howManyQuestionsInTest;
+    TextView pointsView;
+
+
+    Button confirmButton;
+
+    int indexOfQuestion = 0;
     RadioGroup answers;
     RadioButton answerA;
     RadioButton answerB;
     RadioButton answerC;
     RadioButton answerD;
 
-    public static final int СКОЛЬКО_ВОПРОСОВ = 10;
 
+
+    int points = 0;
+    public static final int NUMBER_OF_TESTED_QUESTIONS = 10;
+
+    List<Sql.Question> questions;
+List<Sql.Question> test;
+    Sql.QuestionList questionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
+        Sql.setContext(this);
 
-        questionText = findViewById(R.id.questionId);
+        List<String> listOfMovements = (List<String>) getIntent().getSerializableExtra("passDataList");
+        questionList = Sql.getQuestionList(this, Sql.Filter.formatFilters(listOfMovements));
+
+
+        questionTextView = findViewById(R.id.questionId);
         answers = findViewById(R.id.radioGroupAnswers);
         answerA = findViewById(R.id.answerA);
         answerB = findViewById(R.id.answerB);
         answerC = findViewById(R.id.answerC);
         answerD = findViewById(R.id.answerD);
+        confirmButton = findViewById(R.id.submitAnswerButton);
+        howManyQuestionsInTest = findViewById(R.id.howManyQuestions);
+        numOfCurrentQuestion = findViewById(R.id.numberOfQuestion);
+        pointsView = findViewById(R.id.points);
 
 
-        List<String> listOfMovements = (List<String>) getIntent().getSerializableExtra("passDataList");
+        howManyQuestionsInTest.setText("" + numberOfQuestions());
 
-        Sql.QuestionList questionList = Sql.getQuestionList(this, Sql.Filter.formatFilters(listOfMovements));
+
+        confirmButton.setOnClickListener(this);
+
 
         int goligichest = questionList.getPossibleQuestionsCount();
 
-
-
-        /*
-        10 náhodnejch otázek ze vsech moznejch
-         */
-        List<Sql.Question> questions = questionList.getNQuestions(goligichest);
-
-        System.out.println(questions.toString());
-//        for (Sql.Question question : questions) {
-//            System.out.println(question.text + " \n           "
-//                    + "[" + question.getA().text + ", " + question.getA().isRight + "]\n           "
-//                    + "[" + question.getB().text + ", " + question.getB().isRight + "]\n           "
-//                    + "[" + question.getC().text + ", " + question.getC().isRight + "]\n           "
-//                    + "[" + question.getD().text + ", " + question.getD().isRight + "]");
-//        }
+        questions = questionList.getNQuestions(goligichest);
+        //System.out.println(questions);
+      test = questionList.getNQuestions(numberOfQuestions());
+        System.out.println(numberOfQuestions() + " " + goligichest);
+      //  System.out.println("#########################################\n\n\n\n");
+    System.out.println(test);
+       setQuestionAndAnswers(indexOfQuestion);
     }
+
+
+    public void setQuestionAndAnswers(int i) {
+
+
+
+        String questionText = questions.get(i).text;
+        String answerA_text = questions.get(i).getA().text;
+        String answerB_text = questions.get(i).getB().text;
+        String answerC_text = questions.get(i).getC().text;
+        String answerD_text = questions.get(i).getD().text;
+
+        boolean answerA_isRight = questions.get(i).getA().isRight;
+        boolean answerB_isRight = questions.get(i).getB().isRight;
+        boolean answerC_isRight = questions.get(i).getC().isRight;
+        boolean answerD_isRight = questions.get(i).getD().isRight;
+
+        questionTextView.setText(questionText);
+
+        answerA.setText(answerA_text);
+        answerA.setTag(answerA_isRight);
+
+        answerB.setText(answerB_text);
+        answerB.setTag(answerB_isRight);
+
+        answerC.setText(answerC_text);
+        answerC.setTag(answerC_isRight);
+
+        answerD.setText(answerD_text);
+        answerD.setTag(answerD_isRight);
+
+        //   System.out.println(answerB.getTag().toString());
+
+    }
+
+    //
+//    int i = 0;
+//    public void cycleOfQuizz(int numOfQuestion) {
+//
+//        while (i < numOfQuestion) {
+//            setQuestionAndAnswers(i);
+//            if (answers.getCheckedRadioButtonId() != -1) {
+//                if(checkAnswer()) {
+//                    points += 10;
+//                }
+//            }
+//        }
+//
+//        // TODO Intent do dalšího okna
+//    }
+//
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.submitAnswerButton:
+                if((answers.getCheckedRadioButtonId() != -1) && indexOfQuestion <= numberOfQuestions() - 2) {
+                    if (checkAnswer()) {
+                        points += 10;
+                        Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(this, "Blbej jses snad. Takovej Edlund", Toast.LENGTH_SHORT).show();
+                    }
+                    indexOfQuestion++;
+                    setQuestionAndAnswers(indexOfQuestion);
+                    answers.clearCheck();
+                    numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                    pointsView.setText(points + "b");
+                }
+                break;
+        }
+    }
+
+
+    boolean checkAnswer() {
+        boolean isRight = (boolean) findViewById(answers.getCheckedRadioButtonId()).getTag();
+        return isRight;
+    }
+
+    int numberOfQuestions(){
+        return Math.min(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount());
+    }
+
+    //TODO nové okno, poslední otázka. Oprava bugů. Zkusit najít nějakej přechod mezi otázkami
 }

@@ -23,10 +23,11 @@ public class QuizSettings extends AppCompatActivity {
 
     TextView tv;
     Button btn;
-    List<String> listFromDatabase = Sql.FilterType.MOVEMENT.items;
-    String[] movementArray = listFromDatabase.toArray(new String[0]);
-    List<String> passDataList = new ArrayList<>();
-    boolean[] selectedMovement = new boolean[listFromDatabase.size()];
+
+    List<String> listFromDatabase;
+    String[] movementArray;
+    List<String> passDataList;
+    boolean[] selectedMovement;
 
 
     @Override
@@ -35,6 +36,12 @@ public class QuizSettings extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_settings);
         tv = findViewById(R.id.selectMovement);
         btn = findViewById(R.id.goToQuizButton);
+
+        Sql.setContext(this);
+        listFromDatabase = Sql.FilterType.MOVEMENT.items;
+        movementArray = listFromDatabase.toArray(new String[0]);
+        passDataList = new ArrayList<>();
+        selectedMovement = new boolean[listFromDatabase.size()];
 
 
         Arrays.fill(selectedMovement, true);
