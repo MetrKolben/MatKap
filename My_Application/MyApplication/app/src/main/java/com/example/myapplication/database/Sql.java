@@ -157,21 +157,31 @@ public class Sql {
                     "AND book.druh_id = druh.id " +
                     "AND book.movement_id = movement.id" + filter, null);
 
-            //TODO Cursor movement
+            Cursor movement = generalDatabase.rawQuery("SELECT movement.id AS movement_id, movement.name AS movement_name, movement.sign AS sign, movement.century AS century " +
+                    "FROM movement " +
+                    "WHERE TRUE" + filter, null);
 
-            author.moveToFirst();
-            book.moveToFirst();
+
+//            author.moveToFirst();
+//            book.moveToFirst();
 
             Question.setAuthorAndBook(author, book);
 
+            if (movement.moveToFirst()) {
+                do {
+                    Question mSQuestion = Question.createQuestion(movement, QuestionType.MOVEMENT_SIGN);
+                    Question mCQuestion = Question.createQuestion(movement, QuestionType.MOVEMENT_CENTURY);
+
+                    if (mCQuestion != null) questionList.add(mCQuestion);
+                    if (mSQuestion != null) questionList.add(mSQuestion);
+                } while (movement.moveToNext());
+            }
 
             if (author.moveToFirst()) {
                 do {
                     Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
 
-                    if (aMQuestion != null) {
-                        questionList.add(aMQuestion);
-                    }
+                    if (aMQuestion != null) questionList.add(aMQuestion);
                     } while (author.moveToNext());
                 }
 
@@ -182,26 +192,18 @@ public class Sql {
                     Question bGQuestion = Question.createQuestion(book, QuestionType.BOOK_GENRE);
 
                     Question bMQuestion = Question.createQuestion(book, QuestionType.BOOK_MOVEMENT);
-                    questionList.add(bMQuestion);
                     Question aBQuestion = Question.createQuestion(book, QuestionType.AUTHOR_BOOK);
 
-                    if (aBQuestion != null) {
-                        questionList.add(aBQuestion);
-                    }
-                    if (bDQuestion != null){
-                        questionList.add(bDQuestion);
-                    }
-                    if (bAQuestion != null){
-                        questionList.add(bAQuestion);
-                    }
-                    if (bGQuestion != null){
-                        questionList.add(bGQuestion);
-                    }
+                    if (bMQuestion != null) questionList.add(bMQuestion);
+                    if (aBQuestion != null) questionList.add(aBQuestion);
+                    if (bDQuestion != null) questionList.add(bDQuestion);
+                    if (bAQuestion != null) questionList.add(bAQuestion);
+                    if (bGQuestion != null) questionList.add(bGQuestion);
                 } while(book.moveToNext());
             }
             author.close();
             book.close();
-//TODO            movement.close();
+            movement.close();
 
         } else {
             try {
@@ -340,7 +342,6 @@ public class Sql {
                     String aCol = questionType.answerColumn;
                     String questionText = "";
                     switch(questionType) {
-                        //TODO MS, MZ stejnej cursor
                         case BOOK_MOVEMENT:
                             questionText = QuestionType.completeBMText(cursor.getString(cursor.getColumnIndex(qCol)));
                             break;
@@ -359,6 +360,12 @@ public class Sql {
                             break;
                         case BOOK_GENRE:
                             questionText = QuestionType.completeBGText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
+                        case MOVEMENT_CENTURY:
+                            questionText = QuestionType.completeMCText(cursor.getString(cursor.getColumnIndex(qCol)));
+                            break;
+                        case MOVEMENT_SIGN:
+                            questionText = QuestionType.completeMSText(cursor.getString(cursor.getColumnIndex(qCol)));
                             break;
                     }
                     List<Answer> answers = new ArrayList<>();
@@ -497,8 +504,9 @@ public class Sql {
         AUTHOR_MOVEMENT("<AM>Ke kterému směru se hlásí <author>?", "author_name", "movement_name"),
         BOOK_MOVEMENT("<BM>Z jakého směru je \"<book>\"?", "book_name", "movement_name"),
         BOOK_DRUH("<BD>Ke kterému druhu se řadí \"<book>\"?", "book_name", "druh_name"),
-        BOOK_GENRE("<BG>Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name");
-        //TODO Movement-Století, Movement-znak
+        BOOK_GENRE("<BG>Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name"),
+        MOVEMENT_CENTURY("<MC>Z jakého období je směr <movement>?", "movement_name", "century"),
+        MOVEMENT_SIGN("<MS>Jaké jsou typické znaky směru <movement>?", "movement_name", "sign");
         private final String questionText, questionColumn, answerColumn;
 
         QuestionType(String questionText, String questionColumn, String answerColumn) {
@@ -528,6 +536,14 @@ public class Sql {
 
         public static String completeBGText(String book) {
             return BOOK_GENRE.questionText.replaceAll("<book>", book);
+        }
+
+        public static String completeMCText(String movement) {
+            return MOVEMENT_CENTURY.questionText.replaceAll("<movement>", movement);
+        }
+
+        public static String completeMSText(String movement) {
+            return MOVEMENT_SIGN.questionText.replaceAll("<movement>", movement);
         }
     }
 }
