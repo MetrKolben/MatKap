@@ -331,10 +331,13 @@ public class Sql {
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
             switch(questionType) {
                 case BOOK_DRUH:
-                    return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyricko-epický")),
-                                                                new Answer("Lyrika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyrika")),
-                                                                new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")),
-                                                                new Answer("Drama", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Drama")));
+                    List<Answer> answers1 = new ArrayList<>();
+                    answers1.add(new Answer("Lyricko-epický", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyricko-epický")));
+                    answers1.add(new Answer("Lyrika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Lyrika")));
+                    answers1.add(new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")));
+                    answers1.add(new Answer("Drama", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Drama")));
+                    Collections.shuffle(answers1);
+                    return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), answers1.toArray(new Answer[0]));
                 default:
                     String qCol = questionType.questionColumn;
                     String aCol = questionType.answerColumn;
@@ -397,6 +400,7 @@ public class Sql {
          */
         private static boolean containsAnswer(List<Answer> answers, String answer) {
             for (Answer answer1: answers) {
+                if (answer1.text == null) return true;
                 if (answer1.text.equals(answer)) return true;
             }
             return false;
