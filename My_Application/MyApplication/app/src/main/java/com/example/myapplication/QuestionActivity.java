@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.example.myapplication.database.Sql;
 
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,7 +26,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     TextView pointsView;
 
 
-    Button confirmButton;
+    TextView confirmButton;
 
     int indexOfQuestion = 0;
     RadioGroup answers;
@@ -59,7 +61,7 @@ List<Sql.Question> test;
         answerB = findViewById(R.id.answerB);
         answerC = findViewById(R.id.answerC);
         answerD = findViewById(R.id.answerD);
-        confirmButton = findViewById(R.id.submitAnswerButton);
+        confirmButton = findViewById(R.id.buttonNext);
         howManyQuestionsInTest = findViewById(R.id.howManyQuestions);
         numOfCurrentQuestion = findViewById(R.id.numberOfQuestion);
         pointsView = findViewById(R.id.points);
@@ -85,6 +87,7 @@ List<Sql.Question> test;
             Intent intent = new Intent(this, QuizSettings.class);
             startActivity(intent);
             Toast.makeText(this, "Nastala chyba, zvol více směrů", Toast.LENGTH_SHORT).show();
+            return;
         }
         String questionText = questions.get(i).text;
         String answerA_text = questions.get(i).getA().text;
@@ -112,6 +115,8 @@ List<Sql.Question> test;
         answerD.setTag(answerD_isRight);
 
 
+
+
     }
 
     //
@@ -133,7 +138,7 @@ List<Sql.Question> test;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.submitAnswerButton:
+            case R.id.buttonNext:
                 System.out.println(numberOfQuestions());
                 System.out.println(indexOfQuestion);
                 if(indexOfQuestion <= numberOfQuestions() - 2) {

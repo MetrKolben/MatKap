@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null){
             Log.d(TAG, "checkUser: Already logged in");
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, MenuActivity.class));
             finish();
         }
     }

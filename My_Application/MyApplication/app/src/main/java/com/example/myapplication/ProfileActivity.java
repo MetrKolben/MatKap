@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,12 +25,23 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView imgProfilePic;
 
+    Button toMainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         imgProfilePic = (ImageView) findViewById(R.id.profilePhoto);
         setContentView(binding.getRoot());
+        toMainActivity = findViewById(R.id.toMainActivity);
+
+        toMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, MenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();

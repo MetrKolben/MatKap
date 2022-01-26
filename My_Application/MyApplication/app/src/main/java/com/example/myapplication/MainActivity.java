@@ -12,7 +12,6 @@ import com.example.myapplication.database.Sql;
 public class MainActivity extends AppCompatActivity {
 
     Button goToSignInBtn;
-    Button test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +27,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        test = findViewById(R.id.testbutton);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuizSettings.class);
-                startActivity(intent);
-            }
-        });
+
 
 
 
