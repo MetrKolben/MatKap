@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -74,12 +75,17 @@ List<Sql.Question> test;
 
         questions = questionList.getNQuestions(goligichest);
         test = questionList.getNQuestions(numberOfQuestions());
-       setQuestionAndAnswers(indexOfQuestion);
+        setQuestionAndAnswers(indexOfQuestion);
     }
 
 
     public void setQuestionAndAnswers(int i) {
-        if (questions.isEmpty()) return;//TODO tady si to oprav. Když je to prázdný, tak
+        if (questions.isEmpty()){
+            //TODO tady si to oprav. Když je to prázdný, tak
+            Intent intent = new Intent(this, QuizSettings.class);
+            startActivity(intent);
+            Toast.makeText(this, "Nastala chyba, zvol více směrů", Toast.LENGTH_SHORT).show();
+        }
         String questionText = questions.get(i).text;
         String answerA_text = questions.get(i).getA().text;
         String answerB_text = questions.get(i).getB().text;
@@ -121,30 +127,45 @@ List<Sql.Question> test;
 //            }
 //        }
 //
-//        // TODO Intent do dalšího okna
+//
 //    }
 //
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitAnswerButton:
-                if((answers.getCheckedRadioButtonId() != -1) && indexOfQuestion <= numberOfQuestions() - 2) {
-                    if (checkAnswer()) {
+                System.out.println(numberOfQuestions());
+                System.out.println(indexOfQuestion);
+                if(indexOfQuestion <= numberOfQuestions() - 2) {
+                    if ((answers.getCheckedRadioButtonId() != -1)) {
+                        if (checkAnswer()) {
+                            points += 10;
+                            Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
+                        }
+                        indexOfQuestion++;
+                        setQuestionAndAnswers(indexOfQuestion);
+                        answers.clearCheck();
+                        numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                        pointsView.setText(points + "b");
+                    }
+
+
+                }else{
+                    if (checkAnswer()){
                         points += 10;
                         Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(this, "Blbej jses snad. Takovej Edlund", Toast.LENGTH_SHORT).show();
                     }
-                    indexOfQuestion++;
-                    setQuestionAndAnswers(indexOfQuestion);
-                    answers.clearCheck();
-                    numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-                    pointsView.setText(points + "b");
+                    goToSummaryActivity();
                 }
+
                 break;
+            }
+
         }
-    }
+
 
 
     boolean checkAnswer() {
@@ -156,5 +177,14 @@ List<Sql.Question> test;
         return Math.min(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount());
     }
 
-    //TODO nové okno, poslední otázka. Oprava bugů. Zkusit najít nějakej přechod mezi otázkami
+    void goToSummaryActivity() {
+        Intent intent = new Intent(QuestionActivity.this, QuizSummary.class);
+        intent.putExtra("percent", points);
+        intent.putExtra("numberofquestions", numberOfQuestions());
+        points = 0;
+        indexOfQuestion = 0;
+        startActivity(intent);
+    }
+
+    //TODO  Oprava bugů. Zkusit najít nějakej přechod mezi otázkami
 }

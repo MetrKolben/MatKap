@@ -6,5 +6,8 @@
     <string name="howManyQuestions">7</string>
     <string name="nameProfileActivity">Jméno: xXx</string>
     <string name="emailProfileActivity">Email: xXx</string>
+    <string name="badResult">Tohle nedopadlo dobře. Zkus na tom ještě zapracovat.</string>
+    <string name="averageResult">Tohle nebylo špatný. Ještě máš ale co pilovat.</string>
+    <string name="goodResult">Dobrá práce. Jen tak dál. Hlavně neusni na vavřínech.</string>
 
 </resources>

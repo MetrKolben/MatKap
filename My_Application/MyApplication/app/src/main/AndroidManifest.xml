@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".QuizSummary"
+            android:exported="false" />
+        <activity
             android:name=".QuizSettings"
             android:exported="false" />
         <activity
