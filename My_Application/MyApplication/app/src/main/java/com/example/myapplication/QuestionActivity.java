@@ -24,36 +24,30 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     TextView numOfCurrentQuestion;
     TextView howManyQuestionsInTest;
     TextView pointsView;
-
-
     TextView confirmButton;
 
-    int indexOfQuestion = 0;
     RadioGroup answers;
     RadioButton answerA;
     RadioButton answerB;
     RadioButton answerC;
     RadioButton answerD;
 
-
-
+    int indexOfQuestion = 0;
     int points = 0;
     public static final int NUMBER_OF_TESTED_QUESTIONS = 10;
 
     List<Sql.Question> questions;
-List<Sql.Question> test;
+    List<Sql.Question> test;
     Sql.QuestionList questionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
         Sql.setContext(this);
 
         List<String> listOfMovements = (List<String>) getIntent().getSerializableExtra("passDataList");
         questionList = Sql.getQuestionList(this, Sql.Filter.formatFilters(listOfMovements));
-
 
         questionTextView = findViewById(R.id.questionId);
         answers = findViewById(R.id.radioGroupAnswers);
@@ -67,23 +61,20 @@ List<Sql.Question> test;
         pointsView = findViewById(R.id.points);
 
 
-        howManyQuestionsInTest.setText("" + numberOfQuestions());
-
+        howManyQuestionsInTest.setText("" + numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
 
         confirmButton.setOnClickListener(this);
 
 
         int goligichest = questionList.getPossibleQuestionsCount();
-
         questions = questionList.getNQuestions(goligichest);
-        test = questionList.getNQuestions(numberOfQuestions());
+        test = questionList.getNQuestions(numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
         setQuestionAndAnswers(indexOfQuestion);
     }
 
 
     public void setQuestionAndAnswers(int i) {
-        if (questions.isEmpty()){
-            //TODO tady si to oprav. Když je to prázdný, tak
+        if (questions.isEmpty()) {
             Intent intent = new Intent(this, QuizSettings.class);
             startActivity(intent);
             Toast.makeText(this, "Nastala chyba, zvol více směrů", Toast.LENGTH_SHORT).show();
@@ -113,40 +104,19 @@ List<Sql.Question> test;
 
         answerD.setText(answerD_text);
         answerD.setTag(answerD_isRight);
-
-
-
-
     }
 
-    //
-//    int i = 0;
-//    public void cycleOfQuizz(int numOfQuestion) {
-//
-//        while (i < numOfQuestion) {
-//            setQuestionAndAnswers(i);
-//            if (answers.getCheckedRadioButtonId() != -1) {
-//                if(checkAnswer()) {
-//                    points += 10;
-//                }
-//            }
-//        }
-//
-//
-//    }
-//
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonNext:
-                System.out.println(numberOfQuestions());
+                System.out.println(numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
                 System.out.println(indexOfQuestion);
-                if(indexOfQuestion <= numberOfQuestions() - 2) {
+                if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
                         if (checkAnswer()) {
                             points += 10;
                             Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
-
                         } else {
                             Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
                         }
@@ -156,40 +126,39 @@ List<Sql.Question> test;
                         numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
                         pointsView.setText(points + "b");
                     }
-
-
-                }else{
-                    if (checkAnswer()){
+                } else {
+                    if (checkAnswer()) {
                         points += 10;
                         Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                     }
                     goToSummaryActivity();
                 }
-
                 break;
-            }
-
         }
+    }
 
-
-
-    boolean checkAnswer() {
+    /**
+     *
+     * @return value stored in the <i>Tag</i> of the <i>RadioButton</i>
+     */
+    public boolean checkAnswer() {
         boolean isRight = (boolean) findViewById(answers.getCheckedRadioButtonId()).getTag();
         return isRight;
     }
 
-    int numberOfQuestions(){
-        return Math.min(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount());
+    /**
+     * @return the lower number of
+     */
+    public int numberOfQuestions(int a, int b) {
+        return Math.min(a, b);
     }
 
-    void goToSummaryActivity() {
+    public void goToSummaryActivity() {
         Intent intent = new Intent(QuestionActivity.this, QuizSummary.class);
         intent.putExtra("percent", points);
-        intent.putExtra("numberofquestions", numberOfQuestions());
+        intent.putExtra("numberofquestions", numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
         points = 0;
         indexOfQuestion = 0;
         startActivity(intent);
     }
-
-    //TODO  Oprava bugů. Zkusit najít nějakej přechod mezi otázkami
 }

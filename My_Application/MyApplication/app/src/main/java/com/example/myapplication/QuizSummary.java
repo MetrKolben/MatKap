@@ -27,18 +27,41 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
 
         int rating = (int) getIntent().getSerializableExtra("percent");
         int numOfQuestions = (int) getIntent().getSerializableExtra("numberofquestions");
-        percentage.setText("" + rating);
+        percentage.setText(""+rating(rating, numOfQuestions));
         setResultMessage(rating, ratingText, numOfQuestions);
 
     }
 
+    /**
+     * <p>Implemented method from View.OnClickListener. When BackButton is clicked, user is delivered to the home page.</p>
+     * @param v given View
+     */
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 
-    void setResultMessage(int rate, TextView tv, int howmanyquestions) {
+    /**
+     * <p><b>Function</b> used to calculate the percentage of right answered questions.</p>
+     * @param rate <i>number of points gained during the test</i>
+     * @param numOfQ <i>number of questions contained in test</i>
+     * @return Rounded value of division of <b><i>parametres</i></b> multiplied by 10.
+     */
+    public int rating(int rate, int numOfQ) {
+        float r = (float) rate;
+        float n = (float) numOfQ;
+        float f =  (r / n) * 10;
+        return Math.round(f);
+    }
+
+    /**
+     * <p><b>Method</b> setting text in the final message. The strings are stored in the <b><i>XML</i></b> file. (located in folder <i>values</i> in the <b><i>Resources</i></b> folder)</p>
+     * @param rate <i>number of points gained during the test</i>
+     * @param tv <i><b>TextView </b>which is being modified</i>
+     * @param howmanyquestions <i>number of questions contained in test</i>
+     */
+    public void setResultMessage(int rate, TextView tv, int howmanyquestions) {
         int i = rate / 10;
         if (i > howmanyquestions * 0.7) {
             tv.setText(getString(R.string.goodResult));
