@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -331,6 +330,7 @@ public class Sql {
             int position = cursor.getPosition();
             if (position == cursor.getCount()) return null;
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
+            boolean author_book = questionType == QuestionType.AUTHOR_BOOK;
             String movement = cursor.getString(cursor.getColumnIndex("movement_name"));
             switch(questionType) {
                 case BOOK_DRUH:
@@ -373,13 +373,16 @@ public class Sql {
                             break;
                     }
                     List<Answer> answers = new ArrayList<>();
+                    List<String> questionStrings = new ArrayList<>();
                     answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), true));
+                    questionStrings.add(cursor.getString(cursor.getColumnIndex(qCol)));
                     int[] indexes = Firestore.getNRandomNumbers(cursor.getCount(), cursor.getCount());
                     loop:
                     for (int i = 0; i < 3; i++) {
                         for (int j : indexes) {
                             cursor.moveToPosition(j);
-                            if (!containsAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) {
+                            if ((!containsAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) && (!containsQuestionString(questionStrings, cursor.getString(cursor.getColumnIndex(qCol))))) {
+                                questionStrings.add(cursor.getString(cursor.getColumnIndex(qCol)));
                                 answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), false));
                                 continue loop;
                             }
@@ -405,6 +408,14 @@ public class Sql {
             for (Answer answer1: answers) {
                 if (answer1.text == null) return true;
                 if (answer1.text.equals(answer)) return true;
+            }
+            return false;
+        }
+
+        private static boolean containsQuestionString(List<String> questionStrings, String questionString) {
+            for (String questionString1: questionStrings) {
+                if (questionString == null) return true;
+                if (questionString.equals(questionString1)) return true;
             }
             return false;
         }
