@@ -295,11 +295,13 @@ public class Sql {
         private final Answer[] answers;
         public final QuestionType questionType;
         private static Cursor book, author;
+        public final String movement;
 
-        private Question(QuestionType questionType, String text, Answer... answers) {
+        private Question(QuestionType questionType, String movement, String text, Answer... answers) {
             this.questionType = questionType;
             this.answers = answers;
             this.text = text;
+            this.movement = movement;
         }
 
         /**
@@ -329,6 +331,7 @@ public class Sql {
             int position = cursor.getPosition();
             if (position == cursor.getCount()) return null;
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
+            String movement = cursor.getString(cursor.getColumnIndex("movement_name"));
             switch(questionType) {
                 case BOOK_DRUH:
                     List<Answer> answers1 = new ArrayList<>();
@@ -337,7 +340,7 @@ public class Sql {
                     answers1.add(new Answer("Epika", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Epika")));
                     answers1.add(new Answer("Drama", cursor.getString(cursor.getColumnIndex(questionType.answerColumn)).equals("Drama")));
                     Collections.shuffle(answers1);
-                    return new Question(QuestionType.BOOK_DRUH, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), answers1.toArray(new Answer[0]));
+                    return new Question(QuestionType.BOOK_DRUH, movement, QuestionType.completeBDText(cursor.getString(cursor.getColumnIndex(questionType.questionColumn))), answers1.toArray(new Answer[0]));
                 default:
                     String qCol = questionType.questionColumn;
                     String aCol = questionType.answerColumn;
@@ -386,7 +389,7 @@ public class Sql {
 
                     Collections.shuffle(answers);
                     cursor.moveToPosition(position);
-                    return new Question(questionType, questionText, answers.toArray(new Answer[0]));
+                    return new Question(questionType, movement, questionText, answers.toArray(new Answer[0]));
             }
 
 
@@ -473,11 +476,9 @@ public class Sql {
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-//            String result = "";
             for (Question q : questionList) {
                 sb.append(q.toString());
                 sb.append("\n//////////////////\n");
-//                result += q.toString();
             }
             return sb.toString();
         }
