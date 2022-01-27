@@ -66,6 +66,37 @@ public class Sql {
     }
 
     /**
+     * Template for database
+     * @return all movements
+     */
+    @SuppressLint("Range")
+    public static List<String> getFirstMovement() {
+        if (generalDatabase == null) {
+            try {
+                openOrCreateGeneralDatabase(context);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Cursor c = generalDatabase.rawQuery("SELECT name FROM movement", null);
+        List<String> movements = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do{
+                movements.add(c.getString(c.getColumnIndex("name")));
+            } while (c.moveToNext());
+        }
+        return movements;
+    }
+
+    static class Autor {
+
+    }
+
+    static class Book {
+
+    }
+
+    /**
      * Copies the SQLite database to the device in order to make it possible to use SQL statements
      * @param input InputStream object that reads data from database located in <b>\res\raw\database.db</b>
      * @param destination File created in users storage
