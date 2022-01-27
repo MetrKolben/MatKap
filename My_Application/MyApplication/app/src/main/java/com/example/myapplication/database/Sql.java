@@ -241,6 +241,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        System.out.println(questionList.toString());
         return questionList;
     }
 
