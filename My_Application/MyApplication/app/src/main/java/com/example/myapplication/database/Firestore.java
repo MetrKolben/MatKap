@@ -45,7 +45,7 @@ public class Firestore {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Map<String, Object> user = task.getResult().getData();
                         int i = 0;
-                        Quest[] quests = new Quest[3];
+                        Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
                         int lvl = 0;
                         int xp = 0;
                         int pic_id = 0;
@@ -54,36 +54,36 @@ public class Firestore {
                             String row = entry.getKey();
                             switch(row) {
                                 case "lvl":
-                                    lvl = (int)entry.getValue();
+                                    lvl = ((Long)entry.getValue()).intValue();
                                     break;
                                 case "pic_id":
-                                    pic_id = (int)entry.getValue();
+                                    pic_id = ((Long)entry.getValue()).intValue();
                                     break;
                                 case "u1_id":
-                                    quests[0] = new Quest(numbers[0], 0);
+                                    quests[0].setId(numbers[0]);
                                     break;
                                 case "u1_stat":
-                                    // TADY TO HÁZÍ CHYBU PŘI LOGINU
-                                    quests[0].percentage = (int)entry.getValue();
+                                    quests[0].setPercentage(Double.parseDouble((String)entry.getValue()));
                                     break;
                                 case "u2_id":
-                                    quests[1] = new Quest(numbers[1], 0);
+                                    quests[1].setId(numbers[1]);
                                     break;
                                 case "u2_stat":
-                                    quests[1].percentage = (int)entry.getValue();
+                                    quests[1].setPercentage(Double.parseDouble((String)entry.getValue()));
                                     break;
                                 case "u3_id":
-                                    quests[2] = new Quest(numbers[2], 0);
+                                    quests[2].setId(numbers[2]);
                                     break;
                                 case "u3_stat":
-                                    quests[2].percentage = (int)entry.getValue();
+                                    quests[2].setPercentage(Double.parseDouble((String)entry.getValue()));
                                     break;
                                 case "xp":
-                                    xp = (int)entry.getValue();
+                                    xp = ((Long)entry.getValue()).intValue();
                                     break;
                             }
                         }
                         Firestore.user = new User(quests, lvl, xp, pic_id);
+                        System.out.println(Firestore.user);
                     }
                 });
     }
@@ -169,14 +169,27 @@ public class Firestore {
         public void setPic_id(int pic_id) {
             this.pic_id = pic_id;
         }
+
+        @Override
+        public String toString() {
+            return ">>>User<<<\n" +
+                    "User{\n" +
+                    "   Quests{\n" +
+                    "       quest1[id=" + quests[0].id + "; stat=" + quests[0].percentage*100 + "%]\n" +
+                    "       quest2[id=" + quests[1].id + "; stat=" + quests[1].percentage*100 + "%]\n" +
+                    "       quest3[id=" + quests[2].id + "; stat=" + quests[2].percentage*100 + "%]\n" +
+                    "   }\n" +
+                    "   lvl=" + lvl + "\n" +
+                    "   xp=" + xp + "\n" +
+                    "   pic_id=" + pic_id + "\n" +
+                    "}";
+        }
     }
     private static class Quest {
-        public final int id;
+        private int id;
         private double percentage;
 
-        public Quest(int id, double percentage) {
-            this.id = id;
-            this.percentage = percentage;
+        public Quest() {
         }
 
         public double getPercentage() {
@@ -185,6 +198,14 @@ public class Firestore {
 
         public void setPercentage(double percentage) {
             this.percentage = percentage;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
         }
     }
 
