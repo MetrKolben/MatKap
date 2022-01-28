@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     private static final int RC_SIGN_IN = 100;
     private FirebaseAuth firebaseAuth;
-    private GoogleSignInClient GoogleSignInClient;
 
     private ActivityLoginBinding binding;
 
@@ -180,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // [START signin]
 
     private void handleSingInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSingInResult?" + result.isSuccess());
+        Log.d(TAG, "handleSignInResult?" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(LoginActivity.this,"Signed in", Toast.LENGTH_SHORT).show();

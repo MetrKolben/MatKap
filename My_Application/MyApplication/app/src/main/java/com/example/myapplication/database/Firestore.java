@@ -63,6 +63,7 @@ public class Firestore {
                                     quests[0] = new Quest(numbers[0], 0);
                                     break;
                                 case "u1_stat":
+                                    // TADY TO HÁZÍ CHYBU PŘI LOGINU
                                     quests[0].percentage = (int)entry.getValue();
                                     break;
                                 case "u2_id":
