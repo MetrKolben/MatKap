@@ -69,4 +69,9 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
             tv.setText(getString(R.string.averageResult));
         } else tv.setText(getString(R.string.badResult));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

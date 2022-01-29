@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +24,13 @@ public class QuizSettings extends AppCompatActivity {
 
     TextView tv;
     Button btn;
+    CheckBox checkBox;
 
     List<String> listFromDatabase;
     String[] movementArray;
     List<String> passDataList;
     boolean[] selectedMovement;
+    boolean getResults;
 
 
     @Override
@@ -36,6 +39,7 @@ public class QuizSettings extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_settings);
         tv = findViewById(R.id.selectMovement);
         btn = findViewById(R.id.goToQuizButton);
+        checkBox = findViewById(R.id.getAnswers);
 
         Sql.setContext(this);
         listFromDatabase = Sql.FilterType.MOVEMENT.items;
@@ -49,11 +53,12 @@ public class QuizSettings extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getResults = checkBox.isChecked();
                 passDataList = movementList(movementArray, selectedMovement);
                 if (!passDataList.isEmpty()) {//TODO když míň než tři
                     Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);
                     intent.putExtra("passDataList", (Serializable) passDataList);
+                    intent.putExtra("getResults", (Serializable) getResults);
                     startActivity(intent);
                 } else {
                     Toast.makeText(QuizSettings.this, "Nevybral si žádný směr", Toast.LENGTH_SHORT).show();

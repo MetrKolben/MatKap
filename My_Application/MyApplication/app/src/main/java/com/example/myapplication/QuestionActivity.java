@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -36,6 +38,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     int points = 0;
     public static final int NUMBER_OF_TESTED_QUESTIONS = 10;
 
+    boolean setResults = false;
+
     List<Sql.Question> questions;
     List<Sql.Question> test;
     Sql.QuestionList questionList;
@@ -49,6 +53,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         List<String> listOfMovements = (List<String>) getIntent().getSerializableExtra("passDataList");
         questionList = Sql.getQuestionList(this, Sql.Filter.formatFilters(listOfMovements));
 
+        setResults = (boolean) getIntent().getSerializableExtra("getResults");
+
         questionTextView = findViewById(R.id.questionId);
         answers = findViewById(R.id.radioGroupAnswers);
         answerA = findViewById(R.id.answerA);
@@ -59,6 +65,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         howManyQuestionsInTest = findViewById(R.id.howManyQuestions);
         numOfCurrentQuestion = findViewById(R.id.numberOfQuestion);
         pointsView = findViewById(R.id.points);
+
+        if(setResults){
+            pointsView.setVisibility(View.VISIBLE);
+        } else pointsView.setVisibility(View.INVISIBLE);
 
 
         howManyQuestionsInTest.setText("" + numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
@@ -110,35 +120,97 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonNext:
-                System.out.println(numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
-                System.out.println(indexOfQuestion);
+
+                RadioButton rb = findViewById(answers.getCheckedRadioButtonId());
+
                 if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
                         if (checkAnswer()) {
                             points += 10;
-                            Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+                            setButtonRight(rb);
+                            // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
+                            setButtonWrong(rb);
+                            setButtonRight(findRadioRight(answers));
+                            //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
                         }
-                        indexOfQuestion++;
-                        setQuestionAndAnswers(indexOfQuestion);
-                        answers.clearCheck();
-                        numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-                        pointsView.setText(points + "b");
+                        if (setResults) {
+                            confirmButton.setClickable(false);
+                            answers.clearCheck();
+
+                            final Runnable r = new Runnable() {
+                                @Override
+                                public void run() {
+                                    pointsView.setText(points + "b");
+                                    indexOfQuestion++;
+                                    cleanButtons(answers);
+                                    numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                                    setQuestionAndAnswers(indexOfQuestion);
+                                }
+                            };
+                            Handler h = new Handler();
+                            h.postDelayed(r, 1500);
+                            confirmButton.setClickable(true);
+                        } else {
+                            confirmButton.setClickable(false);
+                            pointsView.setText(points + "b");
+                            indexOfQuestion++;
+                            answers.clearCheck();
+                            cleanButtons(answers);
+                            numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                            setQuestionAndAnswers(indexOfQuestion);
+                            confirmButton.setClickable(true);
+                        }
                     }
                 } else {
                     if (checkAnswer()) {
                         points += 10;
-                        Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+                        setButtonRight(rb);
+                        // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
+                    } else {
+                        setButtonWrong(rb);
+                        setButtonRight(findRadioRight(answers));
+                        //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (setResults) {
+                        confirmButton.setClickable(false);
+                        final Runnable r = new Runnable() {
+                            @Override
+                            public void run() {
+                                pointsView.setText(points + "b");
+                                indexOfQuestion++;
+                                answers.clearCheck();
+                                cleanButtons(answers);
+                                numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                                setQuestionAndAnswers(indexOfQuestion);
+                            }
+                        };
+                        Handler h = new Handler();
+                        h.postDelayed(r, 1500);
+                        confirmButton.setClickable(true);
+                    } else {
+                        confirmButton.setClickable(false);
+                        //pointsView.setText(points + "b");
+                        //indexOfQuestion++;
+                        answers.clearCheck();
+                        cleanButtons(answers);
+                        // numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
+                        setQuestionAndAnswers(indexOfQuestion);
+                        confirmButton.setClickable(true);
                     }
                     goToSummaryActivity();
+
                 }
                 break;
         }
+
+
     }
 
+
     /**
-     *
      * @return value stored in the <i>Tag</i> of the <i>RadioButton</i>
      */
     public boolean checkAnswer() {
@@ -161,4 +233,36 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         indexOfQuestion = 0;
         startActivity(intent);
     }
+
+    public void setButtonWrong(RadioButton rb) {
+        if (!setResults) {
+            return;
+        } else rb.setBackground(ContextCompat.getDrawable(this, R.drawable.radio_background_wrong));
+    }
+
+    public void setButtonRight(RadioButton rb) {
+        if (!setResults) {
+            return;
+        } else rb.setBackground(ContextCompat.getDrawable(this, R.drawable.radio_background_right));
+    }
+
+    public RadioButton findRadioRight(RadioGroup radioGroup) {
+        RadioButton rb = null;
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            boolean b = (boolean) radioGroup.getChildAt(i).getTag();
+            if (b) {
+                rb = (RadioButton) radioGroup.getChildAt(i);
+                break;
+            }
+        }
+        return rb;
+    }
+
+    public void cleanButtons(RadioGroup radioGroup) {
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radioGroup.getChildAt(i).setBackground(null);
+
+        }
+    }
 }
+
