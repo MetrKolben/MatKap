@@ -11,4 +11,6 @@
     <style name="AlertDialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/dark_green</item>
     </style>
+
+
 </resources>

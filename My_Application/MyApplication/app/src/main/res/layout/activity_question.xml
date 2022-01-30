@@ -9,17 +9,19 @@
 
 
     <LinearLayout
+        android:layout_marginTop="75dp"
         android:id="@+id/layoutWithQuestionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp">
+        android:layout_marginHorizontal="30dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/questionId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="106dp"
+            android:layout_marginTop="0dp"
             android:fontFamily="@font/oxygen"
             android:text="Enter question"
             android:textAlignment="center"
@@ -30,62 +32,69 @@
     </LinearLayout>
 
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/layoutwithAnswers"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/layoutwithAnswers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutWithQuestionText">
+
+        <RadioGroup
+            android:id="@+id/radioGroupAnswers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layoutWithQuestionText">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20pt"
+            android:layout_marginTop="50dp"
+            app:layout_alignSelf="center">
 
-            <RadioGroup
-                android:id="@+id/radioGroupAnswers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20pt"
-                android:layout_marginTop="50dp"
-                app:layout_alignSelf="center">
+            <RadioButton
+                android:id="@+id/answerA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:buttonTint="@color/radio_checked"
+                android:fontFamily="@font/oxygen"
+                android:paddingHorizontal="10dp"
+                android:paddingStart="10dp"
+                android:text="Faking"
+                android:textSize="18dp" />
 
-                <RadioButton
-                    android:paddingStart="10dp"
-                    android:id="@+id/answerA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/dark_green"
-                    android:fontFamily="@font/oxygen"
-                    android:text="Faking"
-                    android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/answerB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:buttonTint="@color/radio_checked"
+                android:fontFamily="@font/oxygen"
+                android:paddingHorizontal="10dp"
+                android:paddingStart="10dp"
+                android:text="Nice one"
+                android:textSize="18dp" />
 
-                <RadioButton
-                    android:paddingStart="10dp"
-                    android:id="@+id/answerB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/dark_green"
-                    android:fontFamily="@font/oxygen"
-                    android:text="Nice one"
-                    android:textSize="18dp" />
+            <RadioButton
+                android:id="@+id/answerC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:buttonTint="@color/radio_checked"
+                android:fontFamily="@font/oxygen"
+                android:paddingHorizontal="10dp"
+                android:paddingStart="10dp"
+                android:text="Answer C"
+                android:textSize="18dp" />
 
-                <RadioButton
-                    android:paddingStart="10dp"
-                    android:id="@+id/answerC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/dark_green"
-                    android:fontFamily="@font/oxygen"
-                    android:text="Answer C"
-                    android:textSize="18dp" />
-
-                <RadioButton
-                    android:paddingStart="10dp"
-                    android:id="@+id/answerD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/dark_green"
-                    android:fontFamily="@font/oxygen"
-                    android:text="Answer D"
-                    android:textSize="18dp"
-                    />
-            </RadioGroup>
-        </com.google.android.flexbox.FlexboxLayout>
+            <RadioButton
+                android:id="@+id/answerD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:buttonTint="@color/radio_checked"
+                android:fontFamily="@font/oxygen"
+                android:paddingHorizontal="10dp"
+                android:paddingStart="10dp"
+                android:text="Answer D"
+                android:textSize="18dp" />
+        </RadioGroup>
+    </com.google.android.flexbox.FlexboxLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

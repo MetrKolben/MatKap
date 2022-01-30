@@ -22,6 +22,17 @@
         android:fontFamily="@font/oxygen"
         />
 
+    <CheckBox
+        android:id="@+id/getAnswers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="Chci vidět opravené chyby hned"
+        android:textColor="@color/radio_checked"
+        android:layout_marginTop="5dp"
+        android:buttonTint="@color/dark_green"/>
+
+
     <Button
         android:id="@+id/goToQuizButton"
         android:layout_width="match_parent"
