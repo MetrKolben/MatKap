@@ -174,12 +174,10 @@ public class Sql {
     public static QuestionList getQuestionList(AppCompatActivity con, String filter) {
         QuestionList questionList = new QuestionList();
         if (generalDatabase != null) {
-
-
             Cursor author = generalDatabase.rawQuery("SELECT author.id AS author_id, author.name AS author_name, movement.name AS movement_name, sex " +
-                        "FROM author, movement " +
-                        "WHERE author.movement_id = movement.id " +
-                         filter, null);
+                    "FROM author LEFT OUTER JOIN movement " +
+                    "ON author.movement_id = movement.id " +
+                    filter, null);
             Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book, author, genre, druh, movement " +
                     "WHERE book.author_id = author.id " +
@@ -191,6 +189,7 @@ public class Sql {
                     "FROM movement " +
                     "WHERE TRUE" + filter, null);
 
+            System.out.println(author.getCount() + " /// " + book.getCount() + " /// " + movement.getCount());
 
 
             Question.setAuthorAndBook(author, book);
