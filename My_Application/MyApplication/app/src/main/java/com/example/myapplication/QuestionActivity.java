@@ -7,16 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.database.Sql;
+import com.example.myapplication.firebase.Sql;
 
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.myapplication.database.Sql;
+import com.example.myapplication.firebase.Sql;
 
 public class MainActivity extends AppCompatActivity {
 

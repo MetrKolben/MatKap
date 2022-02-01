@@ -1,4 +1,4 @@
-package com.example.myapplication.database;
+package com.example.myapplication.firebase;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -30,11 +30,11 @@ import java.util.Random;
  * <p>
  *     Creates following own subclasses:
  *     <ul>
- *         <li>{@link com.example.myapplication.database.Sql.Answer}</li>
+ *         <li>{@link com.example.myapplication.firebase.Sql.Answer}</li>
  *         <li>{@link FilterType}</li>
- *         <li>{@link com.example.myapplication.database.Sql.Question}</li>
- *         <li>{@link com.example.myapplication.database.Sql.QuestionList}</li>
- *         <li>{@link com.example.myapplication.database.Sql.QuestionType}</li>
+ *         <li>{@link com.example.myapplication.firebase.Sql.Question}</li>
+ *         <li>{@link com.example.myapplication.firebase.Sql.QuestionList}</li>
+ *         <li>{@link com.example.myapplication.firebase.Sql.QuestionType}</li>
  *     </ul>
  * </p>
  */
@@ -168,7 +168,7 @@ public class Sql {
      *     Also recursively calls itself when <b>generalDatabase</b> is <b>null</b> to initialize the database first
      * </p>
      * @param con used to be passed over to <b>{@link #openOrCreateGeneralDatabase(AppCompatActivity)} </b>
-     * @return a <b>{@link com.example.myapplication.database.Sql.QuestionList}</b> object
+     * @return a <b>{@link com.example.myapplication.firebase.Sql.QuestionList}</b> object
      */
     @SuppressLint("Range")
     public static QuestionList getQuestionList(AppCompatActivity con, String filter) {
@@ -354,7 +354,7 @@ public class Sql {
         /**
          * @param cursor Either the <b>author</b> or the <b>book</b> table
          * @param questionType Determines the type of the question which then alters the question text and in the case of Book-Druh question changes the amount of answers
-         * @return <b>{@link com.example.myapplication.database.Sql.Question}</b> object of a determined <b>{@link com.example.myapplication.database.Sql.QuestionType}</b>
+         * @return <b>{@link com.example.myapplication.firebase.Sql.Question}</b> object of a determined <b>{@link com.example.myapplication.firebase.Sql.QuestionType}</b>
          */
         @SuppressLint("Range")
         public static Question createQuestion(Cursor cursor, QuestionType questionType) {
