@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.Utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -126,24 +127,7 @@ public class Sql {
         if (!fileToCheck.exists()) return false;
         InputStream toBeCompared = new FileInputStream(fileToCheck);
         InputStream template = context.getResources().openRawResource(R.raw.database);
-        try {
-            while (true) {
-                int fr = toBeCompared.read();
-                int tr = template.read();
-
-                if (fr != tr)
-                    return false;
-
-                if (fr == -1)
-                    return true;
-            }
-
-        } finally {
-            if (toBeCompared != null)
-                toBeCompared.close();
-            if (template != null)
-                template.close();
-        }
+        return Utils.inputStreamEquals(toBeCompared, template);
     }
 
     /**
@@ -189,8 +173,6 @@ public class Sql {
                     "FROM movement " +
                     "WHERE TRUE" + filter, null);
 
-            System.out.println(author.getCount() + " /// " + book.getCount() + " /// " + movement.getCount());
-
 
             Question.setAuthorAndBook(author, book);
 
@@ -210,7 +192,7 @@ public class Sql {
 
                     if (aMQuestion != null) questionList.add(aMQuestion);
                     } while (author.moveToNext());
-                }
+            }
 
             if (book.moveToFirst()) {
                 do {
@@ -240,7 +222,6 @@ public class Sql {
                 e.printStackTrace();
             }
         }
-        System.out.println(questionList.toString());
         return questionList;
     }
 
@@ -407,7 +388,7 @@ public class Sql {
                     List<String> questionStrings = new ArrayList<>();
                     answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), true));
                     questionStrings.add(cursor.getString(cursor.getColumnIndex(qCol)));
-                    int[] indexes = Firestore.getNRandomNumbers(cursor.getCount(), cursor.getCount());
+                    int[] indexes = Utils.getNRandomNumbers(cursor.getCount(), cursor.getCount());
                     loop:
                     for (int i = 0; i < 3; i++) {
                         for (int j : indexes) {

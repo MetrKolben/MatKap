@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.myapplication.firebase.Sql;
+import com.example.myapplication.firebase.Storage;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 

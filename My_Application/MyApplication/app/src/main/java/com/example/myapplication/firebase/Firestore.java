@@ -3,6 +3,7 @@ package com.example.myapplication.firebase;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +50,7 @@ public class Firestore {
                         int lvl = 0;
                         int xp = 0;
                         int pic_id = 0;
-                        int[] numbers = getNRandomNumbers(3, 21);
+                        int[] numbers = Utils.getNRandomNumbers(3, 21);
                         for (Map.Entry<String, Object> entry : user.entrySet()) {
                             String row = entry.getKey();
                             switch(row) {
@@ -83,7 +84,6 @@ public class Firestore {
                             }
                         }
                         Firestore.user = new User(quests, lvl, xp, pic_id);
-                        System.out.println(Firestore.user);
                     }
                 });
     }
@@ -92,7 +92,7 @@ public class Firestore {
      * Is called when creating new user in order to create and associate a new document in Firestore
      */
     public static void addFirebaseUser() {
-        int[] numbers = getNRandomNumbers(3, 21);
+        int[] numbers = Utils.getNRandomNumbers(3, 21);
         Map<String, Object> user = new HashMap<>();
         user.put("u1_id", numbers[0]);
         user.put("u1_stat", "0");
@@ -209,27 +209,27 @@ public class Firestore {
         }
     }
 
-    public static int[] getNRandomNumbers(int n, int bound) {
-        Random r = new Random();
-        int[] numbers = new int[n];
-        Arrays.fill(numbers, Integer.MAX_VALUE);
-        for (int i = 0; i < n; i++) {
-            boolean lock = true;
-            while (lock) {
-                int number = r.nextInt(bound);
-                if (!contains(numbers, number)) {
-                    lock = false;
-                    numbers[i] = number;
-                }
-            }
-        }
-        return numbers;
-    }
-
-    private static boolean contains(int[] numbers, int number) {
-        for (int n : numbers) {
-            if (n == number) return true;
-        }
-        return false;
-    }
+//    public static int[] getNRandomNumbers(int n, int bound) {
+//        Random r = new Random();
+//        int[] numbers = new int[n];
+//        Arrays.fill(numbers, Integer.MAX_VALUE);
+//        for (int i = 0; i < n; i++) {
+//            boolean lock = true;
+//            while (lock) {
+//                int number = r.nextInt(bound);
+//                if (!contains(numbers, number)) {
+//                    lock = false;
+//                    numbers[i] = number;
+//                }
+//            }
+//        }
+//        return numbers;
+//    }
+//
+//    private static boolean contains(int[] numbers, int number) {
+//        for (int n : numbers) {
+//            if (n == number) return true;
+//        }
+//        return false;
+//    }
 }
