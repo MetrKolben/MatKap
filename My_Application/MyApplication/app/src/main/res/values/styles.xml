@@ -5,11 +5,15 @@
         <item name="colorControlNormal">@color/dark_green</item>
         <item name="colorControlActivated">@color/dark_green</item>
         <item name="android:textColor">@color/black</item>
-        <item name="buttonBarButtonStyle">@style/AlertDialogButtonStyle</item>
+        <item name="buttonBarButtonStyle">@style/AlertDialogButtonStyleSettings</item>
     </style>
 
-    <style name="AlertDialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="AlertDialogButtonStyleSettings" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/dark_green</item>
+    </style>
+
+    <style name="AlertDialog_deleteAccount" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/red_wrong</item>
     </style>
 
 

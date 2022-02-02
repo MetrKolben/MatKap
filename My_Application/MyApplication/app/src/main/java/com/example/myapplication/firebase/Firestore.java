@@ -129,6 +129,14 @@ public class Firestore {
                 .set(user);
     }
 
+    public static void deleteUser() {
+        if(document_name != null) {
+            db.collection("users")
+                    .document(document_name)
+                    .delete();
+        }
+    }
+
     /**
      * Represents the data from the documents from Firestore database programmatically
      */

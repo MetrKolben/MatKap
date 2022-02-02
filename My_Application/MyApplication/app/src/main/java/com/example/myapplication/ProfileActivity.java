@@ -1,24 +1,30 @@
 package com.example.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.myapplication.databinding.ActivityProfileBinding;
+import com.example.myapplication.firebase.Firestore;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -37,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
+
+    private static final String TAG = "PROFILE_ACTIVITY_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,30 @@ public class ProfileActivity extends AppCompatActivity {
                 checkUser();
             }
         });
+
+        binding.deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this, R.style.Base_Theme_AppCompat_Dialog_Alert);
+                builder.setTitle("Opravdu chcete zrušit účet!");
+                builder.setNegativeButton("Ano", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteAccount();
+                        signOut();
+                        checkUser();
+                    }
+                });// Delete account
+                builder.setPositiveButton("Ne", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void signOut() {
@@ -87,6 +119,23 @@ public class ProfileActivity extends AppCompatActivity {
                         updateUI(null);
                     }
                 });
+    }
+
+    private void deleteAccount() {
+        Log.d(TAG, "delete account");
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        Firestore.deleteUser();
+        currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG,"Account deleted successfully!");
+                } else {
+                    Log.w(TAG,"Something is wrong!");
+                }
+            }
+        });
     }
 
     private void updateUI(FirebaseUser user) {
