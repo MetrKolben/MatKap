@@ -15,7 +15,11 @@ import android.widget.Toast;
 import com.example.myapplication.firebase.Sql;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +38,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     int indexOfQuestion = 0;
     int points = 0;
     public static final int NUMBER_OF_TESTED_QUESTIONS = 10;
+
+    public static List<String> movementList = new ArrayList<>();
+    public static List<Boolean> answerList = new ArrayList<>();
+
+    public static List<String> mostCommonMistakes = new ArrayList<>();
 
     boolean setResults = false;
 
@@ -62,6 +71,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         howManyQuestionsInTest = findViewById(R.id.howManyQuestions);
         numOfCurrentQuestion = findViewById(R.id.numberOfQuestion);
         pointsView = findViewById(R.id.points);
+        movementList = new ArrayList<>();
+        answerList = new ArrayList<>();
+        mostCommonMistakes = new ArrayList<>();
+
 
         if(setResults){
             pointsView.setVisibility(View.VISIBLE);
@@ -92,6 +105,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         String answerB_text = questions.get(i).getB().text;
         String answerC_text = questions.get(i).getC().text;
         String answerD_text = questions.get(i).getD().text;
+        String movement = questions.get(i).movement;
 
         boolean answerA_isRight = questions.get(i).getA().isRight;
         boolean answerB_isRight = questions.get(i).getB().isRight;
@@ -111,6 +125,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         answerD.setText(answerD_text);
         answerD.setTag(answerD_isRight);
+
+        movementList.add(movement);
+
+
+
     }
 
     @Override
@@ -119,16 +138,20 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             case R.id.buttonNext:
 
                 RadioButton rb = findViewById(answers.getCheckedRadioButtonId());
+                needToLearnMovements();
 
                 if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
                         if (checkAnswer()) {
                             points += 10;
                             setButtonRight(rb);
+                            answerList.add(true);
                             // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         } else {
                             setButtonWrong(rb);
                             setButtonRight(findRadioRight(answers));
+
+                            answerList.add(false);
                             //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
                         }
                         if (setResults) {
@@ -229,6 +252,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         points = 0;
         indexOfQuestion = 0;
         startActivity(intent);
+    }
+
+
+    /**
+     * creates list of movements with 3 or more mistakes
+     */
+    public void needToLearnMovements() {
+
+       HashMap<String, Integer> mistakes = new HashMap<>();
+        for (int i = 0; i < answerList.size(); i++) {
+            if (!answerList.get(i)){
+                if (mistakes.get(movementList.get(i)) == null){
+                    mistakes.put(movementList.get(i), 1);
+                } else {
+                    mistakes.put(movementList.get(i), mistakes.get(movementList.get(i)) + 1);
+                }
+            }
+        }
+
+        if (!mistakes.isEmpty()) {
+            for (Map.Entry<String, Integer> entry : mistakes.entrySet()) {
+                if (entry.getValue() >= 3) {
+                    if (!mostCommonMistakes.contains(entry.getKey())) {
+                        mostCommonMistakes.add(entry.getKey());
+                    }
+                }
+            }
+        }
+
+//        System.out.println(Arrays.asList(mistakes));
+//        System.out.println("nejcastejsi chyby: " + Arrays.toString(mostCommonMistakes.toArray()));
     }
 
     public void setButtonWrong(RadioButton rb) {

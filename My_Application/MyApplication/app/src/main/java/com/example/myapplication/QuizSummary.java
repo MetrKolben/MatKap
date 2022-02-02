@@ -9,10 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 public class QuizSummary extends AppCompatActivity implements View.OnClickListener {
 
     TextView percentage;
     TextView ratingText;
+    TextView mostMistakesText;
     Button backButton;
 
     @Override
@@ -21,6 +24,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_quiz_summary);
         percentage = findViewById(R.id.percentage);
         ratingText = findViewById(R.id.ratingText);
+        mostMistakesText = findViewById(R.id.mostMistakesText);
         backButton = findViewById(R.id.goBackToMainScreen);
         System.out.println("Jsi tady fajn \n\n\n\n\n #########################################");
         backButton.setOnClickListener(this);
@@ -28,6 +32,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         int rating = (int) getIntent().getSerializableExtra("percent");
         int numOfQuestions = (int) getIntent().getSerializableExtra("numberofquestions");
         percentage.setText(""+rating(rating, numOfQuestions));
+        mostMistakesText.setText("nejcastejsi chyby: " + Arrays.toString(QuestionActivity.mostCommonMistakes.toArray()));
         setResultMessage(rating, ratingText, numOfQuestions);
 
     }
@@ -58,7 +63,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
     /**
      * <p><b>Method</b> setting text in the final message. The strings are stored in the <b><i>XML</i></b> file. (located in folder <i>values</i> in the <b><i>Resources</i></b> folder)</p>
      * @param rate <i>number of points gained during the test</i>
-     * @param tv <i><b>TextView </b>which is being modified</i>
+     * @param tv <i><b>TextView</b> which is being modified</i>
      * @param howmanyquestions <i>number of questions contained in test</i>
      */
     public void setResultMessage(int rate, TextView tv, int howmanyquestions) {
