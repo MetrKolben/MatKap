@@ -11,7 +11,7 @@
         android:id="@+id/layoutMainMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_gradient"
+        android:background="@drawable/background_gardient_rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -25,10 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="165dp"
+            android:fontFamily="@font/prompt"
             android:text="MatKap"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="40sp"
-            android:textStyle="italic|bold" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/welcomeText"
@@ -38,7 +39,7 @@
             android:layout_marginTop="350dp"
             android:fontFamily="@font/bebas_neue"
             android:text="Vítejte!"
-            android:textColor="@color/light_gray"
+            android:textColor="?attr/colorOnBackground"
             android:textFontWeight="200"
             android:textSize="60sp"
             android:textStyle="bold" />

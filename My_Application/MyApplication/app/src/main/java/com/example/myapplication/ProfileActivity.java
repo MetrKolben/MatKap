@@ -9,6 +9,7 @@ import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,10 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView imgProfilePic;
 
-    Button toMainActivity;
+
+   // private ImageButton zuHomeGehen;
+
+
 
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
@@ -52,15 +56,16 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         imgProfilePic = (ImageView) findViewById(R.id.profilePhoto);
         setContentView(binding.getRoot());
-        toMainActivity = findViewById(R.id.toMainActivity);
 
-        toMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, MenuActivity.class);
-                startActivity(intent);
-            }
-        });
+       // zuHomeGehen = findViewById(R.id.home_button_profile);
+
+//        zuHomeGehen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ProfileActivity.this, MenuActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();

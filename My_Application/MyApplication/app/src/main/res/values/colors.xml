@@ -8,11 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark_green">#54956c</color>
-    <color name="light_green">#eafff2</color>
+    <color name="light_green">#DFFEEB</color>
     <color name="light_gray">#3b3d3c</color>
     <color name="transparent">#80000000</color>
     <color name="red_wrong">#60FFB5B1</color>
     <color name="radio_checked">#343434</color>
     <color name="radio_wrong_border">#FFB5B1</color>
     <color name="radio_green">#CCF3C9</color>
+    <color name="green_right">#60CCF3C9</color>
 </resources>

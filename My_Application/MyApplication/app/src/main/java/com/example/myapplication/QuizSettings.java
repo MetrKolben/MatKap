@@ -104,8 +104,7 @@ public class QuizSettings extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                         selectedMovement[i] = b;
-                        String currentItems = listFromDatabase.get(i);
-                        Toast.makeText(QuizSettings.this, currentItems + " " + b, Toast.LENGTH_SHORT).show();
+
                     }
                 });
 

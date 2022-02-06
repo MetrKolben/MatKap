@@ -15,7 +15,7 @@
         android:padding="12dp"
         android:drawablePadding="16dp"
         android:drawableEnd="@android:drawable/arrow_down_float"
-        android:background="@android:drawable/editbox_background"
+        android:background="@drawable/box_set_quiz"
         android:layout_marginTop="150dp"
         android:layout_marginHorizontal="30dp"
         android:textSize="20sp"
@@ -28,9 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:text="Chci vidět opravené chyby hned"
-        android:textColor="@color/radio_checked"
+        android:textColor="?attr/colorOnBackground"
         android:layout_marginTop="5dp"
-        android:buttonTint="@color/dark_green"/>
+        android:buttonTint="?attr/colorPrimary"/>
 
 
     <Button

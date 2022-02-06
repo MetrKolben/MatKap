@@ -10,12 +10,12 @@
         android:id="@+id/flexboxLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_green"
+        android:background="?attr/colorPrimary"
         android:orientation="horizontal"
         android:padding="8dp"
         app:justifyContent="space_evenly"
         app:layout_constraintBottom_toBottomOf="parent">
-<!--TODO ikonka na quest-->
+        <!--TODO ikonka na quest-->
         <ImageButton
 
             android:id="@+id/quest_button"
@@ -45,7 +45,7 @@
         android:layout_marginBottom="584dp"
         android:fontFamily="@font/prompt"
         android:text="@string/app_name"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnBackground"
         android:textFontWeight="1000"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"

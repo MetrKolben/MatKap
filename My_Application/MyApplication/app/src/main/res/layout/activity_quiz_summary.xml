@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QuizSummary"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/background_gardient_rectangle">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/oxygen"
             android:text="50"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="80dp" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/oxygen"
             android:text="%"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnBackground"
             android:textSize="80dp" />
     </LinearLayout>
 
