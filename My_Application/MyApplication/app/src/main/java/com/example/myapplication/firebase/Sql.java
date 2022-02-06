@@ -19,7 +19,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * <p>
@@ -162,12 +161,12 @@ public class Sql {
                     "FROM author LEFT OUTER JOIN movement " +
                     "ON author.movement_id = movement.id " +
                     filter, null);
-            Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
-                    "FROM book, author, genre, druh, movement " +
-                    "WHERE book.author_id = author.id " +
-                    "AND book.genre_id = genre.id " +
-                    "AND book.druh_id = druh.id " +
-                    "AND book.movement_id = movement.id" + filter, null);
+
+            Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year\n" +
+                    "FROM book LEFT OUTER JOIN author ON book.author_id = author.id " +
+                    "LEFT OUTER JOIN genre ON book.genre_id = genre.id " +
+                    "LEFT OUTER JOIN druh ON book.druh_id = druh.id " +
+                    "LEFT OUTER JOIN movement ON book.movement_id = movement.id" + filter, null);
 
             Cursor movement = generalDatabase.rawQuery("SELECT movement.id AS movement_id, movement.name AS movement_name, movement.sign AS sign, movement.century AS century " +
                     "FROM movement " +
@@ -191,7 +190,7 @@ public class Sql {
                     Question aMQuestion = Question.createQuestion(author, QuestionType.AUTHOR_MOVEMENT);
 
                     if (aMQuestion != null) questionList.add(aMQuestion);
-                    } while (author.moveToNext());
+                } while (author.moveToNext());
             }
 
             if (book.moveToFirst()) {
@@ -222,6 +221,7 @@ public class Sql {
                 e.printStackTrace();
             }
         }
+        System.out.println(questionList);
         return questionList;
     }
 
@@ -301,7 +301,6 @@ public class Sql {
     }
 
     public static class Question{
-        private static Random random= new Random();
         public final String text;
         private final Answer[] answers;
         public final QuestionType questionType;
@@ -342,7 +341,6 @@ public class Sql {
             int position = cursor.getPosition();
             if (position == cursor.getCount()) return null;
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
-            boolean author_book = questionType == QuestionType.AUTHOR_BOOK;
             String movement = cursor.getString(cursor.getColumnIndex("movement_name"));
             switch(questionType) {
                 case BOOK_DRUH:
@@ -393,12 +391,13 @@ public class Sql {
                     for (int i = 0; i < 3; i++) {
                         for (int j : indexes) {
                             cursor.moveToPosition(j);
-                            if ((!containsAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) && (!containsQuestionString(questionStrings, cursor.getString(cursor.getColumnIndex(qCol))))) {
+                            if ((isValidAnswer(answers, cursor.getString(cursor.getColumnIndex(aCol)))) && (!containsQuestionString(questionStrings, cursor.getString(cursor.getColumnIndex(qCol))))) {
                                 questionStrings.add(cursor.getString(cursor.getColumnIndex(qCol)));
                                 answers.add(new Answer(cursor.getString(cursor.getColumnIndex(aCol)), false));
                                 continue loop;
                             }
                         }
+                        cursor.moveToPosition(position);
                         return null;
                     }
 
@@ -416,12 +415,13 @@ public class Sql {
          * @param answer a potential answer that is yet to be checked if it is unique
          * @return false if the answer is unique
          */
-        private static boolean containsAnswer(List<Answer> answers, String answer) {
+        private static boolean isValidAnswer(List<Answer> answers, String answer) {
+            if (answer == null) return false;
             for (Answer answer1: answers) {
-                if (answer1.text == null) return true;
-                if (answer1.text.equals(answer)) return true;
+                if (answer1.text == null) return false;
+                if (answer1.text.equals(answer)) return false;
             }
-            return false;
+            return true;
         }
 
         private static boolean containsQuestionString(List<String> questionStrings, String questionString) {
@@ -498,12 +498,13 @@ public class Sql {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
+            System.out.println(questionList.size());
+            String s = "";
             for (Question q : questionList) {
-                sb.append(q.toString());
-                sb.append("\n//////////////////\n");
+                s+=q.toString();
+                s+="\n//////////////////\n";
             }
-            return sb.toString();
+            return s;
         }
     }
 

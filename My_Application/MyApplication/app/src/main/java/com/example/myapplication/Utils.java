@@ -7,20 +7,25 @@ import java.util.Random;
 
 public class Utils {
     public static int[] getNRandomNumbers(int n, int bound) {
-        Random r = new Random();
-        int[] numbers = new int[n];
-        Arrays.fill(numbers, Integer.MAX_VALUE);
+        int[] testResult = new int[n];
         for (int i = 0; i < n; i++) {
-            boolean lock = true;
-            while (lock) {
-                int number = r.nextInt(bound);
-                if (!contains(numbers, number)) {
-                    lock = false;
-                    numbers[i] = number;
-                }
-            }
+            testResult[i] = i;
         }
-        return numbers;
+        return testResult;
+//        Random r = new Random();
+//        int[] numbers = new int[n];
+//        Arrays.fill(numbers, Integer.MAX_VALUE);
+//        for (int i = 0; i < n; i++) {
+//            boolean lock = true;
+//            while (lock) {
+//                int number = r.nextInt(bound);
+//                if (!contains(numbers, number)) {
+//                    lock = false;
+//                    numbers[i] = number;
+//                }
+//            }
+//        }
+//        return numbers;
     }
 
     public static boolean contains(int[] numbers, int number) {
