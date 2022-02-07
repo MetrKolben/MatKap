@@ -19,7 +19,7 @@ public class Storage {
     public static String getProfilePicturePath(int lvl) {
         ProfilePicture current = ProfilePicture.ONE;
         for (ProfilePicture picture : ProfilePicture.values()) {
-            if (picture.lvlValue <= current.lvlValue) {
+            if (picture.lvlValue <= lvl) {
                 current = picture;
 
             } else return getImagePath(current);
