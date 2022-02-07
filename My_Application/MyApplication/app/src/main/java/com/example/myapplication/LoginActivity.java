@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //if user is already signed in then go to profile activity
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null){
+            Firestore.setFirebaseUser(firebaseUser, false);
             Log.d(TAG, "checkUser: Already logged in");
             startActivity(new Intent(this, MenuActivity.class));
             finish();
