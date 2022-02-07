@@ -277,10 +277,6 @@ public class Firestore {
             }
             return null;
         }
-
-        public QuestType toQuestType(Sql.QuestionType questionType) {
-            return toQuestType(questionType.toString());
-        }
     }
 
 }
