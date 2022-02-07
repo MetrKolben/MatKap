@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.CharacterPickerDialog;
 import android.util.Log;
@@ -11,15 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.myapplication.databinding.ActivityProfileBinding;
 import com.example.myapplication.firebase.Firestore;
+import com.example.myapplication.firebase.Storage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -34,16 +38,53 @@ import java.net.URI;
 import java.net.URL;
 
 public class ProfileActivity extends AppCompatActivity {
-
+    public static boolean isCreated = false;
     //view binding
     private ActivityProfileBinding binding;
 
     private FirebaseAuth firebaseAuth;
-    private ImageView imgProfilePic;
 
-    private TextView emailTV;
-    private TextView nameTv;
+    private static ImageView imgProfilePic;
+    private static TextView emailTV;
+    private static TextView nameTv;
+    private static TextView levelTV;
+    private static ProgressBar xpBar;
 
+    public static void setProfilePic(String path) {
+        imgProfilePic.setImageDrawable(Drawable.createFromPath(path));
+    }
+
+    public static void setEmailText(String text) {
+        emailTV.setText(text);
+    }
+
+    public static void setNameText(String text) {
+        nameTv.setText(text);
+    }
+
+    public static void setLevelText(String text) {
+        levelTV.setText(text);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void setXp(int xp, int lvl) {
+        xpBar.setMax(lvl*Firestore.XP_PER_LEVEL);
+        xpBar.setProgress(xp, true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void fillInfo(String profilePath, String emailText, String nameText, String levelText, int xp, int lvl) {
+//        new Thread(()-> {
+//            while(!isCreated);
+        if (emailTV == null) return;
+        setEmailText(emailText);
+        setProfilePic(profilePath);
+        setNameText(nameText);
+        setLevelText(levelText);
+        setXp(xp, lvl);
+
+//        }).start();
+    }
 
     private ImageButton zuHomeGehen;
     private ImageButton zuQuestGehen;
@@ -55,11 +96,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "PROFILE_ACTIVITY_TAG";
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
-        imgProfilePic = (ImageView) findViewById(R.id.profilePhoto);
         setContentView(binding.getRoot());
 
         zuHomeGehen = findViewById(R.id.home_button_profile);
@@ -84,9 +126,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         emailTV = findViewById(R.id.emailTv);
         nameTv = findViewById(R.id.name);
+        levelTV = findViewById(R.id.tv_level);
+        imgProfilePic = findViewById(R.id.profilePhoto);
+        xpBar = findViewById(R.id.xpBar);
 
-// TODO změnit podle Firestore, danke bitte wiedersehen
-        emailTV.setText("ahoj");
+        // TODO změnit podle Firestore, danke bitte wiedersehen
+        /**
+         * Už jsem to udělal, Adame. Chtěl jsem ti trochu ulehčit práci.
+         * @author Honza
+         */
+        if (Firestore.user != null) {
+            fillInfo(
+                    Storage.getProfilePicturePath(Firestore.user.getLvl()),
+                    Firestore.getEmail(),
+                    Firestore.getName(),
+                    "" + Firestore.user.getLvl(),
+                    Firestore.user.getXp(),
+                    Firestore.user.getLvl());
+        }
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -131,6 +188,11 @@ public class ProfileActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+        /**
+         * <p>isCreated is used to ensure that the function fillInfo() will
+         * call the individual subfunctions only after the Activity is created</p>
+         */
+        isCreated = true;
     }
 
     private void signOut() {

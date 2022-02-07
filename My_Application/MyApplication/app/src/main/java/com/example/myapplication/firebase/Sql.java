@@ -226,7 +226,6 @@ public class Sql {
                 e.printStackTrace();
             }
         }
-        System.out.println(questionList);
         return questionList;
     }
 

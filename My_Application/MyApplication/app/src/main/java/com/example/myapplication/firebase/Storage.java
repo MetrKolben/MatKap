@@ -40,14 +40,13 @@ public class Storage {
         gsReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("Seš dobrej :)");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                System.out.println("Dneska ne, promiň :(");
             }
         });
+        System.out.println(file.exists());
         return file.getPath();
     }
 

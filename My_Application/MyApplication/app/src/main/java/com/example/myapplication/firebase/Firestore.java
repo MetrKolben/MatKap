@@ -6,6 +6,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.example.myapplication.ProfileActivity;
 import com.example.myapplication.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,9 +24,10 @@ import java.util.Map;
  *</p>
  */
 public class Firestore {
+    public static final int XP_PER_LEVEL = 50;
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static FirebaseUser firebaseUser = null;
-    private static User user = null;
+    public static User user = null;
     private static String document_name = null;
 
     /**
@@ -51,7 +53,7 @@ public class Firestore {
                         Map<String, Object> user = task.getResult().getData();
                         if (user == null) {
                             addFirebaseUser();
-                            return;
+//                            return;
                         }
                         int i = 0;
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
@@ -100,6 +102,13 @@ public class Firestore {
                         if (shouldBeRestarted[1]) quests[1].setPercentage(0);
                         if (shouldBeRestarted[2]) quests[2].setPercentage(0);
                         Firestore.user = new User(quests, lvl, xp, pic_id);
+                        ProfileActivity.fillInfo(
+                                Storage.getProfilePicturePath(Firestore.user.lvl),
+                                getEmail(),
+                                getName(),
+                                ""+Firestore.user.lvl,
+                                Firestore.user.xp,
+                                Firestore.user.lvl);
                     }
                 });
     }
@@ -168,10 +177,18 @@ public class Firestore {
         }
     }
 
+    public static String getEmail() {
+        return firebaseUser.getEmail();
+    }
+
+    public static String getName() {
+        return firebaseUser.getDisplayName();
+    }
+
     /**
      * Represents the data from the documents from Firestore database programmatically
      */
-    private static class User{
+    public static class User{
         public Quest[] quests;
 
         private int lvl;
@@ -193,7 +210,7 @@ public class Firestore {
             this.lvl = lvl;
         }
 
-        private int getXp() {
+        public int getXp() {
             return xp;
         }
 

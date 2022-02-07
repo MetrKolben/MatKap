@@ -62,7 +62,6 @@ public class Utils {
         if (index >= numbers.length) return;
         Random r = new Random(seed);
         int n = r.nextInt(bound);
-        System.out.println(n);
         if (!contains(numbers, n)) {
             numbers[index] = n;
             fillNumbers(r.nextInt(), numbers, index+1, bound);

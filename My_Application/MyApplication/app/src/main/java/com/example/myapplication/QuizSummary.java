@@ -32,7 +32,14 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         int rating = (int) getIntent().getSerializableExtra("percent");
         int numOfQuestions = (int) getIntent().getSerializableExtra("numberofquestions");
         percentage.setText(""+rating(rating, numOfQuestions));
-        mostMistakesText.setText("nejcastejsi chyby: " + Arrays.toString(QuestionActivity.mostCommonMistakes.toArray()));
+        String[] mistakes = QuestionActivity.mostCommonMistakes.toArray(new String[0]);
+        if (mistakes.length > 0) {
+            String str = mistakes[0];
+            for (int i = 1; i < mistakes.length; i++) {
+                str += i < mistakes.length-1 ? ", " : " a " + mistakes[i];
+            }
+            mostMistakesText.setText("Měl by sis procvičit směry " + str + ".");//TODO fix, někdy píše null
+        }
         setResultMessage(rating, ratingText, numOfQuestions);
 
     }
