@@ -217,27 +217,4 @@ public class Firestore {
         }
     }
 
-//    public static int[] getNRandomNumbers(int n, int bound) {
-//        Random r = new Random();
-//        int[] numbers = new int[n];
-//        Arrays.fill(numbers, Integer.MAX_VALUE);
-//        for (int i = 0; i < n; i++) {
-//            boolean lock = true;
-//            while (lock) {
-//                int number = r.nextInt(bound);
-//                if (!contains(numbers, number)) {
-//                    lock = false;
-//                    numbers[i] = number;
-//                }
-//            }
-//        }
-//        return numbers;
-//    }
-//
-//    private static boolean contains(int[] numbers, int number) {
-//        for (int n : numbers) {
-//            if (n == number) return true;
-//        }
-//        return false;
-//    }
 }
