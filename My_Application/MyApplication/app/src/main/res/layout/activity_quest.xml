@@ -166,6 +166,7 @@
             android:progressTint="?attr/colorPrimary" />
 
     </LinearLayout>
+
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/flexboxLayout"
         android:layout_width="match_parent"

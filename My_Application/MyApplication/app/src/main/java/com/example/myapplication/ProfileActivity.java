@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private ImageButton zuHomeGehen;
+    private ImageButton zuQuestGehen;
 
 
 
@@ -71,10 +72,20 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        zuQuestGehen = findViewById(R.id.quest_button_profile);
+
+        zuQuestGehen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, QuestActivity.class);
+                startActivity(intent);
+            }
+        });
+
         emailTV = findViewById(R.id.emailTv);
         nameTv = findViewById(R.id.name);
 
-
+// TODO změnit podle Firestore, danke bitte wiedersehen
         emailTV.setText("ahoj");
 
         //init firebase auth
