@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -40,8 +41,11 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ImageView imgProfilePic;
 
+    private TextView emailTV;
+    private TextView nameTv;
 
-   // private ImageButton zuHomeGehen;
+
+    private ImageButton zuHomeGehen;
 
 
 
@@ -57,15 +61,21 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfilePic = (ImageView) findViewById(R.id.profilePhoto);
         setContentView(binding.getRoot());
 
-       // zuHomeGehen = findViewById(R.id.home_button_profile);
+        zuHomeGehen = findViewById(R.id.home_button_profile);
 
-//        zuHomeGehen.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ProfileActivity.this, MenuActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        zuHomeGehen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        emailTV = findViewById(R.id.emailTv);
+        nameTv = findViewById(R.id.name);
+
+
+        emailTV.setText();
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
@@ -160,13 +170,6 @@ public class ProfileActivity extends AppCompatActivity {
             //user logged in
             //get user info
 
-            String email = firebaseUser.getEmail();
-            String name = firebaseUser.getDisplayName();
-
-
-            //set email
-            binding.emailTv.setText(email);
-            binding.name.setText(name);
         }
     }
 }
