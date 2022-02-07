@@ -33,6 +33,7 @@ public class Firestore {
      * @param firebaseUser object of the user at Firebase
      * @param isNew should be true when the user is creating an account
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void setFirebaseUser(FirebaseUser firebaseUser, boolean isNew) {
         Firestore.firebaseUser = firebaseUser;
         document_name = ""+(firebaseUser.getEmail().hashCode());
@@ -48,6 +49,10 @@ public class Firestore {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Map<String, Object> user = task.getResult().getData();
+                        if (user == null) {
+                            addFirebaseUser();
+                            return;
+                        }
                         int i = 0;
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
                         int lvl = 0;

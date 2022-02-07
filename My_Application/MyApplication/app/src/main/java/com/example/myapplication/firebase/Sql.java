@@ -98,7 +98,7 @@ public class Sql {
     }
 
     static class Movement{
-        
+
     }
 
     /**
