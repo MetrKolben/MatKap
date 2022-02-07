@@ -105,7 +105,7 @@ public class Firestore {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static QuestType[] getTodaysQuests() {
         int[] indexes = Utils.getNNumbersFromDate(QuestType.values().length, 3);
-        QuestType[] res = new QuestType[0];
+        QuestType[] res = new QuestType[3];
         QuestType[] types = QuestType.values();
         res[0] = types[indexes[0]];
         res[1] = types[indexes[1]];
@@ -116,8 +116,9 @@ public class Firestore {
     /**
      * Is called when creating new user in order to create and associate a new document in Firestore
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void addFirebaseUser() {
-        int[] numbers = Utils.getNRandomNumbers(3, 21);
+        QuestType[] numbers = getTodaysQuests();
         Map<String, Object> user = new HashMap<>();
         user.put("u1_type", numbers[0]);
         user.put("u1_stat", "0");

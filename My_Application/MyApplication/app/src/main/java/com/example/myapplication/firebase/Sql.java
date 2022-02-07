@@ -89,12 +89,16 @@ public class Sql {
         return movements;
     }
 
-    static class Autor {
+    static class Author {
 
     }
 
     static class Book {
 
+    }
+
+    static class Movement{
+        
     }
 
     /**
