@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         nameTv = findViewById(R.id.name);
 
 
-        emailTV.setText();
+        emailTV.setText("ahoj");
 
         //init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
