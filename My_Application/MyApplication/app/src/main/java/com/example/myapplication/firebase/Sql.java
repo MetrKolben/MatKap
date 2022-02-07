@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
@@ -337,7 +338,7 @@ public class Sql {
          * @return <b>{@link com.example.myapplication.firebase.Sql.Question}</b> object of a determined <b>{@link com.example.myapplication.firebase.Sql.QuestionType}</b>
          */
         @SuppressLint("Range")
-        public static Question createQuestion(Cursor cursor, QuestionType questionType) {
+        private static Question createQuestion(Cursor cursor, QuestionType questionType) {
             int position = cursor.getPosition();
             if (position == cursor.getCount()) return null;
             if (cursor.getString(cursor.getColumnIndex(questionType.questionColumn)) == null || cursor.getString(cursor.getColumnIndex(questionType.answerColumn)) == null) return null;
@@ -432,7 +433,7 @@ public class Sql {
             return false;
         }
 
-        private static int getAuthorPositionFromBook(Cursor book, Cursor author) {
+        private static int getAuthorPositionFromBook(@NonNull Cursor book, @NonNull Cursor author) {
             @SuppressLint("Range") String author_name = book.getString(book.getColumnIndex("author_name"));
             int initialPosition = author.getPosition();
             author.moveToFirst();
@@ -544,34 +545,42 @@ public class Sql {
             this.answerColumn = answerColumn;
         }
 
-        public static String completeAMText(String author) {
+        @NonNull
+        private static String completeAMText(String author) {
             return AUTHOR_MOVEMENT.questionText.replaceAll("<author>", author);
         }
-        public static String completeBMText(String book) {
+        @NonNull
+        private static String completeBMText(String book) {
             return BOOK_MOVEMENT.questionText.replaceAll("<book>", book);
         }
 
-        public static String completeABText(String sex, String author) {
+        @NonNull
+        private static String completeABText(String sex, String author) {
             return AUTHOR_BOOK.questionText.replace("<author>", author).replace("<sex>", sex);
         }
 
-        public static String completeBAText(String book) {
+        @NonNull
+        private static String completeBAText(String book) {
             return BOOK_AUTHOR.questionText.replaceAll("<book>", book);
         }
 
-        public static String completeBDText(String book) {
+        @NonNull
+        private static String completeBDText(String book) {
             return BOOK_DRUH.questionText.replaceAll("<book>", book);
         }
 
-        public static String completeBGText(String book) {
+        @NonNull
+        private static String completeBGText(String book) {
             return BOOK_GENRE.questionText.replaceAll("<book>", book);
         }
 
-        public static String completeMCText(String movement) {
+        @NonNull
+        private static String completeMCText(String movement) {
             return MOVEMENT_CENTURY.questionText.replaceAll("<movement>", movement);
         }
 
-        public static String completeMSText(String movement) {
+        @NonNull
+        private static String completeMSText(String movement) {
             return MOVEMENT_SIGN.questionText.replaceAll("<movement>", movement);
         }
     }

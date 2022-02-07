@@ -1,7 +1,10 @@
 package com.example.myapplication.firebase;
 
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -13,7 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  *<p>
@@ -42,6 +44,7 @@ public class Firestore {
                 .document(document_name)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Map<String, Object> user = task.getResult().getData();
@@ -50,7 +53,9 @@ public class Firestore {
                         int lvl = 0;
                         int xp = 0;
                         int pic_id = 0;
-                        int[] numbers = Utils.getNRandomNumbers(3, 21);
+                        QuestType[] types = getTodaysQuests();
+                        boolean[] shouldBeRestarted = new boolean[3];
+                        Arrays.fill(shouldBeRestarted, false);
                         for (Map.Entry<String, Object> entry : user.entrySet()) {
                             String row = entry.getKey();
                             switch(row) {
@@ -60,20 +65,23 @@ public class Firestore {
                                 case "pic_id":
                                     pic_id = ((Long)entry.getValue()).intValue();
                                     break;
-                                case "u1_id":
-                                    quests[0].setId(numbers[0]);
+                                case "u1_type":
+                                    shouldBeRestarted[0] = !(QuestType.toQuestType((String)entry.getValue()) == types[0]);
+                                    quests[0].setQuestionType(types[0]);
                                     break;
                                 case "u1_stat":
                                     quests[0].setPercentage(Double.parseDouble((String)entry.getValue()));
                                     break;
-                                case "u2_id":
-                                    quests[1].setId(numbers[1]);
+                                case "u2_type":
+                                    shouldBeRestarted[1] = !(QuestType.toQuestType((String)entry.getValue()) == types[1]);
+                                    quests[1].setQuestionType(types[1]);
                                     break;
                                 case "u2_stat":
                                     quests[1].setPercentage(Double.parseDouble((String)entry.getValue()));
                                     break;
-                                case "u3_id":
-                                    quests[2].setId(numbers[2]);
+                                case "u3_type":
+                                    shouldBeRestarted[2] = !(QuestType.toQuestType((String)entry.getValue()) == types[2]);
+                                    quests[2].setQuestionType(types[2]);
                                     break;
                                 case "u3_stat":
                                     quests[2].setPercentage(Double.parseDouble((String)entry.getValue()));
@@ -83,9 +91,26 @@ public class Firestore {
                                     break;
                             }
                         }
+                        if (shouldBeRestarted[0]) quests[0].setPercentage(0);
+                        if (shouldBeRestarted[1]) quests[1].setPercentage(0);
+                        if (shouldBeRestarted[2]) quests[2].setPercentage(0);
                         Firestore.user = new User(quests, lvl, xp, pic_id);
                     }
                 });
+    }
+
+    /**
+     * @return Array of today's quests
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static QuestType[] getTodaysQuests() {
+        int[] indexes = Utils.getNNumbersFromDate(QuestType.values().length, 3);
+        QuestType[] res = new QuestType[0];
+        QuestType[] types = QuestType.values();
+        res[0] = types[indexes[0]];
+        res[1] = types[indexes[1]];
+        res[2] = types[indexes[2]];
+        return res;
     }
 
     /**
@@ -94,11 +119,11 @@ public class Firestore {
     public static void addFirebaseUser() {
         int[] numbers = Utils.getNRandomNumbers(3, 21);
         Map<String, Object> user = new HashMap<>();
-        user.put("u1_id", numbers[0]);
+        user.put("u1_type", numbers[0]);
         user.put("u1_stat", "0");
-        user.put("u2_id", numbers[1]);
+        user.put("u2_type", numbers[1]);
         user.put("u2_stat", "0");
-        user.put("u3_id", numbers[2]);
+        user.put("u3_type", numbers[2]);
         user.put("u3_stat", "0");
         user.put("lvl", 1);
         user.put("xp", 0);
@@ -114,11 +139,11 @@ public class Firestore {
      */
     public static void updateUser() {
         Map<String, Object> user = new HashMap<>();
-        user.put("u1_id", Firestore.user.quests[0].id);
+        user.put("u1_type", Firestore.user.quests[0].questType);
         user.put("u1_stat", Firestore.user.quests[0].percentage);
-        user.put("u2_id", Firestore.user.quests[1].id);
+        user.put("u2_type", Firestore.user.quests[1].questType);
         user.put("u2_stat", Firestore.user.quests[1].percentage);
-        user.put("u3_id", Firestore.user.quests[2].id);
+        user.put("u3_type", Firestore.user.quests[2].questType);
         user.put("u3_stat", Firestore.user.quests[2].percentage);
         user.put("lvl", Firestore.user.lvl);
         user.put("xp", Firestore.user.xp);
@@ -147,7 +172,7 @@ public class Firestore {
         private int xp;
         private int pic_id;
 
-        public User(Quest[] quests, int lvl, int xp, int pic_id) {
+        private User(Quest[] quests, int lvl, int xp, int pic_id) {
             this.quests = quests;
             this.lvl = lvl;
             this.xp = xp;
@@ -158,24 +183,32 @@ public class Firestore {
             return lvl;
         }
 
-        public void setLvl(int lvl) {
+        private void setLvl(int lvl) {
             this.lvl = lvl;
         }
 
-        public int getXp() {
+        private int getXp() {
             return xp;
         }
 
-        public void setXp(int xp) {
+        private void setXp(int xp) {
             this.xp = xp;
         }
 
-        public int getPic_id() {
+        private int getPic_id() {
             return pic_id;
         }
 
-        public void setPic_id(int pic_id) {
+        private void setPic_id(int pic_id) {
             this.pic_id = pic_id;
+        }
+
+        public void questEventHandler(Sql.Question question) {
+            for (Quest q : quests) {
+                if (q.questType.toString().equals(question.toString()) && !q.isComplete) {
+                    q.stepForward();
+                }
+            }
         }
 
         @Override
@@ -183,9 +216,9 @@ public class Firestore {
             return ">>>User<<<\n" +
                     "User{\n" +
                     "   Quests{\n" +
-                    "       quest1[id=" + quests[0].id + "; stat=" + quests[0].percentage*100 + "%]\n" +
-                    "       quest2[id=" + quests[1].id + "; stat=" + quests[1].percentage*100 + "%]\n" +
-                    "       quest3[id=" + quests[2].id + "; stat=" + quests[2].percentage*100 + "%]\n" +
+                    "       quest1[type=" + quests[0].questType + "; stat=" + quests[0].percentage*100 + "%]\n" +
+                    "       quest2[type=" + quests[1].questType + "; stat=" + quests[1].percentage*100 + "%]\n" +
+                    "       quest3[type=" + quests[2].questType + "; stat=" + quests[2].percentage*100 + "%]\n" +
                     "   }\n" +
                     "   lvl=" + lvl + "\n" +
                     "   xp=" + xp + "\n" +
@@ -194,26 +227,59 @@ public class Firestore {
         }
     }
     private static class Quest {
-        private int id;
+        private QuestType questType;
         private double percentage;
-
-        public Quest() {
-        }
+        private boolean isComplete = false;
 
         public double getPercentage() {
             return percentage;
         }
 
-        public void setPercentage(double percentage) {
+        private void setPercentage(double percentage) {
             this.percentage = percentage;
         }
 
-        public int getId() {
-            return id;
+        public QuestType getQuestType() {
+            return questType;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        private void setQuestionType(QuestType questType) {
+            this.questType = questType;
+        }
+
+        private void stepForward() {
+            if (isComplete) return;
+            percentage = (percentage*5.0 + 1)/5.0;
+            if (percentage == 1.0) isComplete = true;
+        }
+
+    }
+
+    public enum QuestType {
+        AUTHOR_BOOK("Přiřaď správně 20 knih k autorům"),
+        BOOK_AUTHOR("Přiřaď správně 20 autorů ke knihám"),
+        AUTHOR_MOVEMENT("Přiřaď správně 20 krát směr ke kterému se hlásí autor"),
+        BOOK_MOVEMENT("Určete správně 20 krát směr, pod který spadá daná kniha"),
+        BOOK_DRUH("Určete správně druh u 20 knih"),
+        BOOK_GENRE("Žánrově zařaďte správně 20 knih"),
+        MOVEMENT_CENTURY("Správně umísti 20 směrů na číselné ose"),
+        MOVEMENT_SIGN("20 krát vyber hlavní znaky daného směru");
+
+        public final String text;
+
+        QuestType(String text) {
+            this.text = text;
+        }
+
+        public static QuestType toQuestType(String str) {
+            for (QuestType q : QuestType.values()) {
+                if (str.equals(q.toString())) return q;
+            }
+            return null;
+        }
+
+        public QuestType toQuestType(Sql.QuestionType questionType) {
+            return toQuestType(questionType.toString());
         }
     }
 
