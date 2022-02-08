@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private ActivityLoginBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkUser() {
         //if user is already signed in then go to profile activity
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -133,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         //login success

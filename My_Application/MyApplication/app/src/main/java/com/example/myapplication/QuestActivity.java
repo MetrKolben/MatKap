@@ -36,7 +36,6 @@ public class QuestActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest1(String text, String xp, int value, int max) {
         if (questText1 != null) {
-            System.out.println(value + " 1 " + max);
             questText1.setText(text);
             xpQuest1.setText(xp);
             xpProgress1.setMax(max);
@@ -47,7 +46,6 @@ public class QuestActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest2(String text, String xp, int value, int max) {
         if (questText2 != null) {
-            System.out.println(value + " 2 " + max);
             questText2.setText(text);
             xpQuest2.setText(xp);
             xpProgress2.setMax(max);
@@ -58,7 +56,6 @@ public class QuestActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest3(String text, String xp, int value, int max) {
         if (questText3 != null) {
-            System.out.println(value + " 3 " + max);
             questText3.setText(text);
             xpQuest3.setText(xp);
             xpProgress3.setMax(max);
@@ -80,7 +77,6 @@ public class QuestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("bruh");
         setContentView(R.layout.activity_quest);
         goBigOrGoHome = findViewById(R.id.home_button_quest);
         goToProfile = findViewById(R.id.profile_button_quest);
@@ -114,8 +110,6 @@ public class QuestActivity extends AppCompatActivity {
             Firestore.Quest[] quests = Firestore.user.quests;
             int xp = Firestore.Quest.EXPERIENCE;
             int max = Firestore.Quest.MAX;
-            System.out.println(Arrays.toString(quests));
-            //TODO tady se vždycky dosadí nula
 
             setQuests(quests[0].getQuestType().text,
                     ""+xp,
