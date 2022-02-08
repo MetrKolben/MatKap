@@ -116,17 +116,18 @@ public class QuestActivity extends AppCompatActivity {
             int max = Firestore.Quest.MAX;
             System.out.println(Arrays.toString(quests));
             //TODO tady se vždycky dosadí nula
+
             setQuests(quests[0].getQuestType().text,
                     ""+xp,
-                    (int)quests[0].getPercentage()*max,
+                    (int)(quests[0].getPercentage()*max),
                     max,
                     quests[1].getQuestType().text,
                     ""+xp,
-                    (int)quests[1].getPercentage()*max,
+                    (int)(quests[1].getPercentage()*max),
                     max,
                     quests[2].getQuestType().text,
                     ""+xp,
-                    (int)quests[2].getPercentage()*max,
+                    (int)(quests[2].getPercentage()*max),
                     max);
         }
     }

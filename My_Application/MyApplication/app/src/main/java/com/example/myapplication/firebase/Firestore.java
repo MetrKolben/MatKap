@@ -333,6 +333,14 @@ public class Firestore {
             System.out.println(percentage);
         }
 
+        @Override
+        public String toString() {
+            return "Quest{" +
+                    "questType=" + questType +
+                    ", percentage=" + percentage +
+                    ", isComplete=" + isComplete +
+                    '}';
+        }
     }
 
     public enum QuestType {
