@@ -54,11 +54,7 @@ public class Firestore {
                         Map<String, Object> user = task.getResult().getData();
                         if (user == null) {
                             addFirebaseUser();
-<<<<<<< Updated upstream
-                            return; // TODO tady honzo něco fixni idk co to zvládneš :)
-=======
                             return;
->>>>>>> Stashed changes
                         }
                         int i = 0;
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
@@ -332,7 +328,7 @@ public class Firestore {
 
         private void stepForward() {
             if (isComplete) return;
-            percentage = (percentage*5.0 + 1)/5.0;
+            percentage = (percentage*20.0 + 1)/20.0;
             if (percentage == 1.0) isComplete = true;
             System.out.println(percentage);
         }

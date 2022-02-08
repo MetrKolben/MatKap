@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.myapplication.firebase.Firestore;
 
+import java.util.Arrays;
+
 public class QuestActivity extends AppCompatActivity {
 
     private ImageButton goBigOrGoHome;
@@ -33,34 +35,34 @@ public class QuestActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest1(String text, String xp, int value, int max) {
-        System.out.println(value + " 1");
         if (questText1 != null) {
+            System.out.println(value + " 1 " + max);
             questText1.setText(text);
             xpQuest1.setText(xp);
             xpProgress1.setMax(max);
-            xpProgress1.setProgress(value, true);
+            xpProgress1.setProgress(value);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest2(String text, String xp, int value, int max) {
-        System.out.println(value + " 2");
         if (questText2 != null) {
+            System.out.println(value + " 2 " + max);
             questText2.setText(text);
             xpQuest2.setText(xp);
             xpProgress2.setMax(max);
-            xpProgress2.setProgress(value, true);
+            xpProgress2.setProgress(value);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest3(String text, String xp, int value, int max) {
-        System.out.println(value + " 3");
         if (questText3 != null) {
+            System.out.println(value + " 3 " + max);
             questText3.setText(text);
             xpQuest3.setText(xp);
             xpProgress3.setMax(max);
-            xpProgress3.setProgress(value, true);
+            xpProgress3.setProgress(value);
         }
     }
 
@@ -112,6 +114,8 @@ public class QuestActivity extends AppCompatActivity {
             Firestore.Quest[] quests = Firestore.user.quests;
             int xp = Firestore.Quest.EXPERIENCE;
             int max = Firestore.Quest.MAX;
+            System.out.println(Arrays.toString(quests));
+            //TODO tady se vždycky dosadí nula
             setQuests(quests[0].getQuestType().text,
                     ""+xp,
                     (int)quests[0].getPercentage()*max,
