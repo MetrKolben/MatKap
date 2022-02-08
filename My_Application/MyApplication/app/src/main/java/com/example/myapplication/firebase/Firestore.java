@@ -158,13 +158,13 @@ public class Firestore {
                 ""+XP,
                 (int)(quests[0].getPercentage()*max),
                 max,
-                quests[0].getQuestType().text,
+                quests[1].getQuestType().text,
                 ""+XP,
-                (int)(quests[0].getPercentage()*max),
+                (int)(quests[1].getPercentage()*max),
                 max,
-                quests[0].getQuestType().text,
+                quests[2].getQuestType().text,
                 ""+XP,
-                (int)(quests[0].getPercentage()*max),
+                (int)(quests[2].getPercentage()*max),
                 max);
     }
 
