@@ -78,21 +78,21 @@ public class Firestore {
                                     quests[0].setQuestionType(types[0]);
                                     break;
                                 case "u1_stat":
-                                    quests[0].setPercentage(Double.parseDouble((String)entry.getValue()));
+                                    quests[0].setPercentage((Double)entry.getValue());
                                     break;
                                 case "u2_type":
                                     shouldBeRestarted[1] = !(QuestType.toQuestType((String)entry.getValue()) == types[1]);
                                     quests[1].setQuestionType(types[1]);
                                     break;
                                 case "u2_stat":
-                                    quests[1].setPercentage(Double.parseDouble((String)entry.getValue()));
+                                    quests[1].setPercentage((Double)entry.getValue());
                                     break;
                                 case "u3_type":
                                     shouldBeRestarted[2] = !(QuestType.toQuestType((String)entry.getValue()) == types[2]);
                                     quests[2].setQuestionType(types[2]);
                                     break;
                                 case "u3_stat":
-                                    quests[2].setPercentage(Double.parseDouble((String)entry.getValue()));
+                                    quests[2].setPercentage((Double)entry.getValue());
                                     break;
                                 case "xp":
                                     xp = ((Long)entry.getValue()).intValue();
@@ -186,11 +186,11 @@ public class Firestore {
         QuestType[] numbers = getTodaysQuests();
         Map<String, Object> user = new HashMap<>();
         user.put("u1_type", numbers[0]);
-        user.put("u1_stat", "0");
+        user.put("u1_stat", 0);
         user.put("u2_type", numbers[1]);
-        user.put("u2_stat", "0");
+        user.put("u2_stat", 0);
         user.put("u3_type", numbers[2]);
-        user.put("u3_stat", "0");
+        user.put("u3_stat", 0);
         user.put("lvl", 1);
         user.put("xp", 0);
         user.put("pic_id", 1);

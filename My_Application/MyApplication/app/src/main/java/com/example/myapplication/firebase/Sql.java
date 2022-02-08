@@ -264,7 +264,7 @@ public class Sql {
                     e.printStackTrace();
                 }
             }
-            Cursor cursor = generalDatabase.rawQuery("SELECT name FROM movement", null);
+            Cursor cursor = generalDatabase.rawQuery("SELECT movement.name FROM movement", null);
             if (cursor.moveToFirst()) {
                 do {
                     String item = cursor.getString(cursor.getColumnIndex("name"));

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myapplication.firebase.Firestore;
+
 import java.util.Arrays;
 
 public class QuizSummary extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +23,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firestore.updateUser();
         setContentView(R.layout.activity_quiz_summary);
         percentage = findViewById(R.id.percentage);
         ratingText = findViewById(R.id.ratingText);
