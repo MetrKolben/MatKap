@@ -186,11 +186,11 @@ public class Firestore {
         QuestType[] numbers = getTodaysQuests();
         Map<String, Object> user = new HashMap<>();
         user.put("u1_type", numbers[0]);
-        user.put("u1_stat", 0);
+        user.put("u1_stat", 0.0);
         user.put("u2_type", numbers[1]);
-        user.put("u2_stat", 0);
+        user.put("u2_stat", 0.0);
         user.put("u3_type", numbers[2]);
-        user.put("u3_stat", 0);
+        user.put("u3_stat", 0.0);
         user.put("lvl", 1);
         user.put("xp", 0);
         user.put("pic_id", 1);
