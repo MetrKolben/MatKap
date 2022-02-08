@@ -174,8 +174,7 @@ public class Sql {
                     "LEFT OUTER JOIN movement ON book.movement_id = movement.id" + filter, null);
 
             Cursor movement = generalDatabase.rawQuery("SELECT movement.id AS movement_id, movement.name AS movement_name, movement.sign AS sign, movement.century AS century " +
-                    "FROM movement " +
-                    "WHERE TRUE" + filter, null);
+                    "FROM movement " + filter, null);
 
 
             Question.setAuthorAndBook(author, book);
@@ -289,7 +288,7 @@ public class Sql {
     }
 
     public static class Filter{
-        private static final String beginning = " AND (", equal = "movement_name = ", separator = " OR ", end = ")";
+        private static final String beginning = " WHERE (", equal = "movement_name = ", separator = " OR ", end = ")";
         public static String formatFilters(List<String> movements) {
             if (movements.isEmpty()) return "";
             String filter = beginning + " " + equal + "'" + movements.get(0) + "'";
@@ -369,9 +368,12 @@ public class Sql {
                         case AUTHOR_BOOK:
                             int save = author.getPosition();
                             author.moveToPosition(getAuthorPositionFromBook(book, author));
+                            if (author.getPosition() >= author.getCount()) {
+                                author.moveToPosition(save);
+                                return null;
+                            }
                             questionText = QuestionType.completeABText((author.getString(author.getColumnIndex("sex")).equals("male") ? "" : "a"),
                                     cursor.getString(cursor.getColumnIndex(qCol)));
-                            author.moveToPosition(save);
                             break;
                         case BOOK_AUTHOR:
                             questionText = QuestionType.completeBAText(cursor.getString(cursor.getColumnIndex(qCol)));

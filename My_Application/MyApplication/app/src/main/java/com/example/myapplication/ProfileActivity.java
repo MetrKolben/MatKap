@@ -74,16 +74,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void fillInfo(String profilePath, String emailText, String nameText, String levelText, int xp, int lvl) {
-//        new Thread(()-> {
-//            while(!isCreated);
         if (emailTV == null) return;
         setEmailText(emailText);
         setProfilePic(profilePath);
         setNameText(nameText);
         setLevelText(levelText);
         setXp(xp, lvl);
-
-//        }).start();
     }
 
     private ImageButton zuHomeGehen;

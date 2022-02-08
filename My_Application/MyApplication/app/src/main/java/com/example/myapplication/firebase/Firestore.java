@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.ProfileActivity;
+import com.example.myapplication.QuestActivity;
 import com.example.myapplication.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,7 +54,11 @@ public class Firestore {
                         Map<String, Object> user = task.getResult().getData();
                         if (user == null) {
                             addFirebaseUser();
+<<<<<<< Updated upstream
                             return; // TODO tady honzo něco fixni idk co to zvládneš :)
+=======
+                            return;
+>>>>>>> Stashed changes
                         }
                         int i = 0;
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
@@ -101,16 +106,66 @@ public class Firestore {
                         if (shouldBeRestarted[0]) quests[0].setPercentage(0);
                         if (shouldBeRestarted[1]) quests[1].setPercentage(0);
                         if (shouldBeRestarted[2]) quests[2].setPercentage(0);
+                        //Setting Profile info in ProfileActivity
                         Firestore.user = new User(quests, lvl, xp, pic_id);
-                        ProfileActivity.fillInfo(
-                                Storage.getProfilePicturePath(Firestore.user.lvl),
-                                getEmail(),
-                                getName(),
-                                ""+Firestore.user.lvl,
-                                Firestore.user.xp,
-                                Firestore.user.lvl);
+                        fillProfileInfo();
+//                        ProfileActivity.fillInfo(
+//                                Storage.getProfilePicturePath(Firestore.user.lvl),
+//                                getEmail(),
+//                                getName(),
+//                                ""+Firestore.user.lvl,
+//                                Firestore.user.xp,
+//                                Firestore.user.lvl);
+                        //Setting Quest info in QuestActivity
+
+                        fillQuestInfo();
+//                        Quest[] quests1 = Firestore.user.quests;
+//                        int XP = Firestore.Quest.EXPERIENCE;
+//                        int max = Firestore.Quest.MAX;
+//                        QuestActivity.setQuests(quests1[0].getQuestType().text,
+//                                ""+XP,
+//                                (int)quests1[0].getPercentage()*max,
+//                                max,
+//                                quests1[0].getQuestType().text,
+//                                ""+XP,
+//                                (int)quests1[0].getPercentage()*max,
+//                                max,
+//                                quests1[0].getQuestType().text,
+//                                ""+XP,
+//                                (int)quests1[0].getPercentage()*max,
+//                                max);
                     }
                 });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void fillProfileInfo() {
+        ProfileActivity.fillInfo(
+                Storage.getProfilePicturePath(Firestore.user.lvl),
+                getEmail(),
+                getName(),
+                ""+Firestore.user.lvl,
+                Firestore.user.xp,
+                Firestore.user.lvl);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void fillQuestInfo() {
+        Quest[] quests = Firestore.user.quests;
+        int XP = Firestore.Quest.EXPERIENCE;
+        int max = Firestore.Quest.MAX;
+        QuestActivity.setQuests(quests[0].getQuestType().text,
+                ""+XP,
+                (int)(quests[0].getPercentage()*max),
+                max,
+                quests[0].getQuestType().text,
+                ""+XP,
+                (int)(quests[0].getPercentage()*max),
+                max,
+                quests[0].getQuestType().text,
+                ""+XP,
+                (int)(quests[0].getPercentage()*max),
+                max);
     }
 
     /**
@@ -147,6 +202,7 @@ public class Firestore {
         db.collection("users")
                 .document(document_name)
                 .set(user);
+        setFirebaseUser(firebaseUser, false);
     }
 
     /**
@@ -226,10 +282,12 @@ public class Firestore {
             this.pic_id = pic_id;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         public void questEventHandler(Sql.Question question) {
             for (Quest q : quests) {
-                if (q.questType.toString().equals(question.toString()) && !q.isComplete) {
+                if (q.questType.toString().equals(question.questionType.toString()) && !q.isComplete) {
                     q.stepForward();
+                    fillQuestInfo();
                 }
             }
         }
@@ -249,10 +307,12 @@ public class Firestore {
                     "}";
         }
     }
-    private static class Quest {
+    public static class Quest {
         private QuestType questType;
         private double percentage;
         private boolean isComplete = false;
+        public static final int EXPERIENCE = 25;
+        public static final int MAX = 20;
 
         public double getPercentage() {
             return percentage;
@@ -274,6 +334,7 @@ public class Firestore {
             if (isComplete) return;
             percentage = (percentage*5.0 + 1)/5.0;
             if (percentage == 1.0) isComplete = true;
+            System.out.println(percentage);
         }
 
     }

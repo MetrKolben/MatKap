@@ -1,20 +1,25 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.firebase.Firestore;
 import com.example.myapplication.firebase.Sql;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +39,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     RadioButton answerB;
     RadioButton answerC;
     RadioButton answerD;
+
+    private Sql.Question currentQuestion = null;
 
     int indexOfQuestion = 0;
     int points = 0;
@@ -106,6 +113,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         String answerC_text = questions.get(i).getC().text;
         String answerD_text = questions.get(i).getD().text;
         String movement = questions.get(i).movement;
+        currentQuestion = questions.get(i);
 
         boolean answerA_isRight = questions.get(i).getA().isRight;
         boolean answerB_isRight = questions.get(i).getB().isRight;
@@ -132,6 +140,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -143,6 +152,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
                         if (checkAnswer()) {
+                            Firestore.user.questEventHandler(currentQuestion);
                             points += 10;
                             setButtonRight(rb);
                             answerList.add(true);
@@ -249,6 +259,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = new Intent(QuestionActivity.this, QuizSummary.class);
         intent.putExtra("percent", points);
         intent.putExtra("numberofquestions", numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
+        intent.putExtra("mistakes", mostCommonMistakes.toArray(new String[0]));
         points = 0;
         indexOfQuestion = 0;
         startActivity(intent);
@@ -281,8 +292,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-//        System.out.println(Arrays.asList(mistakes));
-//        System.out.println("nejcastejsi chyby: " + Arrays.toString(mostCommonMistakes.toArray()));
     }
 
     public void setButtonWrong(RadioButton rb) {

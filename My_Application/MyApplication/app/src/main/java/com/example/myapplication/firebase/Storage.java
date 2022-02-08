@@ -46,7 +46,6 @@ public class Storage {
             public void onFailure(@NonNull Exception e) {
             }
         });
-        System.out.println(file.exists());
         return file.getPath();
     }
 
