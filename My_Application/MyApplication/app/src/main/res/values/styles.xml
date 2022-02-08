@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyCheckBox" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+    <style name="MyCheckBox" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorControlNormal">?attr/colorPrimary</item>
         <item name="colorControlActivated">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:background">?attr/backgroundColor</item>
         <item name="buttonBarButtonStyle">@style/AlertDialogButtonStyleSettings</item>
+        <item name="textColorAlertDialogListItem">?attr/colorOnBackground</item>
+        <item name="android:buttonTint">@color/purple_700</item>
+        <item name="android:colorAccent">@color/purple_700</item>
+        <item name="android:windowAnimationStyle">@style/AnimationDialog</item>
     </style>
 
     <style name="AlertDialogButtonStyleSettings" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
+    <style name="AnimationDialog">
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+        <item name="android:windowExitAnimation">@anim/fadeout</item>
+    </style>
+
+
     <style name="AlertDialog_deleteAccount" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/red_wrong</item>
     </style>
+
 
 
 </resources>

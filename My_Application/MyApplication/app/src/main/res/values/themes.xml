@@ -19,6 +19,6 @@
 
 
 
-<item name="alertDialogTheme">@style/MyCheckBox</item>-->
+        <item name="alertDialogTheme">@style/MyCheckBox</item>-->
     </style>
 </resources>

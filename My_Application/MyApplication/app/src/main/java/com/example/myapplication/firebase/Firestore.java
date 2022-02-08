@@ -53,7 +53,7 @@ public class Firestore {
                         Map<String, Object> user = task.getResult().getData();
                         if (user == null) {
                             addFirebaseUser();
-//                            return;
+                            return; // TODO tady honzo něco fixni idk co to zvládneš :)
                         }
                         int i = 0;
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
