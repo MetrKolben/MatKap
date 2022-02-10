@@ -65,6 +65,7 @@ public class Firestore {
                         QuestType[] types = getTodaysQuests();
                         boolean shouldBeRestarted = false;
 //                        Arrays.fill(shouldBeRestarted, false);
+                        int[] xps = getTodaysQuestRewards();
                         for (Map.Entry<String, Object> entry : user.entrySet()) {
                             String row = entry.getKey();
                             switch(row) {
@@ -105,6 +106,9 @@ public class Firestore {
                             quests[1].setPercentage(0);
                             quests[2].setPercentage(0);
                         }
+                        quests[0].setEXPERIENCE(xps[0]);
+                        quests[1].setEXPERIENCE(xps[1]);
+                        quests[2].setEXPERIENCE(xps[2]);
                         //Setting Profile info in ProfileActivity
                         Firestore.user = new User(quests, lvl, xp, pic_id);
                         updateUser();
@@ -154,18 +158,18 @@ public class Firestore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void fillQuestInfo() {
         Quest[] quests = Firestore.user.quests;
-        int XP = Firestore.Quest.EXPERIENCE;
+//        int xp = Firestore.Quest.EXPERIENCE;
         int max = Firestore.Quest.MAX;
         QuestActivity.setQuests(quests[0].getQuestType().text,
-                ""+XP,
+                ""+quests[0].getEXPERIENCE(),
                 (int)(quests[0].getPercentage()*max),
                 max,
                 quests[1].getQuestType().text,
-                ""+XP,
+                ""+quests[1].getEXPERIENCE(),
                 (int)(quests[1].getPercentage()*max),
                 max,
                 quests[2].getQuestType().text,
-                ""+XP,
+                ""+quests[2].getEXPERIENCE(),
                 (int)(quests[2].getPercentage()*max),
                 max);
     }
@@ -182,6 +186,15 @@ public class Firestore {
         res[1] = types[indexes[1]];
         res[2] = types[indexes[2]];
         return res;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static int[] getTodaysQuestRewards() {
+        int[] xps = Utils.getNNumbersFromDate(Quest.MAX_XP-Quest.MIN_XP+1, 3);
+        for (int i = 0; i<xps.length; i++) {
+            xps[i]+=Quest.MIN_XP;
+        }
+        return xps;
     }
 
     /**
@@ -251,7 +264,7 @@ public class Firestore {
 
         private int lvl;
         private int xp;
-        private int pic_id;
+        private int pic_id;//TODO odstranit pic_id
 
         private User(Quest[] quests, int lvl, int xp, int pic_id) {
             this.quests = quests;
@@ -313,7 +326,17 @@ public class Firestore {
         private QuestType questType;
         private double percentage;
         private boolean isComplete = false;
-        public static final int EXPERIENCE = 25;
+        public static final int MAX_XP = 30, MIN_XP = 15;
+
+        public int getEXPERIENCE() {
+            return EXPERIENCE;
+        }
+
+        public void setEXPERIENCE(int EXPERIENCE) {
+            this.EXPERIENCE = EXPERIENCE;
+        }
+
+        private int EXPERIENCE = 0;
         public static final int MAX = 20;
 
         public double getPercentage() {

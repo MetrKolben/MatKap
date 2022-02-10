@@ -107,22 +107,23 @@ public class QuestActivity extends AppCompatActivity {
             }
         });
         if (Firestore.user != null) {
-            Firestore.Quest[] quests = Firestore.user.quests;
-            int xp = Firestore.Quest.EXPERIENCE;
-            int max = Firestore.Quest.MAX;
-
-            setQuests(quests[0].getQuestType().text,
-                    ""+xp,
-                    (int)(quests[0].getPercentage()*max),
-                    max,
-                    quests[1].getQuestType().text,
-                    ""+xp,
-                    (int)(quests[1].getPercentage()*max),
-                    max,
-                    quests[2].getQuestType().text,
-                    ""+xp,
-                    (int)(quests[2].getPercentage()*max),
-                    max);
+            Firestore.fillQuestInfo();
+//            Firestore.Quest[] quests = Firestore.user.quests;
+////            int xp = Firestore.Quest.EXPERIENCE;
+//            int max = Firestore.Quest.MAX;
+//
+//            setQuests(quests[0].getQuestType().text,
+//                    ""+quests[0].getEXPERIENCE(),
+//                    (int)(quests[0].getPercentage()*max),
+//                    max,
+//                    quests[1].getQuestType().text,
+//                    ""+quests[1].getEXPERIENCE(),
+//                    (int)(quests[1].getPercentage()*max),
+//                    max,
+//                    quests[2].getQuestType().text,
+//                    ""+quests[2].getEXPERIENCE(),
+//                    (int)(quests[2].getPercentage()*max),
+//                    max);
         }
     }
 }
