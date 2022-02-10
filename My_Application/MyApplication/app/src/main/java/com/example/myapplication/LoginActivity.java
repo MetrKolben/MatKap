@@ -5,11 +5,15 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.firebase.Firestore;
@@ -36,6 +40,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     //TODO lepší javadoc
     private Button signInButton;
+    private ProgressBar loadBar;
+    private TextView appName;
+    private static LoginActivity loginActivity = null;
 
     GoogleApiClient GoogleApiClient;
     private GoogleSignInClient googleSignInClient;
@@ -45,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private ActivityLoginBinding binding;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         signInButton = findViewById(R.id.googleSignInButton);
+        loadBar = findViewById(R.id.progressBar);
+        appName = findViewById(R.id.app_name);
+
+
+        loadBar.setVisibility(View.INVISIBLE);
+        signInButton.setVisibility(View.VISIBLE);
+        appName.setVisibility(View.VISIBLE);
         signInButton.setOnClickListener(this);
 
         // Configure Google Sign In
@@ -87,15 +101,32 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    private void waitForFirebase() {
+//        new Utils.Synchronizer(new );
+//        Utils.TIMER.start();
+        loadBar.setVisibility(View.VISIBLE);
+        signInButton.setVisibility(View.INVISIBLE);
+        appName.setVisibility(View.INVISIBLE);
+        loginActivity = this;
+//        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public static void firebaseLoaded() {
+        loginActivity.startActivity(new Intent(loginActivity, ProfileActivity.class));
+        loginActivity.finish();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
     private void checkUser() {
         //if user is already signed in then go to profile activity
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null){
             Firestore.setFirebaseUser(firebaseUser, false);
             Log.d(TAG, "checkUser: Already logged in");
-            startActivity(new Intent(this, MenuActivity.class));
-            finish();
+            waitForFirebase();
+//            startActivity(new Intent(this, ProfileActivity.class));
+//            finish();
         }
     }
 
@@ -137,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @RequiresApi(api = Build.VERSION_CODES.S)
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         //login success
@@ -167,8 +198,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
 
                         //start profile activity
-                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-                        finish();
+                        waitForFirebase();
+//                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+//                        finish();
 
                     }
                 })

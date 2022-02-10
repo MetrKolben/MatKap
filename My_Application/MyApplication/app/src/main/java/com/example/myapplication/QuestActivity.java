@@ -39,7 +39,7 @@ public class QuestActivity extends AppCompatActivity {
             questText1.setText(text);
             xpQuest1.setText(xp);
             xpProgress1.setMax(max);
-            xpProgress1.setProgress(value);
+            xpProgress1.setProgress(value, true);
         }
     }
 
@@ -49,7 +49,7 @@ public class QuestActivity extends AppCompatActivity {
             questText2.setText(text);
             xpQuest2.setText(xp);
             xpProgress2.setMax(max);
-            xpProgress2.setProgress(value);
+            xpProgress2.setProgress(value, true);
         }
     }
 
@@ -59,7 +59,7 @@ public class QuestActivity extends AppCompatActivity {
             questText3.setText(text);
             xpQuest3.setText(xp);
             xpProgress3.setMax(max);
-            xpProgress3.setProgress(value);
+            xpProgress3.setProgress(value, true);
         }
     }
 

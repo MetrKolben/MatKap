@@ -8,11 +8,59 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Utils {
+//    public static Map<String, Synchronizer> syncs = new HashMap<>();
 
+
+    public static class TIMER {
+        private static long ms = 0;
+        public static void start() {
+            ms = System.currentTimeMillis();
+        }
+        public static long stop(){
+            long temp = System.currentTimeMillis()-ms;
+            ms = 0;
+            return temp;
+        }
+    }
+
+//    public static class Synchronizer {
+//        private int counter = 0;
+//        private final int required;
+//        private final Runnable runnable;
+//        private List<Class<Object>> classes = new ArrayList<>();
+//        private List<Class> usedClasses = new ArrayList<>();
+//        private final String name;
+//
+//        public Synchronizer(int required, Runnable runnable, String name, Class... classes) {
+//            this.required = required;
+//            this.runnable = runnable;
+//            this.name = name;
+////            this.classes.addAll((Collection<? extends Class<Object>>) Arrays.asList(classes));
+//            syncs.put(name, this);
+//        }
+//
+//        public static void sync(Class currentClass, String name) {
+//            Synchronizer sync = syncs.get(name);
+//            if (sync.classes.contains(currentClass) && !sync.usedClasses.contains(currentClass)) {
+//                sync.usedClasses.add(currentClass);
+//                sync.counter++;
+//            }
+//            if (sync.counter == sync.required) {
+//                sync.runnable.run();
+//                syncs.remove(name);
+//            }
+//        }
+//    }
     /**
      * Generates an array of random int values
      * @param n the length os the array

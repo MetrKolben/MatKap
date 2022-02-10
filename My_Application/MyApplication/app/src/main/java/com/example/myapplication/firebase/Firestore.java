@@ -6,6 +6,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.ProfileActivity;
 import com.example.myapplication.QuestActivity;
 import com.example.myapplication.Utils;
@@ -62,8 +63,8 @@ public class Firestore {
                         int xp = 0;
                         int pic_id = 0;
                         QuestType[] types = getTodaysQuests();
-                        boolean[] shouldBeRestarted = new boolean[3];
-                        Arrays.fill(shouldBeRestarted, false);
+                        boolean shouldBeRestarted = false;
+//                        Arrays.fill(shouldBeRestarted, false);
                         for (Map.Entry<String, Object> entry : user.entrySet()) {
                             String row = entry.getKey();
                             switch(row) {
@@ -74,21 +75,21 @@ public class Firestore {
                                     pic_id = ((Long)entry.getValue()).intValue();
                                     break;
                                 case "u1_type":
-                                    shouldBeRestarted[0] = !(QuestType.toQuestType((String)entry.getValue()) == types[0]);
+                                    shouldBeRestarted = shouldBeRestarted || !(QuestType.toQuestType((String)entry.getValue()) == types[0]);
                                     quests[0].setQuestionType(types[0]);
                                     break;
                                 case "u1_stat":
                                     quests[0].setPercentage((Double)entry.getValue());
                                     break;
                                 case "u2_type":
-                                    shouldBeRestarted[1] = !(QuestType.toQuestType((String)entry.getValue()) == types[1]);
+                                    shouldBeRestarted = shouldBeRestarted || !(QuestType.toQuestType((String)entry.getValue()) == types[1]);
                                     quests[1].setQuestionType(types[1]);
                                     break;
                                 case "u2_stat":
                                     quests[1].setPercentage((Double)entry.getValue());
                                     break;
                                 case "u3_type":
-                                    shouldBeRestarted[2] = !(QuestType.toQuestType((String)entry.getValue()) == types[2]);
+                                    shouldBeRestarted = shouldBeRestarted || !(QuestType.toQuestType((String)entry.getValue()) == types[2]);
                                     quests[2].setQuestionType(types[2]);
                                     break;
                                 case "u3_stat":
@@ -99,11 +100,15 @@ public class Firestore {
                                     break;
                             }
                         }
-                        if (shouldBeRestarted[0]) quests[0].setPercentage(0);
-                        if (shouldBeRestarted[1]) quests[1].setPercentage(0);
-                        if (shouldBeRestarted[2]) quests[2].setPercentage(0);
+                        if (shouldBeRestarted) {
+                            quests[0].setPercentage(0);
+                            quests[1].setPercentage(0);
+                            quests[2].setPercentage(0);
+                        }
                         //Setting Profile info in ProfileActivity
                         Firestore.user = new User(quests, lvl, xp, pic_id);
+                        updateUser();
+//                        long l = Utils.TIMER.stop();
                         fillProfileInfo();
 //                        ProfileActivity.fillInfo(
 //                                Storage.getProfilePicturePath(Firestore.user.lvl),
@@ -115,6 +120,7 @@ public class Firestore {
                         //Setting Quest info in QuestActivity
 
                         fillQuestInfo();
+                        LoginActivity.firebaseLoaded();
 //                        Quest[] quests1 = Firestore.user.quests;
 //                        int XP = Firestore.Quest.EXPERIENCE;
 //                        int max = Firestore.Quest.MAX;
