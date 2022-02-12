@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="30dp"
             android:progress="50"
-            android:progressBackgroundTint="?attr/colorSecondary"
+            android:progressBackgroundTint="?attr/colorSecondaryVariant"
             android:progressTint="?attr/colorPrimary" />
 
         <LinearLayout
