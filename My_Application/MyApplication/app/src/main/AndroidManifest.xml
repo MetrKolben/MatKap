@@ -17,7 +17,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".CheatSheet"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".QuestActivity"
             android:exported="false"
@@ -40,10 +41,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".QuestionActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".QuizActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

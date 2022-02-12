@@ -33,16 +33,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
     public void onBindViewHolder(@NonNull BookVH holder, int position) {
         Book book = bookList.get(position);
         holder.heading.setText(book.getName());
-        holder.description.setText(null); // todo doplnit popis
+        holder.description.setText(book.getAuthor()); // todo doplnit popis
 
         boolean isExpandable = bookList.get(position).isExpandable();
-        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.INVISIBLE);
+        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return bookList.size();
     }
 
     public class BookVH extends RecyclerView.ViewHolder{
@@ -50,6 +50,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
         TextView heading, description;
         LinearLayout linearLayout;
         RelativeLayout expandable;
+
+
         public BookVH(@NonNull View itemView) {
             super(itemView);
 

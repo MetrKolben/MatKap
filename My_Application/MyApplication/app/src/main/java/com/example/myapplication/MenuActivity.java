@@ -13,6 +13,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton profileButton;
     private ImageButton questButton;
     private Button startQuizButton;
+    private ImageButton dontBeLazyGoStudy;
 
 
     @Override
@@ -22,10 +23,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         profileButton = findViewById(R.id.profile_button);
         startQuizButton = findViewById(R.id.turnOnQuiz);
         questButton = findViewById(R.id.quest_button);
+        dontBeLazyGoStudy = findViewById(R.id.study_button);
 
         questButton.setOnClickListener(this);
         profileButton.setOnClickListener(this);
         startQuizButton.setOnClickListener(this);
+        dontBeLazyGoStudy.setOnClickListener(this);
 
     }
 
@@ -45,6 +48,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent_Three = new Intent(this, QuestActivity.class);
                 startActivity(intent_Three);
                 break;
+            case R.id.study_button:
+                Intent intentNekamDoPrdele = new Intent(this, CheatSheet.class);
+                startActivity(intentNekamDoPrdele);
         }
     }
 }
