@@ -33,7 +33,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
     public void onBindViewHolder(@NonNull BookVH holder, int position) {
         Book book = bookList.get(position);
         holder.heading.setText(book.getName());
-        holder.description.setText(book.getAuthor()); // todo doplnit popis
+        holder.description.setText("▪ autor: " +book.getAuthor() + "\n" +
+                "▪  žánr: " + book.getGenre() + "\n" +
+                "▪ směr: "  + book.getMovement()); // todo doplnit popis
+
+
 
         boolean isExpandable = bookList.get(position).isExpandable();
         holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
