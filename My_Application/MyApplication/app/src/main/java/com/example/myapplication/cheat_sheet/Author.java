@@ -1,14 +1,16 @@
 package com.example.myapplication.cheat_sheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
 
+    private static final List<Author> values = new ArrayList<>();
+
     private String name;
-    private List<String> books;
+    private final List<String> books;
     private String movement;
     private String country;
-
 
 
     private boolean expandable;
@@ -33,9 +35,9 @@ public class Author {
         return books;
     }
 
-    public void setBooks(List<String> books) {
-        this.books = books;
-    }
+//    public void setBooks(List<String> books) {
+//        this.books = books;
+//    }
 
     public String getMovement() {
         return movement;
@@ -51,6 +53,10 @@ public class Author {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public static List<Author> getValues() {
+        return values;
     }
 
     @Override

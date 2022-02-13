@@ -38,7 +38,7 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
 
     @Override
     public int getItemCount() {
-        return 0;
+        return movementList.size();
     }
 
     public class MovementVH extends RecyclerView.ViewHolder {

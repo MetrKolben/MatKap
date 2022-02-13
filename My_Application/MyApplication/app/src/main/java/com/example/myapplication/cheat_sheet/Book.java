@@ -1,15 +1,20 @@
 package com.example.myapplication.cheat_sheet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
 
+    private static final List<Book> values = new ArrayList<>();
+
     private String name;
+
     private String author;
     private String movement;
     private String druh;
     private String genre;
     private int publishYear;
     private boolean expandable;
-
 
 
     public Book(String name,
@@ -26,6 +31,10 @@ public class Book {
         this.genre = genre;
         this.publishYear = publishYear;
         this.expandable = false;
+    }
+
+    public static List<Book> getValues() {
+        return values;
     }
 
     public String getName() {

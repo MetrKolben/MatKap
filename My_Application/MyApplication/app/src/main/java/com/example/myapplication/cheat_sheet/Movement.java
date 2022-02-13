@@ -1,17 +1,28 @@
 package com.example.myapplication.cheat_sheet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movement {
 
+    private static final List<Movement> values = new ArrayList<>();
+
     private String name;
+
     private String sign;
     private String century;
     private boolean expandable;
-
-    public Movement(String name, String sign, String century) {
+    private final List<String> authors;
+    public Movement(String name, String sign, String century, List<String> authors) {
         this.name = name;
         this.sign = sign;
         this.century = century;
         this.expandable = false;
+        this.authors = authors;
+    }
+
+    public static List<Movement> getValues() {
+        return values;
     }
 
     public String getName() {
