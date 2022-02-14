@@ -82,23 +82,146 @@ public class Sql {
         Cursor c = generalDatabase.rawQuery("SELECT name FROM movement", null);
         List<String> movements = new ArrayList<>();
         if (c.moveToFirst()) {
-            do{
+            do {
                 movements.add(c.getString(c.getColumnIndex("name")));
             } while (c.moveToNext());
         }
+        c.close();
         return movements;
     }
 
     static class Author {
-
+        @SuppressLint("Range")
+        public static List<String> getAuthor() {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name FROM author", null);
+            List<String> authors = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    authors.add(c.getString(c.getColumnIndex("name")));
+                } while (c.moveToNext());
+            }
+            c.close();
+            return authors;
+        }
     }
 
-    static class Book {
+    public static class Book {
+        @SuppressLint("Range")
+        public static List<String> getBooks() {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name FROM book", null);
+            List<String> books = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    books.add(c.getString(c.getColumnIndex("name")));
+                } while (c.moveToNext());
+            }
+            c.close();
+            return books;
+        }
 
+        @SuppressLint("Range")
+        public static String getBookAuthor(String book) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, author.name AS author_name FROM book LEFT OUTER JOIN author ON book.author_id = author.id", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        return c.getString(c.getColumnIndex("author_name"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static String getBookMovement(String book) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, movement.name AS movement_name FROM book LEFT OUTER JOIN movement ON book.movement_id = movement.id", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        return c.getString(c.getColumnIndex("movement_name"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static String getBookGenre(String book) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, genre.name AS genre_name FROM book LEFT OUTER JOIN genre ON book.genre_id = genre.id", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        return c.getString(c.getColumnIndex("genre_name"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
     }
 
-    static class Movement{
-
+    public static class Movement{
+        @SuppressLint("Range")
+        public static List<String> getMovements() {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name FROM movement", null);
+            List<String> movements = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do{
+                    movements.add(c.getString(c.getColumnIndex("name")));
+                } while (c.moveToNext());
+            }
+            return movements;
+        }
     }
 
     /**

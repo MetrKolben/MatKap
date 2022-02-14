@@ -15,6 +15,7 @@ import com.example.myapplication.cheat_sheet.Author;
 import com.example.myapplication.cheat_sheet.Book;
 import com.example.myapplication.cheat_sheet.BookAdapter;
 import com.example.myapplication.cheat_sheet.Movement;
+import com.example.myapplication.firebase.Sql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
     private static final String AUTHOR_SELECT = "Autoři";
     private static final String MOVEMENT_SELECT = "Směry";
 
-    int selectedOption = 1;
+    int selectedOption = 0;
 
     /* TODO  uloží si int toho co uživatel chce vidět (0 = knihy; 1 = autori; 2 = smery). Dále je potřeba naplit Listy informacemi z databáze*/
 
@@ -76,18 +77,24 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
 
         bookList = new ArrayList<>();
 
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
+//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
+
+        for (String book : Sql.Book.getBooks()) {
+            bookList.add(new Book(book, "author", "ads", "detsky pudr", "divne deti", 1984));
+        }
 
         // TODO doplnit. Zde se naplní listy těmi informacemi
     }
@@ -101,6 +108,7 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedOption = which;
+                System.out.println(selectedOption);
             }
         });
 
