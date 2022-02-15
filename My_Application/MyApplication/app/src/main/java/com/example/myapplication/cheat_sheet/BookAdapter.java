@@ -35,7 +35,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
         holder.heading.setText(book.getName());
         holder.description.setText("▪ autor: " +book.getAuthor() + "\n" +
                 "▪ žánr: " + book.getGenre() + "\n" +
-                "▪ směr: "  + book.getMovement()); // todo doplnit popis
+                "▪ směr: "  + book.getMovement() + "\n" +
+                "▪ druh: " + book.getDruh() + "\n" +
+                "▪ rok vydání: " + book.getPublishYear()); // todo doplnit popis
 
 
 

@@ -93,7 +93,7 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
 //        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
 
         for (String book : Sql.Book.getBooks()) {
-            bookList.add(new Book(book, "author", "ads", "detsky pudr", "divne deti", 1984));
+            bookList.add(new Book(book, "author", "ads", "detsky pudr", "divne deti", "1984"));
         }
 
         // TODO doplnit. Zde se naplní listy těmi informacemi

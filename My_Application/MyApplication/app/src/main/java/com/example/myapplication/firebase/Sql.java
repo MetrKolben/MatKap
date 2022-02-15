@@ -201,6 +201,52 @@ public class Sql {
             c.close();
             return null;
         }
+
+        @SuppressLint("Range")
+        public static String getBookDruh(String book) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, druh.name AS druh_name FROM book LEFT OUTER JOIN druh ON book.druh_id = druh.id", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        return c.getString(c.getColumnIndex("druh_name"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static String getBookPublishYear(String book) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, book.year AS book_year FROM book", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        return c.getString(c.getColumnIndex("book_year"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
     }
 
     public static class Movement{

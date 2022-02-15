@@ -15,7 +15,7 @@ public class Book {
     private String movement;
     private String druh;
     private String genre;
-    private int publishYear;
+    private String publishYear;
     private boolean expandable;
 
 
@@ -24,7 +24,7 @@ public class Book {
                 String movement,
                 String druh,
                 String genre,
-                int publishYear) {
+                String publishYear) {
 
         this.name = name;
         this.author = author;
@@ -66,6 +66,7 @@ public class Book {
     }
 
     public String getDruh() {
+        druh = Sql.Book.getBookDruh(name);
         return druh;
     }
 
@@ -82,11 +83,12 @@ public class Book {
         this.genre = genre;
     }
 
-    public int getPublishYear() {
+    public String getPublishYear() {
+        publishYear = Sql.Book.getBookPublishYear(name);
         return publishYear;
     }
 
-    public void setPublishYear(int publishYear) {
+    public void setPublishYear(String publishYear) {
         this.publishYear = publishYear;
     }
 
