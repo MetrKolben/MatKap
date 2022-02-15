@@ -1,5 +1,7 @@
 package com.example.myapplication.cheat_sheet;
 
+import com.example.myapplication.firebase.Sql;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class Author {
 //    }
 
     public String getMovement() {
+        movement = Sql.Author.getAuthorMovement(name);
         return movement;
     }
 
@@ -48,6 +51,7 @@ public class Author {
     }
 
     public String getCountry() {
+        country = Sql.Author.getAuthorCountry(name);
         return country;
     }
 

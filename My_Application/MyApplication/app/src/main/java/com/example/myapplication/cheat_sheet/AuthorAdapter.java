@@ -18,6 +18,10 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
 
     List<Author> authorList;
 
+    public AuthorAdapter(List<Author> authorList) {
+        this.authorList = authorList;
+    }
+
 
     @NonNull
     @Override
@@ -30,10 +34,11 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
     public void onBindViewHolder(@NonNull AuthorVH holder, int position) {
         Author author = authorList.get(position);
         holder.heading.setText(author.getName());
-        holder.description.setText(null); // todo doplnit popis
+        holder.description.setText("▪ country: " +author.getCountry() + "\n" +
+                "▪ movement: " +author.getMovement()); // todo doplnit popis
 
         boolean isExpandable = authorList.get(position).isExpandable();
-        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.INVISIBLE);
+        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
     }
 

@@ -12,12 +12,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.myapplication.cheat_sheet.Author;
+import com.example.myapplication.cheat_sheet.AuthorAdapter;
 import com.example.myapplication.cheat_sheet.Book;
 import com.example.myapplication.cheat_sheet.BookAdapter;
 import com.example.myapplication.cheat_sheet.Movement;
+import com.example.myapplication.cheat_sheet.MovementAdapter;
 import com.example.myapplication.firebase.Sql;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CheatSheet extends AppCompatActivity implements View.OnClickListener {
@@ -64,39 +67,64 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         });
 
         initData();
-        setRecyclerView();
+        setRecyclerView(0);
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerView(int option) {
+
         BookAdapter bookAdapter = new BookAdapter(bookList);
-        recyclerView.setAdapter(bookAdapter);
+        AuthorAdapter authorAdapter = new AuthorAdapter(authorList);
+        MovementAdapter movementAdapter = new MovementAdapter(movementList);
+//        BookAdapter bookAdapter = new BookAdapter(bookList);
+//        recyclerView.setAdapter(bookAdapter);
+//        recyclerView.setHasFixedSize(true);
+        switch (option) {
+            case 0:
+                recyclerView.setAdapter(bookAdapter);
+                System.out.println("bookAdapter " + selectedOption);
+                break;
+            case 1:
+                recyclerView.setAdapter(authorAdapter);
+                System.out.println("authorAdapter " + selectedOption);
+                break;
+            case 2:
+                recyclerView.setAdapter(movementAdapter);
+                System.out.println("movementAdapter " + selectedOption);
+                break;
+        }
         recyclerView.setHasFixedSize(true);
     }
 
     private void initData() {
 
         bookList = new ArrayList<>();
+        authorList = new ArrayList<>();
+        movementList = new ArrayList<>();
 
+        for (String authorName : Sql.Author.getAuthor()) {
+            authorList.add(new Author(authorName, Collections.singletonList("author"), "movement", "country"));
+        }
 
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-//        bookList.add(new Book("Ahoj tati", "martin chmelar", "dětská literatura", "detsky pudr", "divne deti", 1984));
-//        bookList.add(new Book("sad", "dsa", "ads", " ", " ", 41));
-
-        for (String book : Sql.Book.getBooks()) {
-            bookList.add(new Book(book, "author", "ads", "detsky pudr", "divne deti", "1984"));
+        for (String bookName : Sql.Book.getBooks()) {
+            bookList.add(new Book(bookName, "author", "ads","a", "v", "1984"));
         }
 
         // TODO doplnit. Zde se naplní listy těmi informacemi
+    }
+
+    private void changeFilter(int selectedOption) {
+        switch (selectedOption) {
+            case 0:
+                setRecyclerView(0);
+                break;
+            case 1:
+                setRecyclerView(1);
+                break;
+            case 2:
+                setRecyclerView(2);
+                break;
+        }
+
     }
 
     private void createDialogBox() {
@@ -104,11 +132,12 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         AlertDialog.Builder builder = new AlertDialog.Builder(CheatSheet.this);
         builder.setTitle("Vyber");
         builder.setCancelable(false);
-        builder.setSingleChoiceItems(options, 0, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(options, selectedOption, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedOption = which;
                 System.out.println(selectedOption);
+                changeFilter(selectedOption);
             }
         });
 

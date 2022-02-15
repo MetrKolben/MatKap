@@ -90,7 +90,7 @@ public class Sql {
         return movements;
     }
 
-    static class Author {
+    public static class Author {
         @SuppressLint("Range")
         public static List<String> getAuthor() {
             if (generalDatabase == null) {
@@ -109,6 +109,51 @@ public class Sql {
             }
             c.close();
             return authors;
+        }
+
+        @SuppressLint("Range")
+        public static String getAuthorCountry(String author) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name, country FROM author", null);
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("name")).equals(author)) {
+                        return c.getString(c.getColumnIndex("country"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static String getAuthorMovement(String author) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT author.name AS author_name, movement.name AS movement_name FROM author LEFT OUTER JOIN movement ON author.movement_id = movement.id", null);
+
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("author_name")).equals(author)) {
+                        return c.getString(c.getColumnIndex("movement_name"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
         }
     }
 

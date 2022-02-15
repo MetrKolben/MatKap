@@ -18,6 +18,10 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
 
     List<Movement> movementList;
 
+    public MovementAdapter(List<Movement> movementList) {
+        this.movementList = movementList;
+    }
+
     @NonNull
     @Override
     public MovementVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,7 +36,7 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
         holder.description.setText(null); // todo doplnit popis
 
         boolean isExpandable = movementList.get(position).isExpandable();
-        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.INVISIBLE);
+        holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
     }
 
