@@ -33,7 +33,9 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
     public void onBindViewHolder(@NonNull MovementVH holder, int position) {
         Movement movement = movementList.get(position);
         holder.heading.setText(movement.getName());
-        holder.description.setText(null); // todo doplnit popis
+        holder.description.setText("▪ authors: " +movement.getAuthors() + "\n" +
+                "▪ century: " +movement.getCentury() + "\n" +
+                "▪ sign: " +movement.getSign()); // todo doplnit popis
 
         boolean isExpandable = movementList.get(position).isExpandable();
         holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);

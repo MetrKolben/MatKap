@@ -10,7 +10,7 @@ public class Author {
     private static final List<Author> values = new ArrayList<>();
 
     private String name;
-    private final List<String> books;
+    private List<String> books;
     private String movement;
     private String country;
 
@@ -34,6 +34,7 @@ public class Author {
     }
 
     public List<String> getBooks() {
+        books = Sql.Author.getAuthorBooks(name);
         return books;
     }
 

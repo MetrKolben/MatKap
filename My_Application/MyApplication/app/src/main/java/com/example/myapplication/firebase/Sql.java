@@ -155,6 +155,29 @@ public class Sql {
             c.close();
             return null;
         }
+
+        @SuppressLint("Range")
+        public static List<String> getAuthorBooks(String author) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT book.name AS book_name, author.name AS author_name FROM book LEFT OUTER JOIN author ON book.author_id = author.id", null);
+            List<String> books = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("author_name")) != null && c.getString(c.getColumnIndex("author_name")).equals(author)) {
+                        books.add(c.getString(c.getColumnIndex("book_name")));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return books;
+        }
     }
 
     public static class Book {
@@ -312,6 +335,73 @@ public class Sql {
                 } while (c.moveToNext());
             }
             return movements;
+        }
+
+        @SuppressLint("Range")
+        public static String getMovementSign(String movement) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name, sign FROM movement", null);
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("name")).equals(movement)) {
+                        return c.getString(c.getColumnIndex("sign"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static String getMovementCentury(String movement) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT name, century FROM movement", null);
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("name")).equals(movement)) {
+                        return c.getString(c.getColumnIndex("century"));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return null;
+        }
+
+        @SuppressLint("Range")
+        public static List<String> getMovementAuthors(String movement) {
+            if (generalDatabase == null) {
+                try {
+                    openOrCreateGeneralDatabase(context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Cursor c = generalDatabase.rawQuery("SELECT author.name AS author_name, movement.name AS movement_name FROM author LEFT OUTER JOIN movement ON author.movement_id = movement.id", null);
+            List<String> authors = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    if (c.getString(c.getColumnIndex("movement_name")) != null && c.getString(c.getColumnIndex("movement_name")).equals(movement)) {
+                        authors.add(c.getString(c.getColumnIndex("author_name")));
+                    }
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            return authors;
         }
     }
 

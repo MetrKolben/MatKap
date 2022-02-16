@@ -102,11 +102,15 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         movementList = new ArrayList<>();
 
         for (String authorName : Sql.Author.getAuthor()) {
-            authorList.add(new Author(authorName, Collections.singletonList("author"), "movement", "country"));
+            authorList.add(new Author(authorName, Collections.singletonList(""), "", ""));
         }
 
         for (String bookName : Sql.Book.getBooks()) {
-            bookList.add(new Book(bookName, "author", "ads","a", "v", "1984"));
+            bookList.add(new Book(bookName, "", "","", "", ""));
+        }
+
+        for (String movementName : Sql.Movement.getMovements()) {
+            movementList.add(new Movement(movementName, "", "", Collections.singletonList("")));
         }
 
         // TODO doplnit. Zde se naplní listy těmi informacemi

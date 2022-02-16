@@ -35,6 +35,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
         Author author = authorList.get(position);
         holder.heading.setText(author.getName());
         holder.description.setText("▪ country: " +author.getCountry() + "\n" +
+                "▪ books: " +author.getBooks() + "\n" +
                 "▪ movement: " +author.getMovement()); // todo doplnit popis
 
         boolean isExpandable = authorList.get(position).isExpandable();
