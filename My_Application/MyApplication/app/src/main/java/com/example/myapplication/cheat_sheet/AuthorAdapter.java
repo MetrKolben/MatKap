@@ -34,9 +34,11 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
     public void onBindViewHolder(@NonNull AuthorVH holder, int position) {
         Author author = authorList.get(position);
         holder.heading.setText(author.getName());
-        holder.description.setText("▪ země původu: " +author.getCountry() + "\n" +
-                "▪ dílo: " +author.getBooks() + "\n" +
-                "▪ hnutí: " +author.getMovement()); // todo doplnit popis
+        holder.description.setText(
+                "▪ země původu: " +author.getCountry() + "\n" +
+                "▪ dílo: " +String.join(", ", author.getBooks()) + "\n" +
+                "▪ hnutí: " +author.getMovement()
+        ); // todo doplnit popis
 
         boolean isExpandable = authorList.get(position).isExpandable();
         holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
