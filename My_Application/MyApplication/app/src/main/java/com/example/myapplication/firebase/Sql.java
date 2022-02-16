@@ -104,7 +104,9 @@ public class Sql {
             List<String> authors = new ArrayList<>();
             if (c.moveToFirst()) {
                 do {
-                    authors.add(c.getString(c.getColumnIndex("name")));
+                    if(!c.getString(c.getColumnIndex("name")).equals("Neznámý autor")) {
+                        authors.add(c.getString(c.getColumnIndex("name")));
+                    }
                 } while (c.moveToNext());
             }
             c.close();
