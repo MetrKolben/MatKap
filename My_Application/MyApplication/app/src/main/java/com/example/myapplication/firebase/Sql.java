@@ -182,7 +182,14 @@ public class Sql {
         }
     }
 
+
+
+
+
+
+
     public static class Book {
+
         @SuppressLint("Range")
         public static List<String> getBooks() {
             if (generalDatabase == null) {
@@ -217,6 +224,7 @@ public class Sql {
             if (c.moveToFirst()) {
                 do {
                     if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        c.close();
                         return c.getString(c.getColumnIndex("author_name"));
                     }
                 } while (c.moveToNext());
@@ -240,6 +248,7 @@ public class Sql {
             if (c.moveToFirst()) {
                 do {
                     if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        c.close();
                         return c.getString(c.getColumnIndex("movement_name"));
                     }
                 } while (c.moveToNext());
@@ -263,6 +272,7 @@ public class Sql {
             if (c.moveToFirst()) {
                 do {
                     if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        c.close();
                         return c.getString(c.getColumnIndex("genre_name"));
                     }
                 } while (c.moveToNext());
@@ -286,6 +296,7 @@ public class Sql {
             if (c.moveToFirst()) {
                 do {
                     if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        c.close();
                         return c.getString(c.getColumnIndex("druh_name"));
                     }
                 } while (c.moveToNext());
@@ -309,6 +320,7 @@ public class Sql {
             if (c.moveToFirst()) {
                 do {
                     if (c.getString(c.getColumnIndex("book_name")).equals(book)) {
+                        c.close();
                         return c.getString(c.getColumnIndex("book_year"));
                     }
                 } while (c.moveToNext());
@@ -473,7 +485,7 @@ public class Sql {
                     "ON author.movement_id = movement.id " +
                     filter, null);
 
-            Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year\n" +
+            Cursor book = generalDatabase.rawQuery("SELECT book.id AS book_id, book.name AS book_name, author.name AS author_name, genre.name AS genre_name, druh.name AS druh_name, movement.name AS movement_name, year " +
                     "FROM book LEFT OUTER JOIN author ON book.author_id = author.id " +
                     "LEFT OUTER JOIN genre ON book.genre_id = genre.id " +
                     "LEFT OUTER JOIN druh ON book.druh_id = druh.id " +
