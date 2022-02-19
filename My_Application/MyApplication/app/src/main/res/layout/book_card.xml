@@ -20,7 +20,9 @@
             android:padding="16dp"
             android:text="Nadpis"
             android:textColor="?attr/colorOnBackground"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:fontFamily="@font/oxygen"
+            android:textStyle="bold|italic"/>
 
         <RelativeLayout
             android:id="@+id/expandable"
@@ -33,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="5dp"
-                android:text="▪ popis toho blbosti" />
+                android:fontFamily="@font/work_sans"
+                android:text="▪ popis toho +ěščřžý" />
         </RelativeLayout>
     </LinearLayout>
 

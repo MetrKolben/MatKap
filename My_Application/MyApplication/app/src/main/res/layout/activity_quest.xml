@@ -40,6 +40,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="quest1Text"
+                android:fontFamily="@font/antic"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +91,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="quest1Text"
+                android:fontFamily="@font/antic"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -139,6 +143,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text="quest1Text"
+                android:fontFamily="@font/antic"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -182,7 +188,7 @@
             android:id="@+id/quest_button_quest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/search" />
+            android:background="@drawable/quests" />
 
         <ImageButton
             android:id="@+id/home_button_quest"
@@ -194,7 +200,7 @@
             android:id="@+id/profile_button_quest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile" />
+            android:background="@drawable/school" />
 
 
     </com.google.android.flexbox.FlexboxLayout>

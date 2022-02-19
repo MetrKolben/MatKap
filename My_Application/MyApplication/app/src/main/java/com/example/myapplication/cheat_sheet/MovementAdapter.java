@@ -1,5 +1,6 @@
 package com.example.myapplication.cheat_sheet;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -29,14 +31,15 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
         return new MovementVH(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull MovementVH holder, int position) {
         Movement movement = movementList.get(position);
         holder.heading.setText(movement.getName());
         holder.description.setText(
-                "▪ autoři: " +String.join(", ", movement.getAuthors()) + "\n" +
-                "▪ období: " +movement.getCentury() + "\n" +
-                "▪ znaky: " +movement.getSign()
+                "▪ autoři: " +String.join(", ", movement.getAuthors()) + "\n\n" +
+                "▪ období: " +movement.getCentury() + "\n\n" +
+                "▪ znaky: " +movement.getSign() + "\n"
         ); // todo doplnit popis
 
         boolean isExpandable = movementList.get(position).isExpandable();

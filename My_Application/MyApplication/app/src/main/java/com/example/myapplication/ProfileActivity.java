@@ -84,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton zuHomeGehen;
     private ImageButton zuQuestGehen;
+    private ImageButton goToCheatSheet;
 
 
 
@@ -116,6 +117,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, QuestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        goToCheatSheet = findViewById(R.id.study_button_profile);
+
+        goToCheatSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, CheatSheet.class);
                 startActivity(intent);
             }
         });

@@ -230,7 +230,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         setQuestionAndAnswers(indexOfQuestion);
                         confirmButton.setClickable(true);
                     }
-                    goToSummaryActivity();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            goToSummaryActivity();
+                        }
+                    }, 1000);
+
 
                 }
                 break;

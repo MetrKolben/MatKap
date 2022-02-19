@@ -3,8 +3,8 @@
     <item>
         <shape android:shape="oval">
             <size
-                android:width="40dp"
-                android:height="40dp" />
+                android:width="50dp"
+                android:height="50dp" />
             <solid android:color="?attr/colorPrimary" />
 
 
@@ -12,5 +12,9 @@
     </item>
     <item
         android:drawable="@drawable/ic_baseline_filter_alt_24"
+        android:height="40dp"
+        android:width="40dp"
+
+        android:gravity="center"
         />
 </layer-list>

@@ -1,5 +1,6 @@
 package com.example.myapplication.cheat_sheet;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -30,14 +32,15 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
         return new AuthorVH(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull AuthorVH holder, int position) {
         Author author = authorList.get(position);
         holder.heading.setText(author.getName());
         holder.description.setText(
-                "▪ země původu: " +author.getCountry() + "\n" +
-                "▪ dílo: " +String.join(", ", author.getBooks()) + "\n" +
-                "▪ hnutí: " +author.getMovement()
+                "▪ země původu: " +author.getCountry() + "\n \n" +
+                "▪ dílo: " +String.join(", ", author.getBooks()) + "\n\n" +
+                "▪ hnutí: " +author.getMovement() + "\n"
         ); // todo doplnit popis
 
         boolean isExpandable = authorList.get(position).isExpandable();

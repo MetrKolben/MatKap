@@ -6,36 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".MenuActivity">
 
+
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/flexboxLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         android:background="?attr/colorPrimary"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:padding="10dp"
         app:justifyContent="space_evenly"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <!--TODO ikonka na quest-->
         <ImageButton
 
             android:id="@+id/quest_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/search" />
+            android:background="@drawable/quests" />
 
         <ImageButton
-            android:id="@+id/home_button"
+            android:id="@+id/home_button_quest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/home" />
 
         <ImageButton
-        android:id="@+id/study_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/school" />
-
-
+            android:id="@+id/study_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/school" />
 
 
     </com.google.android.flexbox.FlexboxLayout>
@@ -79,5 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.615" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

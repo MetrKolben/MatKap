@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/actor</item>
+        <item>@font/amiko</item>
+        <item>@font/antic</item>
+        <item>@font/monda</item>
+        <item>@font/montserrat_black</item>
         <item>@font/mukta_vaani_bold</item>
+        <item>@font/work_sans</item>
+        <item>@font/work_sans_light</item>
     </array>
 </resources>
