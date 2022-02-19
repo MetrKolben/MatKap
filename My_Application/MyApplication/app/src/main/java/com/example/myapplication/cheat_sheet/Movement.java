@@ -38,7 +38,6 @@ public class Movement {
     }
 
     public String getSign() {
-        sign = Sql.Movement.getMovementSign(name);
         return sign;
     }
 
@@ -47,7 +46,6 @@ public class Movement {
     }
 
     public String getCentury() {
-        century = Sql.Movement.getMovementCentury(name);
         return century;
     }
 
@@ -56,7 +54,6 @@ public class Movement {
     }
 
     public List<String> getAuthors() {
-        authors = Sql.Movement.getMovementAuthors(name);
         return authors;
     }
 

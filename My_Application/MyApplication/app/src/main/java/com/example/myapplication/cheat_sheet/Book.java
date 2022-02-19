@@ -48,7 +48,6 @@ public class Book {
     }
 
     public String getAuthor() {
-        author = Sql.Book.getBookAuthor(name);
         return author;
     }
 
@@ -57,7 +56,6 @@ public class Book {
     }
 
     public String getMovement() {
-        movement = Sql.Book.getBookMovement(name);
         return movement;
     }
 
@@ -66,7 +64,6 @@ public class Book {
     }
 
     public String getDruh() {
-        druh = Sql.Book.getBookDruh(name);
         return druh;
     }
 
@@ -75,7 +72,6 @@ public class Book {
     }
 
     public String getGenre() {
-        genre = Sql.Book.getBookGenre(name);
         return genre;
     }
 
@@ -84,7 +80,6 @@ public class Book {
     }
 
     public String getPublishYear() {
-        publishYear = Sql.Book.getBookPublishYear(name);
         return publishYear;
     }
 

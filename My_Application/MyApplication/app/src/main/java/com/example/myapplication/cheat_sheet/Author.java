@@ -34,7 +34,6 @@ public class Author {
     }
 
     public List<String> getBooks() {
-        books = Sql.Author.getAuthorBooks(name);
         return books;
     }
 
@@ -43,7 +42,6 @@ public class Author {
 //    }
 
     public String getMovement() {
-        movement = Sql.Author.getAuthorMovement(name);
         return movement;
     }
 
@@ -52,7 +50,6 @@ public class Author {
     }
 
     public String getCountry() {
-        country = Sql.Author.getAuthorCountry(name);
         return country;
     }
 

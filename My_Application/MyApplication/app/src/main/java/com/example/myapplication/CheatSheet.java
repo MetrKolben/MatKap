@@ -21,6 +21,7 @@ import com.example.myapplication.firebase.Sql;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CheatSheet extends AppCompatActivity implements View.OnClickListener {
@@ -101,16 +102,16 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         authorList = new ArrayList<>();
         movementList = new ArrayList<>();
 
-        for (String authorName : Sql.Author.getAuthor()) {
-            authorList.add(new Author(authorName, Collections.singletonList(""), "", ""));
+        for (Sql.Author author : Sql.Author.getAuthorList()) {
+            authorList.add(new Author(author.getName(), author.getBooks(), author.getMovement(), author.getCountry()));
         }
 
-        for (String bookName : Sql.Book.getBooks()) {
-            bookList.add(new Book(bookName, "", "","", "", ""));
+        for (Sql.Book book : Sql.Book.getBookList()) {
+            bookList.add(new Book(book.getName(), book.getAuthor(), book.getMovement(), book.getDruh(), book.getGenre(), book.getYear()));
         }
 
-        for (String movementName : Sql.Movement.getMovements()) {
-            movementList.add(new Movement(movementName, "", "", Collections.singletonList("")));
+        for (Sql.Movement movement : Sql.Movement.getMovementList()) {
+            movementList.add(new Movement(movement.getName(), movement.getSign(), movement.getCentury(), movement.getAuthors()));
         }
 
         // TODO doplnit. Zde se naplní listy těmi informacemi
