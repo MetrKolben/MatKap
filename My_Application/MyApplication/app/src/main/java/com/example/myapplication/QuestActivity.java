@@ -102,7 +102,7 @@ public class QuestActivity extends AppCompatActivity {
         goToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(QuestActivity.this, CheatSheet.class);
                 startActivity(intent);
             }
         });
