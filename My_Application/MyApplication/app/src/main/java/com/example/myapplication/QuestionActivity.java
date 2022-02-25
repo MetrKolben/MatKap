@@ -176,11 +176,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     cleanButtons(answers);
                                     numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
                                     setQuestionAndAnswers(indexOfQuestion);
+                                    confirmButton.setClickable(true);
                                 }
                             };
+//                            confirmButton.setClickable(true);
                             Handler h = new Handler();
                             h.postDelayed(r, 1500);
-                            confirmButton.setClickable(true);
                         } else {
                             confirmButton.setClickable(false);
                             pointsView.setText(points + "b");
