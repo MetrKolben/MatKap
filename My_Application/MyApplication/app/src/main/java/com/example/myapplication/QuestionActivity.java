@@ -17,28 +17,30 @@ import android.widget.Toast;
 
 import com.example.myapplication.firebase.Firestore;
 import com.example.myapplication.firebase.Sql;
+import com.google.common.collect.Iterables;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView questionTextView;
-    TextView numOfCurrentQuestion;
-    TextView howManyQuestionsInTest;
-    TextView pointsView;
-    TextView confirmButton;
+    private static List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
 
-    RadioGroup answers;
-    RadioButton answerA;
-    RadioButton answerB;
-    RadioButton answerC;
-    RadioButton answerD;
+    private TextView questionTextView;
+    private TextView numOfCurrentQuestion;
+    private TextView howManyQuestionsInTest;
+    private TextView pointsView;
+    private TextView confirmButton;
+
+    private RadioGroup answers;
+    private RadioButton answerA;
+    private RadioButton answerB;
+    private RadioButton answerC;
+    private RadioButton answerD;
 
     private Sql.Question currentQuestion = null;
 
@@ -53,9 +55,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     boolean setResults = false;
 
-    List<Sql.Question> questions;
-    List<Sql.Question> test;
-    Sql.QuestionList questionList;
+    private List<Sql.Question> questions;
+    private List<Sql.Question> test;
+    private Sql.QuestionList questionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Nastala chyba, zvol více směrů", Toast.LENGTH_SHORT).show();
             return;
         }
+        answeredQuestions.add(new AnsweredQuestion(questions.get(i)));
         String questionText = questions.get(i).text;
         String answerA_text = questions.get(i).getA().text;
         String answerB_text = questions.get(i).getB().text;
@@ -152,12 +155,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
                         if (checkAnswer()) {
+                            AnsweredQuestion.setWrongForLast(-1);
                             Firestore.user.questEventHandler(currentQuestion);
                             points += 10;
                             setButtonRight(rb);
                             answerList.add(true);
+//                            answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId()))
                             // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         } else {
+                            AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                             setButtonWrong(rb);
                             setButtonRight(findRadioRight(answers));
 
@@ -195,11 +201,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                     }
                 } else {
                     if (checkAnswer()) {
+                        AnsweredQuestion.setWrongForLast(-1);
+                        Firestore.user.questEventHandler(currentQuestion);
                         points += 10;
                         //Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         setButtonRight(rb);
                         // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                     } else {
+                        AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                         setButtonWrong(rb);
                         setButtonRight(findRadioRight(answers));
                         //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
@@ -268,6 +277,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("percent", points);
         intent.putExtra("numberofquestions", numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()));
         intent.putExtra("mistakes", mostCommonMistakes.toArray(new String[0]));
+        intent.putExtra("answeredQuestions", (Serializable) answeredQuestions);
         points = 0;
         indexOfQuestion = 0;
         startActivity(intent);
@@ -330,6 +340,52 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             radioGroup.getChildAt(i).setBackground(null);
 
+        }
+    }
+
+    static class AnsweredQuestion extends Sql.Question implements Serializable{
+        private int indexOfWrong;
+
+        AnsweredQuestion(Sql.Question question) {
+            super(question);
+        }
+
+        private static void setWrongForLast(int indexOfWrong) {
+            Iterables.getLast(answeredQuestions).indexOfWrong = indexOfWrong;
+        }
+
+        public String getQuestionText() {
+            return text;
+        }
+
+        public String getWrongAnswer() {
+            switch (indexOfWrong) {
+                case 0:
+                    return getA().text;
+                case 1:
+                    return getB().text;
+                case 2:
+                    return getC().text;
+                case 3:
+                    return getD().text;
+                default:
+                    return null;
+            }
+        }
+
+        public String getRightAnswer() {
+            if (getA().isRight) return getA().text;
+            if (getB().isRight) return getB().text;
+            if (getC().isRight) return getC().text;
+            return getD().text;
+        }
+
+        @Override
+        public String toString() {
+            return "AnsweredQuestion{\n" +
+                    "   " + getQuestionText() + "\n" +
+                    "   " + getWrongAnswer() + "\n" +
+                    "   " + getRightAnswer() + "}";
         }
     }
 }

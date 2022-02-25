@@ -11,14 +11,17 @@ import android.widget.TextView;
 
 import com.example.myapplication.firebase.Firestore;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class QuizSummary extends AppCompatActivity implements View.OnClickListener {
 
-    TextView percentage;
-    TextView ratingText;
-    TextView mostMistakesText;
-    Button backButton;
+    private TextView percentage;
+    private TextView ratingText;
+    private TextView mostMistakesText;
+    private Button backButton;
+    private List<QuestionActivity.AnsweredQuestion> answeredQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         int numOfQuestions = (int) getIntent().getSerializableExtra("numberofquestions");
         percentage.setText(""+rating(rating, numOfQuestions));
         String[] mistakes = getIntent().getStringArrayExtra("mistakes");
-//        String[] mistakes = QuestionActivity.mostCommonMistakes.toArray(new String[0]);
+        answeredQuestions = (ArrayList<QuestionActivity.AnsweredQuestion>) getIntent().getSerializableExtra("answeredQuestions");
         if (mistakes.length > 0) {
             String str = mistakes[0];
             for (int i = 1; i < mistakes.length; i++) {

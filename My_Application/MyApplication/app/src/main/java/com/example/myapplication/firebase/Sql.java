@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +40,7 @@ import java.util.List;
  *     </ul>
  * </p>
  */
-public class Sql {
+public class Sql{
     private static SQLiteDatabase generalDatabase = null;
 
     private static AppCompatActivity context = null;
@@ -509,7 +510,7 @@ public class Sql {
         }
     }
 
-    public static class Question{
+    public static class Question implements Serializable{
         public final String text;
         private final Answer[] answers;
         public final QuestionType questionType;
@@ -521,6 +522,10 @@ public class Sql {
             this.answers = answers;
             this.text = text;
             this.movement = movement;
+        }
+
+        public Question(Question question) {
+            this(question.questionType, question.movement, question.text, question.answers);
         }
 
         /**
@@ -723,7 +728,7 @@ public class Sql {
     /**
      * A simple object containing the <b>text</b> and <b>truthfulness</b> of the answer
      */
-    public static class Answer{
+    public static class Answer implements Serializable{
         public final String text;
         public final boolean isRight;
 

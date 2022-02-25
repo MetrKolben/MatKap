@@ -93,7 +93,7 @@ public class Utils {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static int[] getNNumbersFromDate(int bound, int count){
         int[] numbers = new int[count];
-        int seed = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDateTime.now()).hashCode();
+        int seed = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDateTime.now()).hashCode()*1234;
         Arrays.fill(numbers, Integer.MIN_VALUE);
         fillNumbers(seed, numbers, 0, bound);
         return numbers;
