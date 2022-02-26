@@ -1,7 +1,5 @@
 package com.example.myapplication.cheat_sheet;
 
-import com.example.myapplication.firebase.Sql;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,25 +39,15 @@ public class Movement {
         return sign;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
 
     public String getCentury() {
         return century;
     }
 
-    public void setCentury(String century) {
-        this.century = century;
-    }
 
     public List<String> getAuthors() {
         return authors;
     }
-
-//    public void setAuthors(List<String> authors) {
-//        this.authors = authors;
-//    }
 
     @Override
     public String toString() {

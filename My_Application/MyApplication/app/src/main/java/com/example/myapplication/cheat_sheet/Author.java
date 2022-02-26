@@ -1,13 +1,8 @@
 package com.example.myapplication.cheat_sheet;
 
-import com.example.myapplication.firebase.Sql;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
-
-    private static final List<Author> values = new ArrayList<>();
 
     private String name;
     private List<String> books;
@@ -37,29 +32,15 @@ public class Author {
         return books;
     }
 
-//    public void setBooks(List<String> books) {
-//        this.books = books;
-//    }
-
     public String getMovement() {
         return movement;
     }
 
-    public void setMovement(String movement) {
-        this.movement = movement;
-    }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public static List<Author> getValues() {
-        return values;
-    }
 
     @Override
     public String toString() {

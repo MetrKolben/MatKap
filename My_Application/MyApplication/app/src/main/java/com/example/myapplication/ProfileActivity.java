@@ -241,10 +241,5 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
-        else {
-            //user logged in
-            //get user info
-
-        }
     }
 }

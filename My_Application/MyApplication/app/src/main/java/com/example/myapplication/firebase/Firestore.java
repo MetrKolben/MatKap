@@ -115,7 +115,7 @@ public class Firestore {
 
                         //Setting Profile info in ProfileActivity
 
-                        Firestore.user = new User(quests, lvl, xp/*, pic_id*/);
+                        Firestore.user = new User(quests, lvl, xp);
                         updateUser();
                         fillProfileInfo();
 
@@ -123,10 +123,6 @@ public class Firestore {
 
                         fillQuestInfo();
                         RegisterActivity.firebaseLoaded();
-
-                        //Downloading profile pictures
-
-//                        Storage.downloadPics();
                     }
                 });
     }
@@ -294,6 +290,10 @@ public class Firestore {
             updateUser();
         }
 
+        /**
+         * Handles the event of answering a question correctly and checks if a quest progress should be alerted
+         * @param question
+         */
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void questEventHandler(Sql.Question question) {
             for (Quest q : quests) {

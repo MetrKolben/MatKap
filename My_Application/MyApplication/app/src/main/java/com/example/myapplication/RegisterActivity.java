@@ -37,7 +37,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
-    //TODO lepší javadoc
     private Button signInButton;
     private ProgressBar loadBar;
     private TextView appName;

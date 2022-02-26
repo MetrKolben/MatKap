@@ -76,9 +76,6 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         BookAdapter bookAdapter = new BookAdapter(bookList);
         AuthorAdapter authorAdapter = new AuthorAdapter(authorList);
         MovementAdapter movementAdapter = new MovementAdapter(movementList);
-//        BookAdapter bookAdapter = new BookAdapter(bookList);
-//        recyclerView.setAdapter(bookAdapter);
-//        recyclerView.setHasFixedSize(true);
         switch (option) {
             case 0:
                 recyclerView.setAdapter(bookAdapter);

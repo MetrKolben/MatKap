@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -102,6 +101,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    /**
+     * Clears current answers and sets new ones together with the question
+     * @param i index of current question
+     */
     public void setQuestionAndAnswers(int i) {
         if (questions.isEmpty()) {
             Intent intent = new Intent(this, QuizSettings.class);
