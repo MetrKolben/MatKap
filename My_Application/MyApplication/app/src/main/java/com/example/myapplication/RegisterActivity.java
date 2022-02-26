@@ -198,8 +198,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
                         //start profile activity
                         waitForFirebase();
-//                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
-//                        finish();
 
                     }
                 })

@@ -43,9 +43,6 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
 
     int selectedOption = 0;
 
-    /* TODO  uloží si int toho co uživatel chce vidět (0 = knihy; 1 = autori; 2 = smery). Dále je potřeba naplit Listy informacemi z databáze*/
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

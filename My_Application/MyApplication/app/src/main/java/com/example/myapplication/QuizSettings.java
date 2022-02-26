@@ -55,7 +55,7 @@ public class QuizSettings extends AppCompatActivity {
             public void onClick(View v) {
                 getResults = checkBox.isChecked();
                 passDataList = movementList(movementArray, selectedMovement);
-                if (!passDataList.isEmpty()) {//TODO když míň než tři
+                if (!passDataList.isEmpty()) {
                     Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);
                     intent.putExtra("passDataList", (Serializable) passDataList);
                     intent.putExtra("getResults", (Serializable) getResults);
