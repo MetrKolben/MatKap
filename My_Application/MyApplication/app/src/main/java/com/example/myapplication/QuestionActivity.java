@@ -109,6 +109,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Nastala chyba, zvol více směrů", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (i == 0) answeredQuestions.clear();
+        System.out.println(questions.get(i));
         answeredQuestions.add(new AnsweredQuestion(questions.get(i)));
         String questionText = questions.get(i).text;
         String answerA_text = questions.get(i).getA().text;
@@ -229,12 +231,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                 answers.clearCheck();
                                 cleanButtons(answers);
                                 numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-                                setQuestionAndAnswers(indexOfQuestion);
+//                                setQuestionAndAnswers(indexOfQuestion);
+                                confirmButton.setClickable(true);
                             }
                         };
                         Handler h = new Handler();
                         h.postDelayed(r, 1500);
-                        confirmButton.setClickable(true);
                     } else {
                         confirmButton.setClickable(false);
                         //pointsView.setText(points + "b");
@@ -242,8 +244,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         answers.clearCheck();
                         cleanButtons(answers);
                         // numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-                        setQuestionAndAnswers(indexOfQuestion);
-                        confirmButton.setClickable(true);
+//                        setQuestionAndAnswers(indexOfQuestion);
                     }
 
                     new Handler().postDelayed(new Runnable() {
@@ -286,6 +287,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("answeredQuestions", (Serializable) answeredQuestions);
         points = 0;
         indexOfQuestion = 0;
+        confirmButton.setClickable(true);
         startActivity(intent);
     }
 

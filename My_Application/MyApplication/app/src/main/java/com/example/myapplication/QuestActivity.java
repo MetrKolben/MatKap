@@ -112,8 +112,6 @@ public class QuestActivity extends AppCompatActivity {
 
 
         setForeground();
-        System.out.println(Firestore.user.quests[1].isComplete() + "            ########################");
-        System.out.println(Firestore.user.quests[1].getPercentage() + "         @@@@@@@@@@@@@@@@@@@@@@@@");
         goBigOrGoHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
