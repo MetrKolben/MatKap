@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setXp(int xp, int lvl) {
-        xpBar.setMax(lvl*Firestore.XP_PER_LEVEL);
+        xpBar.setMax(lvl*Firestore.XP_PER_LVL_MULTIPLIER);
         xpBar.setProgress(xp, true);
     }
 

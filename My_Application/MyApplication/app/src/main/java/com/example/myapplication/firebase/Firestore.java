@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import java.util.Map;
  *</p>
  */
 public class Firestore {
-    public static final int XP_PER_LEVEL = 50;
+    public static final int XP_PER_LVL_MULTIPLIER = 50;
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static FirebaseUser firebaseUser = null;
     public static User user = null;
@@ -61,19 +60,15 @@ public class Firestore {
                         Quest[] quests = new Quest[]{new Quest(), new Quest(), new Quest()};
                         int lvl = 0;
                         int xp = 0;
-                        int pic_id = 0;
                         QuestType[] types = getTodaysQuests();
                         boolean shouldBeRestarted = false;
-//                        Arrays.fill(shouldBeRestarted, false);
                         int[] xps = getTodaysQuestRewards();
+                        double[] maxes = getTodaysQuestMaxes();
                         for (Map.Entry<String, Object> entry : user.entrySet()) {
                             String row = entry.getKey();
                             switch(row) {
                                 case "lvl":
                                     lvl = ((Long)entry.getValue()).intValue();
-                                    break;
-                                case "pic_id":
-                                    pic_id = ((Long)entry.getValue()).intValue();
                                     break;
                                 case "u1_type":
                                     shouldBeRestarted = shouldBeRestarted || !(QuestType.toQuestType((String)entry.getValue()) == types[0]);
@@ -107,39 +102,22 @@ public class Firestore {
                             quests[2].setPercentage(0);
                         }
                         quests[0].setEXPERIENCE(xps[0]);
+                        quests[0].requiredActionsCount = maxes[0];
                         quests[1].setEXPERIENCE(xps[1]);
+                        quests[1].requiredActionsCount = maxes[1];
                         quests[2].setEXPERIENCE(xps[2]);
+                        quests[2].requiredActionsCount = maxes[2];
+
                         //Setting Profile info in ProfileActivity
-                        Firestore.user = new User(quests, lvl, xp, pic_id);
+                        
+                        Firestore.user = new User(quests, lvl, xp/*, pic_id*/);
                         updateUser();
-//                        long l = Utils.TIMER.stop();
                         fillProfileInfo();
-//                        ProfileActivity.fillInfo(
-//                                Storage.getProfilePicturePath(Firestore.user.lvl),
-//                                getEmail(),
-//                                getName(),
-//                                ""+Firestore.user.lvl,
-//                                Firestore.user.xp,
-//                                Firestore.user.lvl);
+
                         //Setting Quest info in QuestActivity
 
                         fillQuestInfo();
                         LoginActivity.firebaseLoaded();
-//                        Quest[] quests1 = Firestore.user.quests;
-//                        int XP = Firestore.Quest.EXPERIENCE;
-//                        int max = Firestore.Quest.MAX;
-//                        QuestActivity.setQuests(quests1[0].getQuestType().text,
-//                                ""+XP,
-//                                (int)quests1[0].getPercentage()*max,
-//                                max,
-//                                quests1[0].getQuestType().text,
-//                                ""+XP,
-//                                (int)quests1[0].getPercentage()*max,
-//                                max,
-//                                quests1[0].getQuestType().text,
-//                                ""+XP,
-//                                (int)quests1[0].getPercentage()*max,
-//                                max);
                     }
                 });
     }
@@ -158,20 +136,21 @@ public class Firestore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void fillQuestInfo() {
         Quest[] quests = Firestore.user.quests;
-//        int xp = Firestore.Quest.EXPERIENCE;
-        int max = Firestore.Quest.MAX;
-        QuestActivity.setQuests(quests[0].getQuestType().text,
+        double max[] = {user.quests[0].requiredActionsCount,
+                user.quests[1].requiredActionsCount,
+                user.quests[2].requiredActionsCount};
+        QuestActivity.setQuests(quests[0].getQuestType().getText((int)max[0]),
                 ""+quests[0].getEXPERIENCE(),
-                (int)(quests[0].getPercentage()*max),
-                max,
-                quests[1].getQuestType().text,
+                (int)(quests[0].getPercentage()*max[0]),
+                (int)max[0],
+                quests[1].getQuestType().getText((int)max[1]),
                 ""+quests[1].getEXPERIENCE(),
-                (int)(quests[1].getPercentage()*max),
-                max,
-                quests[2].getQuestType().text,
+                (int)(quests[1].getPercentage()*max[1]),
+                (int)max[1],
+                quests[2].getQuestType().getText((int)max[2]),
                 ""+quests[2].getEXPERIENCE(),
-                (int)(quests[2].getPercentage()*max),
-                max);
+                (int)(quests[2].getPercentage()*max[2]),
+                (int)max[2]);
     }
 
     /**
@@ -197,6 +176,16 @@ public class Firestore {
         return xps;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static double[] getTodaysQuestMaxes() {
+        int[] maxes = Utils.getNNumbersFromDate(Quest.MAX_ACT-Quest.MIN_ACT+1, 3);
+        double[] dMaxes = new double[3];
+        for (int i = 0; i < maxes.length; i++) {
+            dMaxes[i]=maxes[i]+Quest.MIN_ACT;
+        }
+        return dMaxes;
+    }
+
     /**
      * Is called when creating new user in order to create and associate a new document in Firestore
      */
@@ -212,7 +201,6 @@ public class Firestore {
         user.put("u3_stat", 0.0);
         user.put("lvl", 1);
         user.put("xp", 0);
-        user.put("pic_id", 1);
 
         db.collection("users")
                 .document(document_name)
@@ -233,7 +221,6 @@ public class Firestore {
         user.put("u3_stat", Firestore.user.quests[2].percentage);
         user.put("lvl", Firestore.user.lvl);
         user.put("xp", Firestore.user.xp);
-        user.put("pic_id", Firestore.user.pic_id);
 
         db.collection("users")
                 .document(document_name)
@@ -264,13 +251,11 @@ public class Firestore {
 
         private int lvl;
         private int xp;
-        private int pic_id;//TODO odstranit pic_id
 
-        private User(Quest[] quests, int lvl, int xp, int pic_id) {
+        private User(Quest[] quests, int lvl, int xp/*, int pic_id*/) {
             this.quests = quests;
             this.lvl = lvl;
             this.xp = xp;
-            this.pic_id = pic_id;
         }
 
         public int getLvl() {
@@ -289,12 +274,14 @@ public class Firestore {
             this.xp = xp;
         }
 
-        private int getPic_id() {
-            return pic_id;
-        }
-
-        private void setPic_id(int pic_id) {
-            this.pic_id = pic_id;
+        private void addXp(int xpToBeAdded) {
+            int maxXp = lvl*XP_PER_LVL_MULTIPLIER;
+            if (xpToBeAdded + xp < maxXp) {
+                setXp(xp + xpToBeAdded);
+                return;
+            }
+            setLvl(lvl+1);
+            setXp(xp+xpToBeAdded-maxXp);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -318,7 +305,6 @@ public class Firestore {
                     "   }\n" +
                     "   lvl=" + lvl + "\n" +
                     "   xp=" + xp + "\n" +
-                    "   pic_id=" + pic_id + "\n" +
                     "}";
         }
     }
@@ -326,7 +312,11 @@ public class Firestore {
         private QuestType questType;
         private double percentage;
         private boolean isComplete = false;
+        private boolean isCollected = false;
+        private double requiredActionsCount = 10;/**10 is default, just to avoid unnecessary bugs*/
+        private int EXPERIENCE = 0;
         public static final int MAX_XP = 30, MIN_XP = 15;
+        public static final int MAX_ACT = 10, MIN_ACT = 5;
 
         public int getEXPERIENCE() {
             return EXPERIENCE;
@@ -335,9 +325,6 @@ public class Firestore {
         public void setEXPERIENCE(int EXPERIENCE) {
             this.EXPERIENCE = EXPERIENCE;
         }
-
-        private int EXPERIENCE = 0;
-        public static final int MAX = 20;
 
         public double getPercentage() {
             return percentage;
@@ -356,9 +343,14 @@ public class Firestore {
         }
 
         private void stepForward() {
-            if (isComplete) return;
-            percentage = (percentage*20.0 + 1)/20.0;
+            if (isComplete || isCollected) return;
+            percentage = (percentage*requiredActionsCount + 1)/requiredActionsCount;
             if (percentage == 1.0) isComplete = true;
+        }
+
+        public void collect() {
+            if (isCollected && !isComplete) return;
+            user.addXp(EXPERIENCE);
         }
 
         @Override
@@ -372,19 +364,23 @@ public class Firestore {
     }
 
     public enum QuestType {
-        AUTHOR_BOOK("Přiřaď správně 20 knih k autorům"),
-        BOOK_AUTHOR("Přiřaď správně 20 autorů ke knihám"),
-        AUTHOR_MOVEMENT("Přiřaď správně 20 krát směr ke kterému se hlásí autor"),
-        BOOK_MOVEMENT("Určete správně 20 krát směr, pod který spadá daná kniha"),
-        BOOK_DRUH("Určete správně druh u 20 knih"),
-        BOOK_GENRE("Žánrově zařaďte správně 20 knih"),
-        MOVEMENT_CENTURY("Správně umísti 20 směrů na číselné ose"),
-        MOVEMENT_SIGN("20 krát vyber hlavní znaky daného směru");
+        AUTHOR_BOOK("Přiřaď správně <amount> knih k autorům"),
+        BOOK_AUTHOR("Přiřaď správně <amount> autorů ke knihám"),
+        AUTHOR_MOVEMENT("Přiřaď správně <amount> krát směr ke kterému se hlásí autor"),
+        BOOK_MOVEMENT("Určete správně <amount> krát směr, pod který spadá daná kniha"),
+        BOOK_DRUH("Určete správně druh u <amount> knih"),
+        BOOK_GENRE("Žánrově zařaďte správně <amount> knih"),
+        MOVEMENT_CENTURY("Správně umísti <amount> směrů na číselné ose"),
+        MOVEMENT_SIGN("<amount> krát vyber hlavní znaky daného směru");
 
-        public final String text;
+        private final String text;
 
         QuestType(String text) {
             this.text = text;
+        }
+
+        private String getText(int max) {
+            return text.replaceAll("<amount>", ""+max);
         }
 
         public static QuestType toQuestType(String str) {
