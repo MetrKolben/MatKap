@@ -137,11 +137,6 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfilePic = findViewById(R.id.profilePhoto);
         xpBar = findViewById(R.id.xpBar);
 
-        // TODO změnit podle Firestore, danke bitte wiedersehen
-        /**
-         * Už jsem to udělal, Adame. Chtěl jsem ti trochu ulehčit práci.
-         * @author Honza
-         */
         if (Firestore.user != null) {
             fillInfo(
                     Storage.getProfilePicturePath(Firestore.user.getLvl()),

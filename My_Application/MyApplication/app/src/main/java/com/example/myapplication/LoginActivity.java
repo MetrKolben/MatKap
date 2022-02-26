@@ -102,13 +102,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void waitForFirebase() {
-//        new Utils.Synchronizer(new );
-//        Utils.TIMER.start();
         loadBar.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.INVISIBLE);
         appName.setVisibility(View.INVISIBLE);
         loginActivity = this;
-//        startActivity(new Intent(this, ProfileActivity.class));
     }
 
     public static void firebaseLoaded() {

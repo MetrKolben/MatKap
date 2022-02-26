@@ -577,6 +577,7 @@ public class Sql{
                             questionText = QuestionType.completeAMText(cursor.getString(cursor.getColumnIndex(qCol)));
                             break;
                         case AUTHOR_BOOK:
+                            if (book.getString(book.getColumnIndex(questionType.questionColumn)).equals("Neznámý Autor")) return null;
                             int save = author.getPosition();
                             author.moveToPosition(getAuthorPositionFromBook(book, author));
                             if (author.getPosition() >= author.getCount()) {
