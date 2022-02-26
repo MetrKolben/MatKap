@@ -5,8 +5,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.RenderEffect;
-import android.graphics.Shader;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.firebase.Firestore;
 import com.example.myapplication.databinding.ActivityLoginBinding;
+import com.example.myapplication.firebase.Storage;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -113,8 +112,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public static void firebaseLoaded() {
-        loginActivity.startActivity(new Intent(loginActivity, ProfileActivity.class));
-        loginActivity.finish();
+        new Thread(() -> {
+            while (!Storage.isDownloaded());
+            loginActivity.startActivity(new Intent(loginActivity, ProfileActivity.class));
+            loginActivity.finish();
+        }).start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)

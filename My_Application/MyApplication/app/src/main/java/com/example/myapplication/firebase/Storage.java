@@ -15,6 +15,11 @@ public class Storage {
     private static FirebaseStorage storage = FirebaseStorage.getInstance();
     private static final String filesDirectory = "/data/user/0/com.example.myapplication/files/";
     private static final String firebaseDirectory = "gs://matkap-19ed9.appspot.com/";
+    private static boolean downloaded = false;
+
+    public static boolean isDownloaded() {
+        return downloaded;
+    }
 
     public static String getProfilePicturePath(int lvl) {
         ProfilePicture current = ProfilePicture.ONE;
@@ -40,6 +45,9 @@ public class Storage {
         gsReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                if (picture == ProfilePicture.HUNDRED) {
+                    downloaded = true;
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -47,6 +55,12 @@ public class Storage {
             }
         });
         return file.getPath();
+    }
+
+    public static void downloadPics() {
+        for (ProfilePicture value : ProfilePicture.values()) {
+            getImagePath(value);
+        }
     }
 
     public enum ProfilePicture{

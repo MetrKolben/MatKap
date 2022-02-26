@@ -109,7 +109,7 @@ public class Firestore {
                         quests[2].requiredActionsCount = maxes[2];
 
                         //Setting Profile info in ProfileActivity
-                        
+
                         Firestore.user = new User(quests, lvl, xp/*, pic_id*/);
                         updateUser();
                         fillProfileInfo();
@@ -118,6 +118,10 @@ public class Firestore {
 
                         fillQuestInfo();
                         LoginActivity.firebaseLoaded();
+
+                        //Downloading profile pictures
+
+                        Storage.downloadPics();
                     }
                 });
     }
@@ -252,7 +256,7 @@ public class Firestore {
         private int lvl;
         private int xp;
 
-        private User(Quest[] quests, int lvl, int xp/*, int pic_id*/) {
+        private User(Quest[] quests, int lvl, int xp) {
             this.quests = quests;
             this.lvl = lvl;
             this.xp = xp;
@@ -344,8 +348,8 @@ public class Firestore {
 
         private void stepForward() {
             if (isComplete || isCollected) return;
+            if (percentage >= 1.0) isComplete = true;
             percentage = (percentage*requiredActionsCount + 1)/requiredActionsCount;
-            if (percentage == 1.0) isComplete = true;
         }
 
         public void collect() {
