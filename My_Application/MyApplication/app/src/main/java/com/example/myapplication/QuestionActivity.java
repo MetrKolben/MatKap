@@ -167,15 +167,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             points += 10;
                             setButtonRight(rb);
                             answerList.add(true);
-//                            answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId()))
-                            // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         } else if (checkAnswer() == 0){
                             AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                             setButtonWrong(rb);
                             setButtonRight(findRadioRight(answers));
 
                             answerList.add(false);
-                            //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
                         }
                         if (setResults) {
                             confirmButton.setClickable(false);
@@ -192,7 +189,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     confirmButton.setClickable(true);
                                 }
                             };
-//                            confirmButton.setClickable(true);
                             Handler h = new Handler();
                             h.postDelayed(r, 1500);
                         } else {
@@ -211,14 +207,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         AnsweredQuestion.setWrongForLast(-1);
                         Firestore.user.questEventHandler(currentQuestion);
                         points += 10;
-                        //Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         setButtonRight(rb);
-                        // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                     } else if (checkAnswer() == 0){
                         AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                         setButtonWrong(rb);
                         setButtonRight(findRadioRight(answers));
-                        //   Toast.makeText(this, "Špatně", Toast.LENGTH_SHORT).show();
                     }
 
                     if (setResults) {
@@ -231,7 +224,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                 answers.clearCheck();
                                 cleanButtons(answers);
                                 numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-//                                setQuestionAndAnswers(indexOfQuestion);
                                 confirmButton.setClickable(true);
                             }
                         };
@@ -239,12 +231,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         h.postDelayed(r, 1500);
                     } else {
                         confirmButton.setClickable(false);
-                        //pointsView.setText(points + "b");
-                        //indexOfQuestion++;
                         answers.clearCheck();
                         cleanButtons(answers);
-                        // numOfCurrentQuestion.setText("" + (indexOfQuestion + 1));
-//                        setQuestionAndAnswers(indexOfQuestion);
                     }
 
                     new Handler().postDelayed(new Runnable() {

@@ -34,10 +34,10 @@
 
             <ImageView
                 android:id="@+id/quest1_complete"
-                android:src="@drawable/quest_done"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="right"
+                android:src="@drawable/quest_done"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
