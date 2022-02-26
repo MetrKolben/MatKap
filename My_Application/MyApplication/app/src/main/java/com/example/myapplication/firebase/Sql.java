@@ -716,7 +716,6 @@ public class Sql{
 
         @Override
         public String toString() {
-            System.out.println(questionList.size());
             String s = "";
             for (Question q : questionList) {
                 s+=q.toString();

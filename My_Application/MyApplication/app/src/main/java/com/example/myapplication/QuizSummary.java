@@ -46,7 +46,6 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         percentage.setText(""+rating(rating, numOfQuestions));
         String[] mistakes = getIntent().getStringArrayExtra("mistakes");
         answeredQuestions = (ArrayList<QuestionActivity.AnsweredQuestion>) getIntent().getSerializableExtra("answeredQuestions");
-        System.out.println(answeredQuestions.toString());
         if (mistakes.length > 0) {
             String str = mistakes[0];
             for (int i = 1; i < mistakes.length; i++) {
