@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gardient_rectangle"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/app_name"
@@ -24,17 +24,17 @@
 
     <Button
         android:id="@+id/googleSignInButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="50dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginTop="170dp"
         android:drawableRight="@drawable/google_brands"
 
         android:paddingHorizontal="50dp"
         android:paddingVertical="10dp"
-        android:text="Přihlásit se s "
+        android:text="Registrovat"
 
         android:textSize="20sp" />
 

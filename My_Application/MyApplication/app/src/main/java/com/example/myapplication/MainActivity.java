@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.myapplication.firebase.Sql;
-import com.example.myapplication.firebase.Storage;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         goToSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });

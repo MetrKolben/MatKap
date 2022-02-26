@@ -142,6 +142,7 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
                 selectedOption = which;
                 System.out.println(selectedOption);
                 changeFilter(selectedOption);
+
             }
         });
 

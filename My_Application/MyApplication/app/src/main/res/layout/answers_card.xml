@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@android:color/transparent"
-
+    app:cardCornerRadius="2dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true"
     >
 
 
@@ -32,7 +34,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="\t ▪  Správná odpověď"
-            android:drawableEnd="@drawable/quest"
+            android:drawableEnd="@drawable/answer_right_vector"
             android:fontFamily="@font/work_sans"/>
 
         <TextView

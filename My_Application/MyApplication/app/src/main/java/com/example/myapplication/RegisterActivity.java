@@ -14,8 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.databinding.ActivityRegisterBinding;
 import com.example.myapplication.firebase.Firestore;
-import com.example.myapplication.databinding.ActivityLoginBinding;
 import com.example.myapplication.firebase.Storage;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,13 +35,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
     //TODO lepší javadoc
     private Button signInButton;
     private ProgressBar loadBar;
     private TextView appName;
-    private static LoginActivity loginActivity = null;
+    private static RegisterActivity loginActivity = null;
 
     GoogleApiClient GoogleApiClient;
     private GoogleSignInClient googleSignInClient;
@@ -49,14 +49,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 100;
     private FirebaseAuth firebaseAuth;
 
-    private ActivityLoginBinding binding;
+    private ActivityRegisterBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_login);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(R.layout.activity_register);
 
         signInButton = findViewById(R.id.googleSignInButton);
         loadBar = findViewById(R.id.progressBar);
@@ -188,13 +188,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Firestore.setFirebaseUser(firebaseUser, true);
                             //user is new - Account Created
                             Log.d(TAG, "onSuccess: Account Created...\n"+email);
-                            Toast.makeText(LoginActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Firestore.setFirebaseUser(firebaseUser, false);
                             //existing user - Logged In
                             Log.d(TAG, "onSuccess: Existing user...\n"+email);
-                            Toast.makeText(LoginActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
                         }
 
                         //start profile activity
@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, "handleSignInResult?" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(LoginActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this,"Signed in", Toast.LENGTH_SHORT).show();
         } else {
         }
     }

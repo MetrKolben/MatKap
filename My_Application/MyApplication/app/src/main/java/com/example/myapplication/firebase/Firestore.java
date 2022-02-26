@@ -6,7 +6,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.myapplication.LoginActivity;
+import com.example.myapplication.RegisterActivity;
 import com.example.myapplication.ProfileActivity;
 import com.example.myapplication.QuestActivity;
 import com.example.myapplication.Utils;
@@ -122,7 +122,7 @@ public class Firestore {
                         //Setting Quest info in QuestActivity
 
                         fillQuestInfo();
-                        LoginActivity.firebaseLoaded();
+                        RegisterActivity.firebaseLoaded();
 
                         //Downloading profile pictures
 
