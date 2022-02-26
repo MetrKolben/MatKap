@@ -50,7 +50,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
             for (int i = 1; i < mistakes.length; i++) {
                 str += i < mistakes.length-1 ? ", " : " a " + mistakes[i];
             }
-            mostMistakesText.setText("Měl by sis procvičit směr" + ((mistakes.length > 1) ? "y" : "") + " " + str + ".");//TODO fix, někdy píše null
+            mostMistakesText.setText("Měl by sis procvičit směr" + ((mistakes.length > 1) ? "y" : "") + " " + str + ".");
         }
         setResultMessage(rating, ratingText, numOfQuestions);
 
