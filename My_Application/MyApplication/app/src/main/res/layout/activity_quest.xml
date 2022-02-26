@@ -24,20 +24,39 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dailyText"
         android:layout_marginHorizontal="25sp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:padding="10dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/questText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/work_sans"
-            android:gravity="start"
-            android:text="quest1Text"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/quest1_complete"
+                android:src="@drawable/quest_done"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/questText1"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/work_sans"
+                android:gravity="start"
+                android:text="quest1Text"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/xpProgress1"
@@ -77,7 +96,7 @@
 
             <TextView
                 android:id="@+id/questText2"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/work_sans"
                 android:gravity="left"
@@ -85,6 +104,17 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/quest2_complete"
+                android:src="@drawable/quest_done"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,22 +159,33 @@
 
             <TextView
                 android:id="@+id/questText3"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/work_sans"
                 android:gravity="left"
                 android:text="quest1Text"
-                android:fontFamily="@font/work_sans"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:src="@drawable/quest_done"
+                android:id="@+id/quest3_complete"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
             android:id="@+id/xpProgress3"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_marginHorizontal="30dp"
@@ -155,11 +196,11 @@
 
         <TextView
             android:id="@+id/xpQuest3"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="total XP" />
+            android:text="total XP"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.media.Image;
@@ -9,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,6 +35,15 @@ public class QuestActivity extends AppCompatActivity {
     private static TextView questText3;
     private static TextView xpQuest3;
     private static ProgressBar xpProgress3;
+
+    private static LinearLayout quest1;
+    private static LinearLayout quest2;
+    private static LinearLayout quest3;
+
+    private static ImageView quest1_done;
+    private static ImageView quest2_done;
+    private static ImageView quest3_done;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -91,9 +103,17 @@ public class QuestActivity extends AppCompatActivity {
         questText3 = findViewById(R.id.questText3);
         xpQuest3 = findViewById(R.id.xpQuest3);
         xpProgress3 = findViewById(R.id.xpProgress3);
+        quest1 = findViewById(R.id.quest1);
+        quest2 = findViewById(R.id.quest2);
+        quest3 = findViewById(R.id.quest3);
+        quest1_done = findViewById(R.id.quest1_complete);
+        quest2_done = findViewById(R.id.quest2_complete);
+        quest3_done = findViewById(R.id.quest3_complete);
 
 
-
+        setForeground();
+        System.out.println(Firestore.user.quests[1].isComplete() + "            ########################");
+        System.out.println(Firestore.user.quests[1].getPercentage() + "         @@@@@@@@@@@@@@@@@@@@@@@@");
         goBigOrGoHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +147,19 @@ public class QuestActivity extends AppCompatActivity {
 //                    ""+quests[2].getEXPERIENCE(),
 //                    (int)(quests[2].getPercentage()*max),
 //                    max);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setForeground() {
+        ImageView[] isDone = {quest1_done, quest2_done, quest3_done};
+        Firestore.Quest[] quests = Firestore.user.quests;
+        for(int i = 0; i < quests.length; i++) {
+            if(quests[i].isComplete()) {
+                isDone[i].setVisibility(View.VISIBLE);
+            }
+
+
         }
     }
 }
