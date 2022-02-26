@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myapplication.RV_answers.AnswersAdapter;
 import com.example.myapplication.firebase.Firestore;
 
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
     private Button backButton;
     private List<QuestionActivity.AnsweredQuestion> answeredQuestions;
 
+    RecyclerView recyclerView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,8 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         ratingText = findViewById(R.id.ratingText);
         mostMistakesText = findViewById(R.id.mostMistakesText);
         backButton = findViewById(R.id.goBackToMainScreen);
+        recyclerView = findViewById(R.id.answers_rv);
+
         backButton.setOnClickListener(this);
 
         int rating = (int) getIntent().getSerializableExtra("percent");
@@ -39,6 +46,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         percentage.setText(""+rating(rating, numOfQuestions));
         String[] mistakes = getIntent().getStringArrayExtra("mistakes");
         answeredQuestions = (ArrayList<QuestionActivity.AnsweredQuestion>) getIntent().getSerializableExtra("answeredQuestions");
+        System.out.println(answeredQuestions.toString());
         if (mistakes.length > 0) {
             String str = mistakes[0];
             for (int i = 1; i < mistakes.length; i++) {
@@ -48,6 +56,19 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
         }
         setResultMessage(rating, ratingText, numOfQuestions);
 
+        initData();
+        setRecyclerView();
+
+    }
+
+    private void initData() {
+
+    }
+
+    private void setRecyclerView() {
+        AnswersAdapter answersAdapter = new AnswersAdapter(answeredQuestions);
+        recyclerView.setAdapter(answersAdapter);
+        recyclerView.setHasFixedSize(true);
     }
 
     /**

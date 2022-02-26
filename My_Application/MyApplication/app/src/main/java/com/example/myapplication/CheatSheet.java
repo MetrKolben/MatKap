@@ -114,7 +114,6 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
             movementList.add(new Movement(movement.getName(), movement.getSign(), movement.getCentury(), movement.getAuthors()));
         }
 
-        // TODO doplnit. Zde se naplní listy těmi informacemi
     }
 
     private void changeFilter(int selectedOption) {

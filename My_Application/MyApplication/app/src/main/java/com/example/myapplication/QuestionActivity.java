@@ -343,7 +343,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    static class AnsweredQuestion extends Sql.Question implements Serializable{
+    public static class AnsweredQuestion extends Sql.Question implements Serializable{
         private int indexOfWrong;
 
         AnsweredQuestion(Sql.Question question) {
