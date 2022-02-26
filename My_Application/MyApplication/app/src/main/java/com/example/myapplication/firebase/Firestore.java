@@ -291,6 +291,7 @@ public class Firestore {
             }
             setLvl(lvl+1);
             setXp(xp+xpToBeAdded-maxXp);
+            updateUser();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -301,6 +302,8 @@ public class Firestore {
                     fillQuestInfo();
                 }
             }
+            addXp(Quest.XP_PER_QUESTION);
+            updateUser();
         }
 
         @Override
@@ -325,6 +328,7 @@ public class Firestore {
         private int EXPERIENCE = 0;
         public static final int MAX_XP = 30, MIN_XP = 15;
         public static final int MAX_ACT = 10, MIN_ACT = 5;
+        public static final int XP_PER_QUESTION = 2;
         private double requiredActionsCount = 10;/**10 is default, just to avoid unnecessary bugs*/
 
         public boolean isComplete() {

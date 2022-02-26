@@ -26,7 +26,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Firestore.updateUser();
+//        Firestore.updateUser();
         setContentView(R.layout.activity_quiz_summary);
         percentage = findViewById(R.id.percentage);
         ratingText = findViewById(R.id.ratingText);
