@@ -33,6 +33,7 @@ public class QuestActivity extends AppCompatActivity {
     private static TextView xpQuest3;
     private static ProgressBar xpProgress3;
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setQuest1(String text, String xp, int value, int max) {
         if (questText1 != null) {
@@ -90,6 +91,8 @@ public class QuestActivity extends AppCompatActivity {
         questText3 = findViewById(R.id.questText3);
         xpQuest3 = findViewById(R.id.xpQuest3);
         xpProgress3 = findViewById(R.id.xpProgress3);
+
+
 
         goBigOrGoHome.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#17a298</item>
-        <item name="colorPrimaryVariant">#8322FA</item>
+        <item name="colorPrimary">#017DDA</item>
+        <item name="colorPrimaryVariant">#EB1F768C</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#414141</item>
-        <item name="colorSecondaryVariant">#5017a298</item>
+        <item name="colorSecondaryVariant">#70004F8A</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
@@ -15,7 +15,7 @@
         <item name="android:colorBackground">?attr/backgroundColor</item>
 
 
-        <item name="backgroundColor">#2B2B2B</item>
+        <item name="backgroundColor">#02030e</item>
 
         <item name="alertDialogTheme">@style/MyCheckBox</item>
     </style>
