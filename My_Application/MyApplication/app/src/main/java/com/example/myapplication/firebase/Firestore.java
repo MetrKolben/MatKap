@@ -111,7 +111,7 @@ public class Firestore {
                             if (quest.percentage == 1.0) {
                                 quest.isComplete = true;
                             }
-                            if (quest.percentage > 1.0) {
+                            if (quest.percentage > 100.0) {
                                 quest.isCollected = true;
                             }
                         }
@@ -373,7 +373,7 @@ public class Firestore {
 
         public void collect() {
             if (isCollected && !isComplete) return;
-            percentage = 1.1;
+            percentage = 100.1;
             user.addXp(EXPERIENCE);
         }
 
