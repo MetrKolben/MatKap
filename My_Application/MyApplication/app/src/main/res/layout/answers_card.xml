@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@android:color/transparent"
+
     >
 
 
@@ -18,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/oxygen"
-            android:padding="16dp"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
             android:text="Otázka"
             android:textColor="?attr/colorOnBackground"
             android:textSize="15sp"
@@ -29,15 +31,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Správná odpověď"
-            android:drawableEnd="@drawable/quest"/>
+            android:text="\t ▪  Správná odpověď"
+            android:drawableEnd="@drawable/quest"
+            android:fontFamily="@font/work_sans"/>
 
         <TextView
             android:id="@+id/answerWrong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Špatná odpověď"
+            android:text="\t ▪  Špatná odpověď"
+            android:drawableEnd="@drawable/wrong"
+            android:fontFamily="@font/work_sans"
           />
 
     </LinearLayout>

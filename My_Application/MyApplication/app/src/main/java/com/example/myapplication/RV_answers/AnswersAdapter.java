@@ -32,10 +32,10 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.AnswerVH
     @Override
     public void onBindViewHolder(@NonNull AnswerVH holder, int position) {
         QuestionActivity.AnsweredQuestion aq = answeredQuestions.get(position);
-        holder.questionText.setText(aq.getQuestionText());
-        holder.rightAnswer.setText(aq.getRightAnswer());
+        holder.questionText.setText((position + 1) + ". " + aq.getQuestionText());
+        holder.rightAnswer.setText("\t ▪  " + aq.getRightAnswer());
         if(aq.getWrongAnswer() != null) {
-            holder.wrongAnswer.setText(aq.getWrongAnswer());
+            holder.wrongAnswer.setText("\t ▪  " + aq.getWrongAnswer());
         } else holder.wrongAnswer.setVisibility(View.GONE);
     }
 

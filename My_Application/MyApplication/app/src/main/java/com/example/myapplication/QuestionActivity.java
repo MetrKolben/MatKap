@@ -149,12 +149,17 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.buttonNext:
 
+
+
                 RadioButton rb = findViewById(answers.getCheckedRadioButtonId());
+
+                if(rb == null) return;
+
                 needToLearnMovements();
 
                 if (indexOfQuestion <= numberOfQuestions(NUMBER_OF_TESTED_QUESTIONS, questionList.getPossibleQuestionsCount()) - 2) {
                     if ((answers.getCheckedRadioButtonId() != -1)) {
-                        if (checkAnswer()) {
+                        if (checkAnswer() == 1) {
                             AnsweredQuestion.setWrongForLast(-1);
                             Firestore.user.questEventHandler(currentQuestion);
                             points += 10;
@@ -162,7 +167,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                             answerList.add(true);
 //                            answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId()))
                             // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
-                        } else {
+                        } else if (checkAnswer() == 0){
                             AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                             setButtonWrong(rb);
                             setButtonRight(findRadioRight(answers));
@@ -200,14 +205,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                         }
                     }
                 } else {
-                    if (checkAnswer()) {
+                    if (checkAnswer() == 1) {
                         AnsweredQuestion.setWrongForLast(-1);
                         Firestore.user.questEventHandler(currentQuestion);
                         points += 10;
                         //Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
                         setButtonRight(rb);
                         // Toast.makeText(this, "Správně", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (checkAnswer() == 0){
                         AnsweredQuestion.setWrongForLast(answers.indexOfChild(answers.findViewById(answers.getCheckedRadioButtonId())));
                         setButtonWrong(rb);
                         setButtonRight(findRadioRight(answers));
@@ -260,9 +265,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     /**
      * @return value stored in the <i>Tag</i> of the <i>RadioButton</i>
      */
-    public boolean checkAnswer() {
+    public int checkAnswer() {
+        if (findViewById(answers.getCheckedRadioButtonId()) == null) return -1;
         boolean isRight = (boolean) findViewById(answers.getCheckedRadioButtonId()).getTag();
-        return isRight;
+        return isRight ? 1 : 0;
     }
 
     /**
