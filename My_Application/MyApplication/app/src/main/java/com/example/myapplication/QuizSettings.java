@@ -55,7 +55,7 @@ public class QuizSettings extends AppCompatActivity {
             public void onClick(View v) {
                 getResults = checkBox.isChecked();
                 passDataList = movementList(movementArray, selectedMovement);
-                if (!passDataList.isEmpty()) {//TODO když míň než tři
+                if (!passDataList.isEmpty()) {
                     Intent intent = new Intent(QuizSettings.this, QuestionActivity.class);
                     intent.putExtra("passDataList", (Serializable) passDataList);
                     intent.putExtra("getResults", (Serializable) getResults);
@@ -112,7 +112,7 @@ public class QuizSettings extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        textView.setText("Your selected movement\n");
+                        textView.setText("Tvé vybrané směry\n");
                         for (int i = 0; i < selectedMovement.length; i++) {
                             boolean checked = selectedMovement[i];
                             if (checked) {
@@ -122,14 +122,14 @@ public class QuizSettings extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Zrušit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
 
-                builder.setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("Odstranit vše", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         for (int j = 0; j < selectedMovement.length; j++) {
