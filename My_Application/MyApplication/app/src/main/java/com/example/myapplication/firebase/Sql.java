@@ -747,10 +747,10 @@ public class Sql{
      */
     public enum QuestionType {
         AUTHOR_BOOK("Kterou knihu napsal<sex> <author>?", "author_name", "book_name"),
-        BOOK_AUTHOR("Který autor napsal \"<book>\"?", "book_name", "author_name"),
+        BOOK_AUTHOR("Kdo napsal \"<book>\"?", "book_name", "author_name"),
         AUTHOR_MOVEMENT("Ke kterému směru se hlásí <author>?", "author_name", "movement_name"),
-        BOOK_MOVEMENT("Z jakého směru je kniha \"<book>\"?", "book_name", "movement_name"),
-        BOOK_DRUH("Ke kterému druhu se řadí \"<book>\"?", "book_name", "druh_name"),
+        BOOK_MOVEMENT("Přiřaď směr ke knize \"<book>\".", "book_name", "movement_name"),
+        BOOK_DRUH("Přiřaď druh ke knize \"<book>\".", "book_name", "druh_name"),
         BOOK_GENRE("Do jakého žánru se řadí \"<book>\"?", "book_name", "genre_name"),
         MOVEMENT_CENTURY("Z jakého období je směr <movement>?", "movement_name", "century"),
         MOVEMENT_SIGN("Jaké jsou typické znaky směru <movement>?", "movement_name", "sign");

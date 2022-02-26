@@ -388,11 +388,11 @@ public class Firestore {
     public enum QuestType {
         AUTHOR_BOOK("Přiřaď správně <amount> knih k autorům"),
         BOOK_AUTHOR("Přiřaď správně <amount> autorů ke knihám"),
-        AUTHOR_MOVEMENT("Přiřaď správně <amount> krát směr ke kterému se hlásí autor"),
-        BOOK_MOVEMENT("Určete správně <amount> krát směr, pod který spadá daná kniha"),
-        BOOK_DRUH("Určete správně druh u <amount> knih"),
-        BOOK_GENRE("Žánrově zařaďte správně <amount> knih"),
-        MOVEMENT_CENTURY("Správně umísti <amount> směrů na číselné ose"),
+        AUTHOR_MOVEMENT("Urči správně <amount> směrů k autorovi"),
+        BOOK_MOVEMENT("Urči správně <amount> směrů knih"),
+        BOOK_DRUH("Určete správně druh <amount> knih"),
+        BOOK_GENRE("Přiřaď žánr ke <amount> knihám"),
+        MOVEMENT_CENTURY("Urči správně <amount> období směrů"),
         MOVEMENT_SIGN("<amount> krát vyber hlavní znaky daného směru");
 
         private final String text;
