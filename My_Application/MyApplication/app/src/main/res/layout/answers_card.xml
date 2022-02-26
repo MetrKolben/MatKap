@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/oxygen"
             android:paddingVertical="16dp"
-            android:paddingLeft="8dp"
+            android:layout_marginHorizontal="8dp"
             android:text="Otázka"
             android:textColor="?attr/colorOnBackground"
             android:textSize="15sp"
