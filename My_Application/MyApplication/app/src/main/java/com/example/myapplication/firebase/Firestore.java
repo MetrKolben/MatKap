@@ -108,11 +108,8 @@ public class Firestore {
                         quests[2].setEXPERIENCE(xps[2]);
                         quests[2].requiredActionsCount = maxes[2];
                         for (Quest quest : quests) {
-                            if (quest.percentage == 1.0) {
+                            if (quest.percentage >= 1.0) {
                                 quest.isComplete = true;
-                            }
-                            if (quest.percentage > 100.0) {
-                                quest.isCollected = true;
                             }
                         }
 
@@ -325,8 +322,6 @@ public class Firestore {
         private double percentage;
         private boolean isComplete = false;
 
-        private boolean isCollected = false;
-
         private int EXPERIENCE = 0;
         public static final int MAX_XP = 30, MIN_XP = 15;
         public static final int MAX_ACT = 10, MIN_ACT = 5;
@@ -334,10 +329,6 @@ public class Firestore {
 
         public boolean isComplete() {
             return isComplete;
-        }
-
-        public boolean isCollected() {
-            return isCollected;
         }
 
         public int getEXPERIENCE() {
@@ -365,15 +356,15 @@ public class Firestore {
         }
 
         private void stepForward() {
-            if (isComplete || isCollected) return;
+            if (isComplete) return;
             percentage = (percentage*requiredActionsCount + 1)/requiredActionsCount;
             if (percentage >= 1.0) isComplete = true;
             return;
         }
 
         public void collect() {
-            if (isCollected && !isComplete) return;
-            percentage = 100.1;
+            if (!isComplete) return;
+            percentage = 1.1;
             user.addXp(EXPERIENCE);
         }
 
