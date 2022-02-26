@@ -126,7 +126,7 @@ public class Firestore {
 
                         //Downloading profile pictures
 
-                        Storage.downloadPics();
+//                        Storage.downloadPics();
                     }
                 });
     }
@@ -358,7 +358,10 @@ public class Firestore {
         private void stepForward() {
             if (isComplete) return;
             percentage = (percentage*requiredActionsCount + 1)/requiredActionsCount;
-            if (percentage >= 1.0) isComplete = true;
+            if (percentage >= 1.0) {
+                isComplete = true;
+                collect();
+            }
             return;
         }
 

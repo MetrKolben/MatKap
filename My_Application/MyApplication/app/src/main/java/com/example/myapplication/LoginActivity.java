@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public static void firebaseLoaded() {
         new Thread(() -> {
+            Storage.downloadPics();
             while (!Storage.isDownloaded());
             loginActivity.startActivity(new Intent(loginActivity, ProfileActivity.class));
             loginActivity.finish();
