@@ -23,6 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="500dp"
+        android:drawableRight="@drawable/google_brands"
 
         android:paddingHorizontal="50dp"
         android:paddingVertical="10dp"
