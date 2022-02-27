@@ -26,16 +26,16 @@ import java.util.List;
 
 public class CheatSheet extends AppCompatActivity implements View.OnClickListener {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
 
-    ImageButton filter;
-    ImageButton goToMenu;
-    ImageButton goToQuest;
+    private ImageButton filter;
+    private ImageButton goToMenu;
+    private ImageButton goToQuest;
 
-    List<Book> bookList;
-    List<Author> authorList;
-    List<Movement> movementList;
+    private List<Book> bookList;
+    private List<Author> authorList;
+    private List<Movement> movementList;
 
     private static final String BOOK_SELECT = "Knihy";
     private static final String AUTHOR_SELECT = "Autoři";

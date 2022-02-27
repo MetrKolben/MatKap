@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> {
 
-    List<Author> authorList;
+    private List<Author> authorList;
 
     public AuthorAdapter(List<Author> authorList) {
         this.authorList = authorList;

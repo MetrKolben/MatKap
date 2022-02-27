@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.MovementVH> {
 
-    List<Movement> movementList;
+    private List<Movement> movementList;
 
     public MovementAdapter(List<Movement> movementList) {
         this.movementList = movementList;

@@ -25,7 +25,7 @@ public class QuizSummary extends AppCompatActivity implements View.OnClickListen
     private Button backButton;
     private List<QuestionActivity.AnsweredQuestion> answeredQuestions;
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
 
     @Override

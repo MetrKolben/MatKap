@@ -22,13 +22,13 @@ import java.util.List;
 public class QuizSettings extends AppCompatActivity {
 
 
-    TextView tv;
-    Button btn;
-    CheckBox checkBox;
+    private TextView tv;
+    private Button btn;
+    private CheckBox checkBox;
 
-    List<String> listFromDatabase;
-    String[] movementArray;
-    List<String> passDataList;
+    private List<String> listFromDatabase;
+    private String[] movementArray;
+    private List<String> passDataList;
     boolean[] selectedMovement;
     boolean getResults;
 
