@@ -45,7 +45,7 @@ public class Storage {
         gsReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                if (picture.lvlValue >= Firestore.user.getLvl()) {
+                if (picture.lvlValue >= Firestore.user.getLvl() || (Firestore.user.getLvl() >= 100 && picture == ProfilePicture.HUNDRED)) {
                     downloaded = true;
                 }
             }
