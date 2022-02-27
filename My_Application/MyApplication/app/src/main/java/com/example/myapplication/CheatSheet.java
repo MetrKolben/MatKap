@@ -19,10 +19,12 @@ import com.example.myapplication.cheat_sheet.Movement;
 import com.example.myapplication.cheat_sheet.MovementAdapter;
 import com.example.myapplication.firebase.Sql;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class CheatSheet extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +42,8 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
     private static final String BOOK_SELECT = "Knihy";
     private static final String AUTHOR_SELECT = "Autoři";
     private static final String MOVEMENT_SELECT = "Směry";
+
+  //  Collator collator = Collator.getInstance(new Locale("cs"));
 
     int selectedOption = 0;
 
@@ -107,6 +111,10 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
         for (Sql.Movement movement : Sql.Movement.getMovementList()) {
             movementList.add(new Movement(movement.getName(), movement.getSign(), movement.getCentury(), movement.getAuthors()));
         }
+
+//        Collections.sort(bookList, collator);
+//        Collections.sort(authorList, collator);
+//        Collections.sort(movementList, collator);
 
     }
 

@@ -15,7 +15,7 @@
         <item name="android:colorBackground">?attr/backgroundColor</item>
 
 
-        <item name="backgroundColor">#02030e</item>
+        <item name="backgroundColor">#28292C</item>
 
         <item name="alertDialogTheme">@style/MyCheckBox</item>
     </style>

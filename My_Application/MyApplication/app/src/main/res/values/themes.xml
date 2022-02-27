@@ -16,7 +16,7 @@
         <item name="android:colorBackground">?attr/backgroundColor</item>
 
         <item name="backgroundColor">@color/white</item>
-        <item name="android:colorAccent">#161616</item>
+        <item name="android:colorAccent">#130E0E</item>
 
 
 
