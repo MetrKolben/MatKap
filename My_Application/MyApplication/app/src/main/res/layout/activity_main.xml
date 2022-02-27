@@ -62,7 +62,7 @@
 
             android:paddingHorizontal="80dp"
             android:paddingVertical="10dp"
-            android:text="Přihlášení"
+            android:text="Pokračovat"
 
             android:textSize="20sp" />
 
