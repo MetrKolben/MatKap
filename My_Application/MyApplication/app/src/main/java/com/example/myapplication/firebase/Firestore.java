@@ -391,7 +391,7 @@ public class Firestore {
         AUTHOR_MOVEMENT("Urči správně <amount> směrů k autorovi"),
         BOOK_MOVEMENT("Urči správně <amount> směrů knih"),
         BOOK_DRUH("Určete správně druh <amount> knih"),
-        BOOK_GENRE("Přiřaď žánr ke <amount> knihám"),
+        BOOK_GENRE("Přiřaď žánr k <amount> knihám"),
         MOVEMENT_CENTURY("Urči správně <amount> období směrů"),
         MOVEMENT_SIGN("<amount> krát vyber hlavní znaky daného směru");
 
