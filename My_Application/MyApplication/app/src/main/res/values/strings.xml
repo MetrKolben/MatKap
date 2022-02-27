@@ -1,13 +1,11 @@
 <resources>
     <string name="app_name">MatKap</string>
-    <string name="answerA">Fryjauf je línej kokot</string>
-    <string name="answerB">Fryjaufe začni s náma už pracovat sakra</string>
     <string name="numberOfQuestion">3</string>
     <string name="howManyQuestions">7</string>
     <string name="nameProfileActivity">Jméno: xXx</string>
     <string name="emailProfileActivity">Email: xXx</string>
     <string name="badResult">Tohle nedopadlo dobře. Zkus na tom ještě zapracovat.</string>
-    <string name="averageResult">Tohle nebylo špatný. Ještě máš ale co pilovat.</string>
+    <string name="averageResult">Tohle nebylo špatný. Ještě máš, ale co pilovat.</string>
     <string name="goodResult">Dobrá práce. Jen tak dál. Hlavně neusni na vavřínech.</string>
 
 </resources>
