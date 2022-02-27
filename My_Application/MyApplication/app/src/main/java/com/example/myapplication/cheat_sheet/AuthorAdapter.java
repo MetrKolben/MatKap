@@ -38,10 +38,10 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorVH> 
         Author author = authorList.get(position);
         holder.heading.setText(author.getName());
         holder.description.setText(
-                "▪ země původu: " +author.getCountry() + "\n \n" +
-                "▪ dílo: " +String.join(", ", author.getBooks()) + "\n\n" +
-                "▪ hnutí: " +author.getMovement() + "\n"
-        ); // todo doplnit popis
+                (!(author.getCountry()== null) ?"▪ země původu: " +author.getCountry() + "\n \n":"") +
+                ((!author.getBooks().isEmpty())?"▪ dílo: " +String.join(", ", author.getBooks()) + "\n\n":"") +
+                (!(author.getMovement() == null)?"▪ hnutí: " +author.getMovement() + "\n" : "")
+        );
 
         boolean isExpandable = authorList.get(position).isExpandable();
         holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);

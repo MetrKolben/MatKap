@@ -37,10 +37,10 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.Moveme
         Movement movement = movementList.get(position);
         holder.heading.setText(movement.getName());
         holder.description.setText(
-                "▪ autoři: " +String.join(", ", movement.getAuthors()) + "\n\n" +
-                "▪ období: " +movement.getCentury() + "\n\n" +
-                "▪ znaky: " +movement.getSign() + "\n"
-        ); // todo doplnit popis
+                ((!movement.getAuthors().isEmpty())?"▪ autoři: " +String.join(", ", movement.getAuthors()) + "\n\n":"") +
+                (!(movement.getCentury()==null)?"▪ období: " +movement.getCentury() + "\n\n":"") +
+                (!(movement.getSign()==null)?"▪ znaky: " +movement.getSign() + "\n":"")
+        );
 
         boolean isExpandable = movementList.get(position).isExpandable();
         holder.expandable.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
