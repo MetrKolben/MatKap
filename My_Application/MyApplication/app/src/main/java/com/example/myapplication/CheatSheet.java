@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.example.myapplication.cheat_sheet.Author;
 import com.example.myapplication.cheat_sheet.AuthorAdapter;
@@ -19,12 +18,9 @@ import com.example.myapplication.cheat_sheet.Movement;
 import com.example.myapplication.cheat_sheet.MovementAdapter;
 import com.example.myapplication.firebase.Sql;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class CheatSheet extends AppCompatActivity implements View.OnClickListener {
 
@@ -112,9 +108,18 @@ public class CheatSheet extends AppCompatActivity implements View.OnClickListene
             movementList.add(new Movement(movement.getName(), movement.getSign(), movement.getCentury(), movement.getAuthors()));
         }
 
-//        Collections.sort(bookList, collator);
-//        Collections.sort(authorList, collator);
-//        Collections.sort(movementList, collator);
+        Collections.sort(bookList, new Utils.UTFComparator(o -> {
+            Book b = (Book) o;
+            return b.getName();
+        }));
+        Collections.sort(authorList, new Utils.UTFComparator(o -> {
+            Author a = (Author) o;
+            return a.getName();
+        }));
+        Collections.sort(movementList, new Utils.UTFComparator(o -> {
+            Movement m = (Movement) o;
+            return m.getName();
+        }));
 
     }
 

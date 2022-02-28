@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Movement {
 
-    private static final List<Movement> values = new ArrayList<>();
-
     private String name;
     private String sign;
     private String century;
@@ -21,10 +19,6 @@ public class Movement {
         this.century = century;
         this.expandable = false;
         this.authors = authors;
-    }
-
-    public static List<Movement> getValues() {
-        return values;
     }
 
     public String getName() {

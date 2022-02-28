@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Book {
 
-    private static final List<Book> values = new ArrayList<>();
-
     private String name;
 
     private String author;

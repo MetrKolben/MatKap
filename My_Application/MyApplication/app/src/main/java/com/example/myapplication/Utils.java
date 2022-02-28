@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Utils {
+    private static char[] alphabet = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'á', 'b', 'c', 'č', 'd', 'ď', 'e', 'é', 'ě', 'f', 'g', 'h', 'i', 'í', 'j', 'k',
+            'l', 'm', 'n', 'ň', 'o', 'ó', 'p', 'q', 'r', 'ř', 's', 'š', 't', 'ť',
+            'u', 'ú', 'ů', 'v', 'w', 'x', 'y', 'ý', 'z', 'ž'
+    };
 
     /**
      * Used just for debugging
@@ -132,4 +132,46 @@ public class Utils {
                 template.close();
         }
     }
+
+    static class UTFComparator implements Comparator {
+        private final NameAcquire nameAcquire;
+
+        public UTFComparator(NameAcquire nameAcquire) {
+            this.nameAcquire = nameAcquire;
+        }
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            String word1 = nameAcquire.getName(o1).toLowerCase().replaceAll(" ", "");
+            String word2 = nameAcquire.getName(o2).toLowerCase().replaceAll(" ", "");
+            int res = compareStrings(word1, word2);
+            return res;
+        }
+
+        private int compareStrings(String word1, String word2) {
+            char[] chars1 = word1.toCharArray(), chars2 = word2.toCharArray();
+            boolean word1last = chars1.length == 1;
+            boolean word2last = chars2.length == 1;
+            if (chars1[0] == chars2[0]) {
+                if (word1last && word2last) return 0; /**both*/
+                if (word1last) return -1; /**word1*/
+                if (word2last) return 1; /**word2*/
+                return compareStrings(word1.substring(1), word2.substring(1));
+            }
+            for (int i = 0; i < alphabet.length; i++) {
+                if (chars1[0] == alphabet[i]) {
+                    return -1; /**word1*/
+                } else if (chars2[0] == alphabet[i]) return 1; /**word2*/
+            }
+            if (word1last && word2last) return 0; /**both*/
+            if (word1last) return -1; /**word1*/
+            if (word2last) return 1; /**word2*/
+            return compareStrings(word1.substring(1), word2.substring(1));
+        }
+    }
+
+    public interface NameAcquire {
+        String getName(Object o);
+    }
+
 }
